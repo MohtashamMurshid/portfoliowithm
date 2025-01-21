@@ -7,6 +7,7 @@ import { ModeToggle } from "@/components/ModeToggle";
 // If loading a variable font, you don't need to specify the font weight
 const sans = Open_Sans({
   weight: ["400", "700", "300", "500", "600", "800"],
+  subsets: ["latin"],
 });
 
 export const metadata: Metadata = {
