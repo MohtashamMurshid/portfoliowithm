@@ -3,7 +3,8 @@
 @tailwind utilities;
 
 body {
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: "Open Sans", sans-serif;
+  @apply dark:bg-gray-950 bg-gray-50 text-gray-900 dark:text-gray-100;
 }
 
 @layer base {
