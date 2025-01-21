@@ -1,7 +1,12 @@
+import GithubInfo from "./GithubInfo";
 import MaxWidthWrapper from "./MaxWidthWrapper";
 
 const Skills = () => {
-  return <MaxWidthWrapper>Skills</MaxWidthWrapper>;
+  return (
+    <MaxWidthWrapper>
+      <GithubInfo></GithubInfo>
+    </MaxWidthWrapper>
+  );
 };
 
 export default Skills;

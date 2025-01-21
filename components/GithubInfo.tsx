@@ -1,9 +1,8 @@
 "use client";
-
 import { useEffect, useState } from "react";
 
 const GithubInfo = () => {
-  const [repos, setRepos] = useState([]); // State to store repo data
+  const [repos, setRepos] = useState<{ name: string; language: string }[]>([]); // State to store repo data
   const [error, setError] = useState(""); // Error state
 
   useEffect(() => {
@@ -15,7 +14,8 @@ const GithubInfo = () => {
 
         const data = await res.json();
         setRepos(data); // Store the fetched data
-      } catch (err) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      } catch (err: any) {
         setError(err.message); // Catch any errors
       }
     };
