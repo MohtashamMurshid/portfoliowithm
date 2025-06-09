@@ -1,116 +1,115 @@
 import MaxWidthWrapper from "@/components/MaxWidthWrapper";
-import { FaGithub, FaLinkedin } from "react-icons/fa";
-import * as motion from "motion/react-client";
-import Image from "next/image";
-import image1 from "@/public/images/isa-macouzet-72GwiojCwoI-unsplash.jpg";
-import image2 from "@/public/images/image.png";
-import { FaXTwitter } from "react-icons/fa6";
+import Header from "@/components/Header";
+import Section from "@/components/Section";
+import ProjectCard from "@/components/ProjectCard";
+import NowSection from "@/components/NowSection";
 
 const Landing = () => {
+  const names = [
+    "محتشم مرشد مدني",
+    "Мохташам Муршид Мадани",
+    "莫赫塔沙姆·穆尔希德·马达尼",
+    "モタシャム・ムルシド・マダニ",
+    "Мохташам Муршид Мадани .",
+    "Mohtasham Murshid Madani",
+  ];
+
+  const headerData = {
+    names,
+    subtitle:
+      "Bachlor of Science in Computer Science specializing in Artificial Intelligence(Honors).",
+    description:
+      "Building polished software and web experiences. Experimenting with magical details in user interfaces.",
+    pastExperience:
+      "In the past I've developed various web applications and contributed to open source projects.",
+    githubUrl: "https://github.com/mohtashammurshid",
+    linkedinUrl: "https://www.linkedin.com/in/mohtashammurshid/",
+    researchUrl: "https://www.researchgate.net/profile/Mohtasham-Madani",
+    blogUrl: "https://blogwithm.netlify.app/blog",
+    email: "mohtashammurshid@gmail.com",
+    smarttexUrl: "https://smarttex.vercel.app",
+  };
+
+  const buildingProjects = [
+    {
+      title: "Smarttex AI",
+      position: "Co-Founder",
+
+      description:
+        "Smarttex.ai is a platform for creating and managing AI-powered documents.",
+      url: "https://smarttex.vercel.app",
+      isExternal: true,
+    },
+  ];
+
+  const projects = [
+    {
+      title: "Markdown to Docx",
+      description: "Convert Markdown to Docx.<br />Over 1000 downloads on npm.",
+      url: "https://npmjs.com/package/@mohtasham/md-to-docx",
+      isExternal: true,
+    },
+    {
+      title: "Bad Reads",
+      description:
+        "Bad Reads is a web application that allows users to find books and track their progress.",
+      url: "https://badreadswithm.vercel.app/",
+      isExternal: false,
+    },
+  ];
+
+  const writingProjects = [
+    {
+      title: "Technical Blog",
+      description: "Thoughts on software development and design.",
+      url: "https://blogwithm.netlify.app/blog",
+      isExternal: false,
+    },
+    {
+      title: "Research",
+      description: "My research work",
+      url: "https://www.researchgate.net/profile/Mohtasham-Madani",
+      isExternal: false,
+    },
+  ];
+
+  const nowData = {
+    content:
+      "Developing skill through doing, guiltlessly exploring passion and interests, imbuing quality.",
+    highlight: "everything around me is someone's life work",
+  };
+
   return (
     <MaxWidthWrapper>
-      <section className="flex flex-col md:flex-row justify-center items-center min-h-[calc(100vh-4rem)] py-8 md:py-0 gap-8 md:gap-12 lg:gap-20 px-4">
-        {/* Introduction Section */}
-        <motion.div
-          initial={{ opacity: 0, x: -50 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 1, ease: "easeOut" }}
-          className="flex flex-col justify-center text-center md:text-left w-full md:w-auto"
-        >
-          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-semibold">
-            Hi, I&apos;m <br className="hidden sm:block" /> Mohtasham
-          </h1>
-          <div className="flex justify-center md:justify-start space-x-6 mt-4 sm:mt-6">
-            <a
-              href="https://github.com/MohtashamMurshid"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-2xl sm:text-3xl md:text-4xl hover:text-gray-500 transition-colors"
-              aria-label="GitHub Profile"
-            >
-              <FaGithub />
-            </a>
-            <a
-              href="https://www.linkedin.com/in/mohtashammurshid/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-2xl sm:text-3xl md:text-4xl hover:text-blue-500 transition-colors"
-              aria-label="LinkedIn Profile"
-            >
-              <FaLinkedin />
-            </a>
-            <a
-              href="https://x.com/MohtashamCodes"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-2xl sm:text-3xl md:text-4xl hover:text-gray-500 transition-colors"
-              aria-label="Twitter Profile"
-            >
-              <FaXTwitter />
-            </a>
-          </div>
-        </motion.div>
+      <div className="flex flex-col min-h-screen py-16 px-4 justify-center">
+        <Header {...headerData} />
 
-        {/* Kashmir and Taylor's University Section */}
-        <motion.div
-          initial={{ opacity: 0, x: 50 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 1, ease: "easeOut" }}
-          className="text-center md:text-left max-w-sm sm:max-w-md md:max-w-lg"
-        >
-          <h2 className="text-base sm:text-lg md:text-xl font-semibold leading-relaxed">
-            I am a Software Engineer and a computer science student from{" "}
-            <span className="relative group inline-block">
-              <a
-                className="cursor-pointer text-green-500 hover:text-green-900 transition-colors"
-                href="https://en.wikipedia.org/wiki/Kashmir"
-              >
-                Kashmir
-              </a>
-              <div className="absolute hidden group-hover:block w-[280px] sm:w-[320px] md:w-[360px] -left-1/2 sm:left-1/2 transform sm:-translate-x-1/2 mt-2 z-50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 ease-in-out bg-white dark:bg-black border border-gray-200 dark:border-gray-800 shadow-lg rounded-md p-3">
-                <Image
-                  src={image1}
-                  alt="Kashmir"
-                  width={400}
-                  height={300}
-                  className="rounded-md w-full h-auto"
-                />
-                <p className="text-xs sm:text-sm mt-2 text-gray-700 dark:text-gray-300">
-                  Kashmir, known as &quot;Paradise on Earth,&quot; is famous for
-                  its beautiful valleys, scenic landscapes, and rich cultural
-                  heritage.
-                </p>
-              </div>
-            </span>
-            , studying at{" "}
-            <span className="relative group inline-block">
-              <a
-                className="text-red-600 hover:text-red-800 transition-colors"
-                href="https://university.taylors.edu.my/en.html"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Taylor&apos;s University{" "}
-              </a>
-              <div className="absolute hidden group-hover:block w-[280px] sm:w-[320px] md:w-[360px] -left-1/2 sm:left-1/2 transform sm:-translate-x-1/2 mt-2 z-50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 ease-in-out bg-white dark:bg-black border border-gray-200 dark:border-gray-800 shadow-lg rounded-md p-3">
-                <Image
-                  src={image2}
-                  alt="Taylor's University Preview"
-                  width={400}
-                  height={300}
-                  className="rounded-md w-full h-auto"
-                />
-                <p className="text-xs sm:text-sm mt-2 text-gray-700 dark:text-gray-300">
-                  Taylor&apos;s University is a private university in Subang
-                  Jaya, Selangor, Malaysia. It is Malaysia&apos;s top private
-                  university based on the QS World University Rankings.
-                </p>
-              </div>
-            </span>
-            in Malaysia.
-          </h2>
-        </motion.div>
-      </section>
+        {/* Main Content Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-16 mb-16">
+          {/* Building Column */}
+          <Section title="Building">
+            {buildingProjects.map((project, index) => (
+              <ProjectCard key={index} {...project} />
+            ))}
+          </Section>
+
+          {/* Projects Column */}
+          <Section title="Projects" titleUrl="#projects">
+            {projects.map((project, index) => (
+              <ProjectCard key={index} {...project} />
+            ))}
+          </Section>
+
+          {/* Writing Column */}
+          <Section title="Writing">
+            {writingProjects.map((project, index) => (
+              <ProjectCard key={index} {...project} />
+            ))}
+          </Section>
+        </div>
+
+        <NowSection {...nowData} />
+      </div>
     </MaxWidthWrapper>
   );
 };
