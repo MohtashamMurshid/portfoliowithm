@@ -50,11 +50,11 @@ const Landing = () => {
       isExternal: true,
     },
     {
-      title: "Bad Reads",
+      title: "Checkmate",
       description:
-        "Bad Reads is a web application that allows users to find books and track their progress.",
-      url: "https://badreadswithm.vercel.app/",
-      isExternal: false,
+        "Developed an AI-powered misinformation detection tool that analyzes content credibility across social media platforms.",
+      url: "https://checkmate-imaginehack.vercel.app/",
+      isExternal: true,
     },
   ];
 
