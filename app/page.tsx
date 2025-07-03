@@ -20,13 +20,13 @@ export const metadata = {
   openGraph: {
     title: "Mohtasham Murshid Madani",
     description: "Software Engineer, AI Researcher, and Entrepreneur",
-    images: "@/public/images/Mohtasham.png",
+    images: "/Mohtasham.png",
   },
   twitter: {
     card: "summary_large_image",
     title: "Mohtasham Murshid Madani",
     description: "Software Engineer, AI Researcher, and Entrepreneur",
-    images: "@/public/images/Mohtasham.png",
+    images: "/Mohtasham.png",
   },
   alternates: {
     canonical: "https://portfolio.mohtasham.dev",
