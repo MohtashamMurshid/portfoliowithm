@@ -24,6 +24,19 @@ export const metadata = {
     siteName: "Mohtasham's Portfolio",
     images: "/opengraph-image.png",
     type: "website",
+    locale: "en_US",
+  },
+  // WhatsApp specific metadata
+  whatsapp: {
+    title: "Mohtasham Murshid Madani",
+    description: "Software Engineer, AI Researcher, and Entrepreneur",
+    image: "/opengraph-image.png",
+  },
+  discord: {
+    title: "Mohtasham Murshid Madani",
+    description: "Software Engineer, AI Researcher, and Entrepreneur",
+    image: "/opengraph-image.png",
+    color: "#5865F2", // Discord brand color
   },
   twitter: {
     card: "summary_large_image",
