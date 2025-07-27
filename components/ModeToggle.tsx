@@ -32,7 +32,12 @@ export function ModeToggle() {
   // Render a placeholder during SSR and before hydration
   if (!mounted) {
     return (
-      <Button variant="outline" size="icon" aria-label="Toggle theme">
+      <Button
+        variant="outline"
+        size="icon"
+        aria-label="Toggle theme"
+        className="bg-background/80 backdrop-blur-sm border-accent/20 hover:border-accent/40 transition-colors"
+      >
         <Sun className="h-[1.2rem] w-[1.2rem]" />
       </Button>
     );
@@ -44,6 +49,7 @@ export function ModeToggle() {
       size="icon"
       onClick={cycleTheme}
       aria-label={`Switch to ${getNextTheme()} mode`}
+      className="bg-background/80 backdrop-blur-sm border-accent/20 hover:border-accent/40 transition-colors shadow-lg"
     >
       <Sun
         className={`h-[1.2rem] w-[1.2rem] transition-all ${

@@ -5,13 +5,27 @@ interface NowSectionProps {
 
 const NowSection = ({ content, highlight }: NowSectionProps) => {
   return (
-    <div>
-      <h2 className="text-sm uppercase tracking-wider mb-4">Now</h2>
-      <p className="text-gray-400">
-        {content}
-        <br />
-        Mindful that <em>{highlight}</em>.
-      </p>
+    <div className="ornate-border parchment-texture p-6 relative">
+      <div className="manuscript-corner"></div>
+
+      {/* Decorative line */}
+      <div className="decorative-line mb-6"></div>
+
+      <h2 className="manuscript-heading text-lg uppercase tracking-wider mb-4 ink-shadow">
+        Now
+      </h2>
+
+      <div className="text-center">
+        <p className="manuscript-text text-muted-foreground leading-relaxed">
+          {content}
+          <br />
+          Mindful that{" "}
+          <em className="text-accent font-semibold">{highlight}</em>.
+        </p>
+      </div>
+
+      {/* Decorative line */}
+      <div className="decorative-line mt-6"></div>
     </div>
   );
 };

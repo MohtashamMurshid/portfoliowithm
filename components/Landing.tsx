@@ -1,8 +1,8 @@
-import MaxWidthWrapper from "@/components/MaxWidthWrapper";
 import Header from "@/components/Header";
 import Section from "@/components/Section";
 import ProjectCard from "@/components/ProjectCard";
 import NowSection from "@/components/NowSection";
+import MaxWidthWrapper from "@/components/MaxWidthWrapper";
 
 const Landing = () => {
   const names = [
@@ -80,37 +80,41 @@ const Landing = () => {
   };
 
   return (
-    <MaxWidthWrapper>
-      <div className="flex flex-col min-h-screen py-16 px-4 justify-center">
-        <Header {...headerData} />
+    <>
+      {/* Full-width hero section */}
+      <Header {...headerData} />
 
-        {/* Main Content Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-16 mb-16">
-          {/* Building Column */}
-          <Section title="Building">
-            {buildingProjects.map((project, index) => (
-              <ProjectCard key={index} {...project} />
-            ))}
-          </Section>
+      {/* Content sections with max-width wrapper */}
+      <MaxWidthWrapper>
+        <div className="py-16 px-4">
+          {/* Main Content Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mb-16">
+            {/* Building Column */}
+            <Section title="Building">
+              {buildingProjects.map((project, index) => (
+                <ProjectCard key={index} {...project} />
+              ))}
+            </Section>
 
-          {/* Projects Column */}
-          <Section title="Projects" titleUrl="#projects">
-            {projects.map((project, index) => (
-              <ProjectCard key={index} {...project} />
-            ))}
-          </Section>
+            {/* Projects Column */}
+            <Section title="Projects" titleUrl="#projects">
+              {projects.map((project, index) => (
+                <ProjectCard key={index} {...project} />
+              ))}
+            </Section>
 
-          {/* Writing Column */}
-          <Section title="Writing">
-            {writingProjects.map((project, index) => (
-              <ProjectCard key={index} {...project} />
-            ))}
-          </Section>
+            {/* Writing Column */}
+            <Section title="Writing">
+              {writingProjects.map((project, index) => (
+                <ProjectCard key={index} {...project} />
+              ))}
+            </Section>
+          </div>
+
+          <NowSection {...nowData} />
         </div>
-
-        <NowSection {...nowData} />
-      </div>
-    </MaxWidthWrapper>
+      </MaxWidthWrapper>
+    </>
   );
 };
 

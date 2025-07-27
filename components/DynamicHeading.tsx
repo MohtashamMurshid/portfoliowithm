@@ -1,53 +1,43 @@
 "use client";
+
 import { useState, useEffect } from "react";
 
 interface DynamicHeadingProps {
-  names: string[]; // Accept the names array as a prop
+  names: string[];
 }
 
-const DynamicHeading: React.FC<DynamicHeadingProps> = ({ names }) => {
-  const [currentName, setCurrentName] = useState(names[0]);
-  const [hovered, setHovered] = useState(false);
-  const [mounted, setMounted] = useState(false);
-
-  // Ensure component is mounted before starting dynamic behavior
-  useEffect(() => {
-    setMounted(true);
-  }, []);
+const DynamicHeading = ({ names }: DynamicHeadingProps) => {
+  const [currentNameIndex, setCurrentNameIndex] = useState(0);
+  const [isVisible, setIsVisible] = useState(true);
 
   useEffect(() => {
-    if (!mounted) return; // Don't start the interval until mounted
-
-    let index = 0;
-
-    const changeName = () => {
-      setCurrentName(names[index]);
-      index = (index + 1) % names.length;
-
-      if (index === names.length - 1) {
-        clearInterval(interval);
-        setCurrentName(names[names.length - 1]);
-      }
-    };
-
-    const interval = setInterval(
-      () => {
-        changeName();
-      },
-      hovered ? 300 : 1000
-    );
+    const interval = setInterval(() => {
+      setIsVisible(false);
+      setTimeout(() => {
+        setCurrentNameIndex((prevIndex) => (prevIndex + 1) % names.length);
+        setIsVisible(true);
+      }, 300);
+    }, 3000);
 
     return () => clearInterval(interval);
-  }, [hovered, names, mounted]);
+  }, [names.length]);
 
   return (
-    <h1
-      className="text-xl font-light  "
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-    >
-      {currentName}
-    </h1>
+    <div className="flex items-center justify-center lg:justify-start mb-8">
+      <div className="w-12 h-px bg-accent mx-6"></div>
+      <h1 className="hero-name text-center lg:text-left hover-lift">
+        <span
+          className={`transition-all duration-300 ${
+            isVisible
+              ? "opacity-100 transform translate-y-0"
+              : "opacity-0 transform -translate-y-2"
+          }`}
+        >
+          {names[currentNameIndex]}
+        </span>
+      </h1>
+      <div className="w-12 h-px bg-accent mx-6"></div>
+    </div>
   );
 };
 

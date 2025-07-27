@@ -12,25 +12,49 @@ const Section = ({ title, titleUrl, children, position }: SectionProps) => {
   const TitleComponent = titleUrl ? (
     <a
       href={titleUrl}
-      className="hover:text-gray-400 transition-colors group flex flex-row items-center gap-2 mb-8"
+      className="hover:text-accent transition-colors group flex flex-row items-center gap-2 mb-8"
     >
-      <h2 className="text-sm uppercase tracking-wider">{title}</h2>
-      {position && <span className="text-gray-400">{position}</span>}
-      <span className="inline-block transition-transform group-hover:translate-y-[-2px] group-hover:translate-x-1">
-        <ArrowUpRightIcon className="w-3 h-3" />
-      </span>
+      <div className="flex items-center gap-3">
+        <h2 className="manuscript-heading text-lg uppercase tracking-wider ink-shadow">
+          {title}
+        </h2>
+        {position && (
+          <span className="manuscript-text text-muted-foreground italic text-sm">
+            {position}
+          </span>
+        )}
+        <span className="inline-block transition-transform group-hover:translate-y-[-2px] group-hover:translate-x-1">
+          <ArrowUpRightIcon className="w-4 h-4" />
+        </span>
+      </div>
     </a>
   ) : (
     <div className="mb-8">
-      <h2 className="text-sm uppercase tracking-wider">{title}</h2>
-      {position && <span className="text-gray-400">{position}</span>}
+      <div className="flex items-center gap-3">
+        <h2 className="manuscript-heading text-lg uppercase tracking-wider ink-shadow">
+          {title}
+        </h2>
+        {position && (
+          <span className="manuscript-text text-muted-foreground italic text-sm">
+            {position}
+          </span>
+        )}
+      </div>
     </div>
   );
 
   return (
-    <div>
+    <div className="ornate-border parchment-texture p-8 relative hover-lift">
+      <div className="manuscript-corner"></div>
+
+      {/* Enhanced decorative line */}
+      <div className="decorative-line mb-8"></div>
+
       {TitleComponent}
       <div className="space-y-8">{children}</div>
+
+      {/* Enhanced decorative line */}
+      <div className="decorative-line mt-8"></div>
     </div>
   );
 };
