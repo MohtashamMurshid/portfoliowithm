@@ -104,7 +104,7 @@ const Header = ({
                   <img
                     src="/image.png"
                     alt="Renaissance anatomical study with Fibonacci spiral"
-                    className="w-3/4 h-auto rounded-lg mx-auto"
+                    className="w-3/4 h-auto rounded-lg mx-auto dark:invert"
                   />
                 </div>
                 <p className="handwriting-casual text-muted-foreground italic text-sm shimmer">
