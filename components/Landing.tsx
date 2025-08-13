@@ -62,7 +62,7 @@ const Landing = () => {
     {
       title: "Technical Blog",
       description: "Thoughts on software development and design.",
-      url: "https://blogwithm.netlify.app/blog",
+      url: "https://blog.mohtasham.dev",
       isExternal: false,
     },
     {
