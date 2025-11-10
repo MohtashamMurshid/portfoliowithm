@@ -37,7 +37,7 @@ const Landing = () => {
 
       description:
         "Comprehensive AI-powered tools to investigate your information’s accuracy and bias from credible sources.",
-      url : "https://checkmate.asia"
+      url : "https://checkmate.asia",
       isExternal: true,
     },
   ];
