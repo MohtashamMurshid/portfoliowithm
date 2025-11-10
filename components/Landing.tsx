@@ -32,12 +32,12 @@ const Landing = () => {
 
   const buildingProjects = [
     {
-      title: "Smarttex AI",
+      title: "Cheackmate",
       position: "Co-Founder",
 
       description:
-        "Smarttex.ai is a platform for creating and managing AI-powered documents.",
-      url: "https://smarttex.vercel.app",
+        "Comprehensive AI-powered tools to investigate your information’s accuracy and bias from credible sources.",
+      url : "https://checkmate.asia"
       isExternal: true,
     },
   ];
@@ -50,10 +50,10 @@ const Landing = () => {
       isExternal: true,
     },
     {
-      title: "Checkmate",
+      title: "Smarttex.ai",
       description:
-        "Developed an AI-powered misinformation detection tool that analyzes content credibility across social media platforms.",
-      url: "https://checkmate-imaginehack.vercel.app/",
+        "Smarttex.ai is a platform for creating and managing AI-powered documents.",
+      url: "https://smarttex.ai",
       isExternal: true,
     },
   ];
