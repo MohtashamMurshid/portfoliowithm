@@ -52,7 +52,7 @@ export const metadata: Metadata = {
     title: "Mohtasham Murshid Madani",
     description: "Software Engineer, AI Researcher, and Entrepreneur",
     images: ["/twitter-image.png"],
-    creator: "@mohtashamdev",
+    creator: "@mohtashamdotdev",
   },
   robots: {
     index: true,
@@ -97,9 +97,10 @@ export default function RootLayout({
                 name: "Mohtasham Murshid Madani",
                 url: "https://mohtasham.dev",
                 sameAs: [
-                  "https://github.com/mohtashammurshidmadani",
-                  "https://www.linkedin.com/in/mohtasham-murshid-madani/",
-                  "https://x.com/mohtashamdev",
+                  "https://github.com/mohtashammurshid",
+                  "https://www.instagram.com/mohtashamdotdev/",
+                  "https://www.linkedin.com/in/mohtashammurshid/",
+                  "https://x.com/mohtashamdotdev",
                 ],
                 jobTitle: "Software Engineer",
                 worksFor: {
