@@ -8,7 +8,7 @@ const contactRedirects = [
   },
   {
     source: "/ig",
-    destination: "https://www.instagram.com/mohtashamdotdev/",
+    destination: "https://www.instagram.com/mohtashammurshid/",
     permanent: true,
   },
   {

@@ -98,7 +98,7 @@ export default function RootLayout({
                 url: "https://mohtasham.dev",
                 sameAs: [
                   "https://github.com/mohtashammurshid",
-                  "https://www.instagram.com/mohtashamdotdev/",
+                  "https://www.instagram.com/mohtashammurshid/",
                   "https://www.linkedin.com/in/mohtashammurshid/",
                   "https://x.com/mohtashamdotdev",
                 ],
