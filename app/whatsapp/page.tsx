@@ -1,6 +1,7 @@
 import { existsSync } from "node:fs";
 import path from "node:path";
 import type { Metadata } from "next";
+import Image from "next/image";
 
 export const metadata: Metadata = {
   title: "WhatsApp",
@@ -31,9 +32,12 @@ export default function WhatsAppPage() {
 
           <div className="mt-10 rounded-[28px] bg-neutral-100 p-6">
             {hasWhatsAppQr ? (
-              <img
+              <Image
                 src="/whatsapp-qr.png"
                 alt="WhatsApp QR code for Mohtasham"
+                width={320}
+                height={320}
+                priority
                 className="mx-auto w-full max-w-xs rounded-2xl bg-white p-3 shadow-sm"
               />
             ) : (
