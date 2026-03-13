@@ -18,7 +18,7 @@ const contactRedirects = [
   },
   {
     source: "/ws",
-    destination: "/whatsapp",
+    destination: "https://wa.me/60177433260",
     permanent: false,
   },
 ] satisfies NonNullable<NextConfig["redirects"]> extends () => Promise<infer T>
