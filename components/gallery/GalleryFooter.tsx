@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ArrowUpRight, Instagram, Mail } from "lucide-react";
+import { ArrowUpRight, Mail } from "lucide-react";
 import Link from "next/link";
 
 export default function GalleryFooter() {

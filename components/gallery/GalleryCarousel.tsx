@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, useState } from "react";
-import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
+import { motion } from "framer-motion";
 import Image from "next/image";
 import { featuredItems, type GalleryItem } from "./galleryData";
 import { ChevronLeft, ChevronRight } from "lucide-react";
@@ -46,9 +46,6 @@ function CarouselCard({ item, index }: { item: GalleryItem; index: number }) {
 export default function GalleryCarousel() {
   const containerRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
-
-  const scrollX = useMotionValue(0);
-  const springX = useSpring(scrollX, { stiffness: 300, damping: 40 });
 
   const scroll = (direction: "left" | "right") => {
     if (!containerRef.current) return;

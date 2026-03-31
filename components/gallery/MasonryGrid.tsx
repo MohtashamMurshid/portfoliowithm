@@ -4,7 +4,7 @@ import { useState, useMemo, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import { galleryItems, categories, type GalleryItem, type Category } from "./galleryData";
-import { X, ZoomIn, Heart } from "lucide-react";
+import { X, ZoomIn } from "lucide-react";
 
 function MasonryItem({
   item,
