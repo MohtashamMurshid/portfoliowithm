@@ -27,6 +27,14 @@ const contactRedirects = [
 
 const nextConfig: NextConfig = {
   trailingSlash: false,
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "images.unsplash.com",
+      },
+    ],
+  },
   async redirects() {
     return contactRedirects;
   },
