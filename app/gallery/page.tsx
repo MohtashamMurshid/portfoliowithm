@@ -1,8 +1,5 @@
 import type { Metadata } from "next";
-import GalleryHero from "@/components/gallery/GalleryHero";
-import GalleryCarousel from "@/components/gallery/GalleryCarousel";
-import MasonryGrid from "@/components/gallery/MasonryGrid";
-import GalleryFooter from "@/components/gallery/GalleryFooter";
+import GalleryBoard from "@/components/gallery/GalleryBoard";
 import "./gallery.css";
 
 export const metadata: Metadata = {
@@ -20,11 +17,7 @@ export const metadata: Metadata = {
 export default function GalleryPage() {
   return (
     <div className="gallery-page">
-      <div className="gallery-noise" />
-      <GalleryHero />
-      <GalleryCarousel />
-      <MasonryGrid />
-      <GalleryFooter />
+      <GalleryBoard />
     </div>
   );
 }
