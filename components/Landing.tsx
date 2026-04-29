@@ -21,13 +21,14 @@ const Landing = ({ npmDownloadText }: LandingProps) => {
   const headerData = {
     names,
     subtitle:
-      "Bachlor of Science in Computer Science specializing in Artificial Intelligence(Honors).",
+      "Bachelor of Science in Computer Science specializing in Artificial Intelligence (Honors).",
     description:
       "Building polished software and web experiences. Experimenting with magical details in user interfaces.",
     pastExperience:
       "In the past I\u2019ve developed various web applications and contributed to open source projects.",
     githubUrl: "https://github.com/mohtashammurshid",
     linkedinUrl: "https://www.linkedin.com/in/mohtashammurshid/",
+    xUrl: "https://x.com/mohtashamdotdev",
     researchUrl: "https://www.researchgate.net/profile/Mohtasham-Madani",
     blogUrl: "https://blogwithm.netlify.app/blog",
     email: "mohtashammurshid@gmail.com",
@@ -43,11 +44,12 @@ const Landing = ({ npmDownloadText }: LandingProps) => {
       isExternal: true,
     },
     {
-      title: "Checkmate",
-      position: "Co-Founder",
+      title: "getdesign",
+      position: "Founder",
       description:
-        "Comprehensive AI-powered tools to investigate your information\u2019s accuracy and bias from credible sources.",
-      url: "https://checkmate.asia",
+        "On-demand design systems from any URL. Accessible via web, API, CLI, and as a portable agent.",
+   
+      url: "https://getdesign.app",
       isExternal: true,
     },
   ];
@@ -60,10 +62,10 @@ const Landing = ({ npmDownloadText }: LandingProps) => {
       isExternal: true,
     },
     {
-      title: "Smarttex.ai",
+      title: "Eikon Studio",
       description:
-        "Smarttex.ai is a platform for creating and managing AI-powered documents.",
-      url: "https://smarttex.ai",
+        "An open-source image harness for Agents, with persistent generations, history, skills, and file tagging.",
+      url: "https://eikonstudio.xyz",
       isExternal: true,
     },
   ];
@@ -74,13 +76,7 @@ const Landing = ({ npmDownloadText }: LandingProps) => {
       description: "Thoughts on software development and design.",
       url: "https://blog.mohtasham.dev",
       isExternal: false,
-    },
-    {
-      title: "Research",
-      description: "My research work",
-      url: "https://www.researchgate.net/profile/Mohtasham-Madani",
-      isExternal: false,
-    },
+    }
   ];
 
   const nowData = {
