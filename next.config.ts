@@ -7,6 +7,16 @@ const contactRedirects = [
     permanent: true,
   },
   {
+    source: "/github",
+    destination: "https://github.com/mohtashammurshid",
+    permanent: true,
+  },
+  {
+    source: "/blog",
+    destination: "https://blog.mohtasham.dev",
+    permanent: true,
+  },
+  {
     source: "/ig",
     destination: "https://www.instagram.com/mohtashammurshid/",
     permanent: true,
