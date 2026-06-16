@@ -2,10 +2,14 @@
 import { useState, useEffect } from "react";
 
 interface DynamicHeadingProps {
-  names: string[]; // Accept the names array as a prop
+  primaryName: string;
+  names: string[];
 }
 
-const DynamicHeading: React.FC<DynamicHeadingProps> = ({ names }) => {
+const DynamicHeading: React.FC<DynamicHeadingProps> = ({
+  primaryName,
+  names,
+}) => {
   const [currentName, setCurrentName] = useState(names[0]);
   const [hovered, setHovered] = useState(false);
   const [mounted, setMounted] = useState(false);
@@ -46,7 +50,11 @@ const DynamicHeading: React.FC<DynamicHeadingProps> = ({ names }) => {
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
-      {currentName}
+      <span>{primaryName}</span>
+      <span className="text-gray-400" dir="auto">
+        {" "}
+        / {currentName}
+      </span>
     </h1>
   );
 };

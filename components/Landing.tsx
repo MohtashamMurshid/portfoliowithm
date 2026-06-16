@@ -15,17 +15,17 @@ const Landing = ({ npmDownloadText }: LandingProps) => {
     "\u83AB\u8D6B\u5854\u6C99\u59C6\u00B7\u7A46\u5C14\u5E0C\u5FB7\u00B7\u9A6C\u8FBE\u5C3C",
     "\u30E2\u30BF\u30B7\u30E3\u30E0\u30FB\u30E0\u30EB\u30B7\u30C9\u30FB\u30DE\u30C0\u30CB",
     "\u041C\u043E\u0445\u0442\u0430\u0448\u0430\u043C \u041C\u0443\u0440\u0448\u0438\u0434 \u041C\u0430\u0434\u0430\u043D\u0438 .",
-    "Mohtasham Murshid Madani",
   ];
 
   const headerData = {
+    primaryName: "Mohtasham Murshid Madani",
     names,
     subtitle:
       "Bachelor of Science in Computer Science specializing in Artificial Intelligence (Honors).",
     description:
-      "Building polished software and web experiences. Experimenting with magical details in user interfaces.",
+      "AI Engineer at CitySage, founder of getdesign, and open-source builder.",
     pastExperience:
-      "In the past I\u2019ve developed various web applications and contributed to open source projects.",
+      "Building polished software, AI products, developer tools, and web experiences.",
     githubUrl: "https://github.com/mohtashammurshid",
     linkedinUrl: "https://www.linkedin.com/in/mohtashammurshid/",
     xUrl: "https://x.com/mohtashamdotdev",
