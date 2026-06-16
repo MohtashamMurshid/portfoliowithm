@@ -125,11 +125,6 @@ export default function RootLayout({
                   name: "CitySage",
                   url: "https://citysage.my",
                 },
-                founder: {
-                  "@type": "Organization",
-                  name: "getdesign",
-                  url: "https://getdesign.app",
-                },
                 knowsAbout: [
                   "Artificial intelligence",
                   "Software engineering",
@@ -158,6 +153,19 @@ export default function RootLayout({
                     },
                   },
                 ],
+              }),
+            }}
+          />
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{
+              __html: JSON.stringify({
+                "@context": "https://schema.org",
+                "@type": "Organization",
+                "@id": "https://getdesign.app/#organization",
+                name: "getdesign",
+                url: "https://getdesign.app",
+                founder: { "@id": `${siteUrl}/#person` },
               }),
             }}
           />
