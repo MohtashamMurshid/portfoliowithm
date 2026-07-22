@@ -1,4 +1,5 @@
 import type { MetadataRoute } from "next";
+import { projects } from "@/lib/projects";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = "https://mohtasham.dev";
@@ -16,5 +17,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "monthly",
       priority: 0.8,
     },
+    ...projects.map((project) => ({
+      url: `${baseUrl}/work/${project.slug}`,
+      lastModified: now,
+      changeFrequency: "monthly" as const,
+      priority: 0.75,
+    })),
   ];
 }

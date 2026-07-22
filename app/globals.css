@@ -60,8 +60,9 @@
 }
 
 body {
-  font-family: "Open Sans", sans-serif;
-  @apply bg-background text-foreground transition-colors duration-300;
+  margin: 0;
+  font-family: var(--font-editorial), Georgia, serif;
+  @apply bg-background text-foreground;
 }
 
 @layer base {
@@ -71,6 +72,11 @@ body {
   body {
     @apply bg-background text-foreground;
   }
+}
+
+::selection {
+  background: #9e542f;
+  color: #f4eedb;
 }
 
 @keyframes fadeIn {

@@ -1,13 +1,19 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
-import { ThemeProvider } from "@/components/theme-provider";
-import { Open_Sans } from "next/font/google";
-import { ModeToggle } from "@/components/ModeToggle";
+import "./report.css";
+import { EB_Garamond, IBM_Plex_Mono } from "next/font/google";
 
-// If loading a variable font, you don't need to specify the font weight
-const sans = Open_Sans({
-  weight: ["400", "700", "300", "500", "600", "800"],
+const editorial = EB_Garamond({
   subsets: ["latin"],
+  variable: "--font-editorial",
+  display: "swap",
+});
+
+const registry = IBM_Plex_Mono({
+  weight: ["400", "500"],
+  subsets: ["latin"],
+  variable: "--font-registry",
+  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -16,7 +22,8 @@ export const metadata: Metadata = {
     default: "Mohtasham Murshid Madani",
     template: "%s | Mohtasham Murshid Madani",
   },
-  description: "Software Engineer, AI Researcher, and Entrepreneur",
+  description:
+    "The Office of Imaginary Infrastructure — a field report of software, intelligent systems, visual experiments, and ongoing work by Mohtasham Murshid Madani.",
   keywords: [
     "Mohtasham Murshid Madani",
     "Software Engineer",
@@ -37,7 +44,8 @@ export const metadata: Metadata = {
     url: "https://mohtasham.dev",
     siteName: "Mohtasham's Portfolio",
     title: "Mohtasham Murshid Madani",
-    description: "Software Engineer, AI Researcher, and Entrepreneur",
+    description:
+      "A field report of software, intelligent systems, visual experiments, and ongoing work.",
     images: [
       {
         url: "/opengraph-image.png",
@@ -50,7 +58,8 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Mohtasham Murshid Madani",
-    description: "Software Engineer, AI Researcher, and Entrepreneur",
+    description:
+      "A field report of software, intelligent systems, visual experiments, and ongoing work.",
     images: ["/twitter-image.png"],
     creator: "@mohtashamdotdev",
   },
@@ -73,10 +82,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
-    { media: "(prefers-color-scheme: dark)", color: "#0b0b0b" },
-  ],
+  themeColor: "#eee8d2",
 };
 
 export default function RootLayout({
@@ -86,7 +92,10 @@ export default function RootLayout({
 }>) {
   return (
     <>
-      <html lang="en" suppressHydrationWarning className={sans.className}>
+      <html
+        lang="en"
+        className={`${editorial.variable} ${registry.variable}`}
+      >
         <head>
           <script
             type="application/ld+json"
@@ -128,20 +137,7 @@ export default function RootLayout({
             }}
           />
         </head>
-        <body>
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="system"
-            enableSystem
-            disableTransitionOnChange
-          >
-            <div className="fixed right-4 bottom-4 z-50">
-              <ModeToggle />
-            </div>
-
-            {children}
-          </ThemeProvider>
-        </body>
+        <body>{children}</body>
       </html>
     </>
   );
