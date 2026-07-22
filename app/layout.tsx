@@ -3,6 +3,12 @@ import "./globals.css";
 import "./report.css";
 import { EB_Garamond, IBM_Plex_Mono } from "next/font/google";
 
+const siteUrl = "https://www.mohtasham.dev";
+const homeUrl = `${siteUrl}/`;
+const siteName = "Mohtasham Murshid Madani";
+const siteDescription =
+  "Mohtasham Murshid Madani is an AI Engineer at CitySage, founder of getdesign, and open-source builder creating AI, developer tooling, and web experiences.";
+
 const editorial = EB_Garamond({
   subsets: ["latin"],
   variable: "--font-editorial",
@@ -17,49 +23,50 @@ const registry = IBM_Plex_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://mohtasham.dev"),
+  metadataBase: new URL(siteUrl),
   title: {
-    default: "Mohtasham Murshid Madani",
-    template: "%s | Mohtasham Murshid Madani",
+    default:
+      "Mohtasham Murshid Madani | AI Engineer at CitySage, Founder of getdesign",
+    template: `%s | ${siteName}`,
   },
-  description:
-    "The Office of Imaginary Infrastructure — a field report of software, intelligent systems, visual experiments, and ongoing work by Mohtasham Murshid Madani.",
+  description: siteDescription,
   keywords: [
     "Mohtasham Murshid Madani",
+    "AI Engineer at CitySage",
+    "getdesign founder",
+    "open-source builder",
     "Software Engineer",
     "AI Researcher",
     "Entrepreneur",
     "Portfolio",
     "Developer",
   ],
-  authors: [{ name: "Mohtasham Murshid Madani", url: "https://mohtasham.dev" }],
-  creator: "Mohtasham Murshid Madani",
-  publisher: "Mohtasham Murshid Madani",
+  authors: [{ name: siteName, url: homeUrl }],
+  creator: siteName,
+  publisher: siteName,
   alternates: {
-    canonical: "/",
+    canonical: homeUrl,
   },
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://mohtasham.dev",
+    url: homeUrl,
     siteName: "Mohtasham's Portfolio",
-    title: "Mohtasham Murshid Madani",
-    description:
-      "A field report of software, intelligent systems, visual experiments, and ongoing work.",
+    title: "Mohtasham Murshid Madani | AI Engineer at CitySage",
+    description: siteDescription,
     images: [
       {
         url: "/opengraph-image.png",
         width: 1200,
         height: 630,
-        alt: "Mohtasham Murshid Madani",
+        alt: siteName,
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Mohtasham Murshid Madani",
-    description:
-      "A field report of software, intelligent systems, visual experiments, and ongoing work.",
+    title: "Mohtasham Murshid Madani | AI Engineer at CitySage",
+    description: siteDescription,
     images: ["/twitter-image.png"],
     creator: "@mohtashamdotdev",
   },
@@ -103,19 +110,68 @@ export default function RootLayout({
               __html: JSON.stringify({
                 "@context": "https://schema.org",
                 "@type": "Person",
-                name: "Mohtasham Murshid Madani",
-                url: "https://mohtasham.dev",
+                "@id": `${siteUrl}/#person`,
+                name: siteName,
+                alternateName: [
+                  "Mohtasham Madani",
+                  "\u0645\u062D\u062A\u0634\u0645 \u0645\u0631\u0634\u062F \u0645\u062F\u0646\u064A",
+                ],
+                url: homeUrl,
                 sameAs: [
-                  "https://github.com/mohtashammurshid",
-                  "https://www.instagram.com/mohtashammurshid/",
+                  "https://github.com/MohtashamMurshid",
                   "https://www.linkedin.com/in/mohtashammurshid/",
                   "https://x.com/mohtashamdotdev",
+                  "https://www.instagram.com/mohtashammurshid/",
+                  "https://peerlist.io/mohtasham",
+                  "https://luma.com/user/mohtasham",
                 ],
-                jobTitle: "Software Engineer",
+                jobTitle: "AI Engineer",
                 worksFor: {
                   "@type": "Organization",
-                  name: "Independent",
+                  name: "CitySage",
+                  url: "https://citysage.my",
                 },
+                knowsAbout: [
+                  "Artificial intelligence",
+                  "Software engineering",
+                  "Developer tools",
+                  "Open source software",
+                  "Web development",
+                  "Design systems",
+                ],
+                makesOffer: [
+                  {
+                    "@type": "Offer",
+                    itemOffered: {
+                      "@type": "SoftwareApplication",
+                      name: "getdesign",
+                      applicationCategory: "DesignApplication",
+                      url: "https://getdesign.app",
+                    },
+                  },
+                  {
+                    "@type": "Offer",
+                    itemOffered: {
+                      "@type": "SoftwareApplication",
+                      name: "@mohtasham/md-to-docx",
+                      applicationCategory: "DeveloperApplication",
+                      url: "https://www.npmjs.com/package/@mohtasham/md-to-docx",
+                    },
+                  },
+                ],
+              }),
+            }}
+          />
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{
+              __html: JSON.stringify({
+                "@context": "https://schema.org",
+                "@type": "Organization",
+                "@id": "https://getdesign.app/#organization",
+                name: "getdesign",
+                url: "https://getdesign.app",
+                founder: { "@id": `${siteUrl}/#person` },
               }),
             }}
           />
@@ -126,7 +182,7 @@ export default function RootLayout({
                 "@context": "https://schema.org",
                 "@type": "WebSite",
                 name: "Mohtasham's Portfolio",
-                url: "https://mohtasham.dev",
+                url: homeUrl,
                 potentialAction: {
                   "@type": "SearchAction",
                   target:
