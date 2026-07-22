@@ -189,6 +189,9 @@ export default function ReportExperience({ npmDownloadText }: ReportExperiencePr
           <button className="report-enter" onClick={() => goTo(1)}>
             Open report <ArrowRight aria-hidden="true" />
           </button>
+          <Link className="report-boring-link" href="/boring">
+            View the boring version <ArrowUpRight aria-hidden="true" />
+          </Link>
         </article>
 
         <article className="report-spread report-paper report-preface" data-spread="1" id="report-spread-1">

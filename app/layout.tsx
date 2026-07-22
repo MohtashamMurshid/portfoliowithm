@@ -101,6 +101,7 @@ export default function RootLayout({
     <>
       <html
         lang="en"
+        suppressHydrationWarning
         className={`${editorial.variable} ${registry.variable}`}
       >
         <head>

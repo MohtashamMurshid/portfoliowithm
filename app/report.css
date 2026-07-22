@@ -330,6 +330,36 @@
   cursor: pointer;
 }
 
+.report-boring-link {
+  position: absolute;
+  right: 2rem;
+  bottom: 3.5rem;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.65rem 0.8rem;
+  border: 1px solid rgba(245, 240, 222, 0.48);
+  background: rgba(24, 28, 23, 0.48);
+  color: var(--report-paper-light) !important;
+  font: 500 0.57rem/1 var(--report-mono);
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  backdrop-filter: blur(6px);
+  transition: background 180ms ease, border-color 180ms ease;
+}
+
+.report-boring-link:hover,
+.report-boring-link:focus-visible {
+  border-color: var(--report-paper-light);
+  background: rgba(24, 28, 23, 0.78);
+}
+
+.report-boring-link svg {
+  width: 0.82rem;
+  height: 0.82rem;
+}
+
 .report-enter svg,
 .report-return svg,
 .report-text-link svg,
@@ -1296,6 +1326,11 @@
     right: 1.35rem;
     bottom: 1.4rem;
     color: var(--report-paper-light);
+  }
+
+  .report-boring-link {
+    right: 1.35rem;
+    bottom: 4rem;
   }
 
   .report-spread h2 {
