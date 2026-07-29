@@ -76,7 +76,13 @@ const Landing = ({ npmDownloadText }: LandingProps) => {
       description: "Thoughts on software development and design.",
       url: "https://blog.mohtasham.dev",
       isExternal: false,
-    }
+    },
+    {
+      title: "Bookshelf",
+      description: "Books I’ve read, with personal reviews on a 3D shelf.",
+      url: "/books",
+      isExternal: false,
+    },
   ];
 
   const nowData = {
