@@ -2,11 +2,11 @@ export const siteConfig = {
   title: "Bookshelf — Mohtasham Murshid Madani",
   applicationName: "Bookshelf",
   description:
-    "An interactive 3D shelf of books I’ve read, with personal reviews and notes.",
-  wordmark: "MOHTASHAM",
-  collectionName: "A PERSONAL BOOKSHELF",
-  editionEyebrow: "PERSONAL REVIEW",
-  coverImprint: "MOHTASHAM’S SHELF",
+    "A personal reading shelf: books I’ve kept, with notes from the field.",
+  wordmark: "OII",
+  collectionName: "READING REGISTER",
+  editionEyebrow: "FIELD NOTE",
+  coverImprint: "OII SHELF",
   coverTagline: "READ · NOTED · KEPT",
   spineMark: "MM",
   bookLinkLabel: "Find this book",
@@ -14,5 +14,5 @@ export const siteConfig = {
     "A warm editorial 3D bookshelf with personal hardcovers on a walnut shelf.",
   enableOptionalStripeArchive: false,
   independentNote:
-    "Built with The Complete Shelf by Mint (MIT). Personal reviews are my own.",
+    "Covers via Open Library. Shelf engine adapted from Mint’s Complete Shelf (MIT).",
 } as const;

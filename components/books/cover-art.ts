@@ -1,8 +1,8 @@
 import type { CatalogBook } from "./catalog";
 import { siteConfig } from "./site-config";
 
-const serif = '"Newsreader Variable", "Iowan Old Style", Georgia, serif';
-const sans = '"Inter Variable", Inter, Arial, sans-serif';
+const serif = '"EB Garamond", Georgia, "Times New Roman", serif';
+const sans = '"IBM Plex Mono", "Courier New", monospace';
 
 function seeded(seed: string) {
   let state = 2166136261;

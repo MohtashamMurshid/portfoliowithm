@@ -53,6 +53,8 @@ export type CatalogBook = {
 export const catalog: CatalogBook[] = [
   {
     id: "the-silent-patient",
+    coverImage: "/books/the-silent-patient/cover.jpg",
+
     title: "The Silent Patient",
     shortTitle: "Silent Patient",
     author: "Alex Michaelides",
@@ -73,6 +75,8 @@ export const catalog: CatalogBook[] = [
   },
   {
     id: "the-alchemist",
+    coverImage: "/books/the-alchemist/cover.jpg",
+
     title: "The Alchemist",
     shortTitle: "The Alchemist",
     author: "Paulo Coelho",
@@ -94,6 +98,8 @@ export const catalog: CatalogBook[] = [
   },
   {
     id: "the-prince",
+    coverImage: "/books/the-prince/cover.jpg",
+
     title: "The Prince",
     shortTitle: "The Prince",
     author: "Niccolò Machiavelli",
@@ -114,6 +120,8 @@ export const catalog: CatalogBook[] = [
   },
   {
     id: "harry-potter-1",
+    coverImage: "/books/harry-potter-1/cover.jpg",
+
     title: "Harry Potter and the Philosopher’s Stone",
     shortTitle: "Philosopher’s Stone",
     author: "J. K. Rowling",
@@ -134,6 +142,8 @@ export const catalog: CatalogBook[] = [
   },
   {
     id: "harry-potter-2",
+    coverImage: "/books/harry-potter-2/cover.jpg",
+
     title: "Harry Potter and the Chamber of Secrets",
     shortTitle: "Chamber of Secrets",
     author: "J. K. Rowling",
@@ -154,6 +164,8 @@ export const catalog: CatalogBook[] = [
   },
   {
     id: "harry-potter-3",
+    coverImage: "/books/harry-potter-3/cover.jpg",
+
     title: "Harry Potter and the Prisoner of Azkaban",
     shortTitle: "Prisoner of Azkaban",
     author: "J. K. Rowling",
@@ -175,6 +187,8 @@ export const catalog: CatalogBook[] = [
   },
   {
     id: "harry-potter-4",
+    coverImage: "/books/harry-potter-4/cover.jpg",
+
     title: "Harry Potter and the Goblet of Fire",
     shortTitle: "Goblet of Fire",
     author: "J. K. Rowling",
@@ -195,6 +209,8 @@ export const catalog: CatalogBook[] = [
   },
   {
     id: "harry-potter-5",
+    coverImage: "/books/harry-potter-5/cover.jpg",
+
     title: "Harry Potter and the Order of the Phoenix",
     shortTitle: "Order of the Phoenix",
     author: "J. K. Rowling",
@@ -215,6 +231,8 @@ export const catalog: CatalogBook[] = [
   },
   {
     id: "harry-potter-6",
+    coverImage: "/books/harry-potter-6/cover.jpg",
+
     title: "Harry Potter and the Half-Blood Prince",
     shortTitle: "Half-Blood Prince",
     author: "J. K. Rowling",
@@ -235,6 +253,8 @@ export const catalog: CatalogBook[] = [
   },
   {
     id: "harry-potter-7",
+    coverImage: "/books/harry-potter-7/cover.jpg",
+
     title: "Harry Potter and the Deathly Hallows",
     shortTitle: "Deathly Hallows",
     author: "J. K. Rowling",
@@ -256,6 +276,8 @@ export const catalog: CatalogBook[] = [
   },
   {
     id: "percy-jackson-1",
+    coverImage: "/books/percy-jackson-1/cover.jpg",
+
     title: "The Lightning Thief",
     shortTitle: "Lightning Thief",
     author: "Rick Riordan",
@@ -276,6 +298,8 @@ export const catalog: CatalogBook[] = [
   },
   {
     id: "percy-jackson-2",
+    coverImage: "/books/percy-jackson-2/cover.jpg",
+
     title: "The Sea of Monsters",
     shortTitle: "Sea of Monsters",
     author: "Rick Riordan",
@@ -296,6 +320,8 @@ export const catalog: CatalogBook[] = [
   },
   {
     id: "percy-jackson-3",
+    coverImage: "/books/percy-jackson-3/cover.jpg",
+
     title: "The Titan’s Curse",
     shortTitle: "Titan’s Curse",
     author: "Rick Riordan",
@@ -316,6 +342,8 @@ export const catalog: CatalogBook[] = [
   },
   {
     id: "percy-jackson-4",
+    coverImage: "/books/percy-jackson-4/cover.jpg",
+
     title: "The Battle of the Labyrinth",
     shortTitle: "Battle of the Labyrinth",
     author: "Rick Riordan",
@@ -336,6 +364,8 @@ export const catalog: CatalogBook[] = [
   },
   {
     id: "percy-jackson-5",
+    coverImage: "/books/percy-jackson-5/cover.jpg",
+
     title: "The Last Olympian",
     shortTitle: "Last Olympian",
     author: "Rick Riordan",
@@ -357,6 +387,8 @@ export const catalog: CatalogBook[] = [
   },
   {
     id: "nineteen-eighty-four",
+    coverImage: "/books/nineteen-eighty-four/cover.jpg",
+
     title: "1984",
     shortTitle: "1984",
     author: "George Orwell",

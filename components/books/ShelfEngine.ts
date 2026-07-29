@@ -275,8 +275,8 @@ export class ShelfEngine {
   }
 
   private setupScene() {
-    this.scene.background = new THREE.Color("#eee8db");
-    this.scene.fog = new THREE.Fog("#eee8db", 10, 26);
+    this.scene.background = new THREE.Color("#eee8d2");
+    this.scene.fog = new THREE.Fog("#eee8d2", 10, 26);
 
     const hemisphere = new THREE.HemisphereLight("#fff8ea", "#6e5848", 2.4);
     this.scene.add(hemisphere);
@@ -308,7 +308,7 @@ export class ShelfEngine {
     const wall = new THREE.Mesh(
       new THREE.PlaneGeometry(34, 18),
       new THREE.MeshStandardMaterial({
-        color: "#eee8db",
+        color: "#eee8d2",
         roughness: 1,
         metalness: 0,
       }),
@@ -320,7 +320,7 @@ export class ShelfEngine {
     const ground = new THREE.Mesh(
       new THREE.PlaneGeometry(36, 18),
       new THREE.MeshStandardMaterial({
-        color: "#e7dfd0",
+        color: "#e4dcc4",
         roughness: 0.94,
         metalness: 0,
       }),

@@ -1,6 +1,4 @@
 import type { Metadata, Viewport } from "next";
-import "@fontsource-variable/newsreader";
-import "@fontsource-variable/inter";
 import { siteConfig } from "@/components/books/site-config";
 import "./books.css";
 
@@ -15,7 +13,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#eee8db",
+  themeColor: "#eee8d2",
   colorScheme: "light",
 };
 

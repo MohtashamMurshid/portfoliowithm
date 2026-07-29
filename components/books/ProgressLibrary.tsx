@@ -86,10 +86,10 @@ export function ProgressLibrary() {
         <div className="header-actions">
           <div className="edition-mark">
             <span>{catalog.length} VOLUMES</span>
-            <span>PERSONAL REVIEWS</span>
+            <span>FIELD NOTES</span>
           </div>
-          <Link href="/" className="home-link" aria-label="Back to home">
-            Home
+          <Link href="/" className="home-link" aria-label="Back to field report">
+            Report
           </Link>
         </div>
       </header>
