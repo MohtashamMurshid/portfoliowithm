@@ -17,10 +17,10 @@ export default function GalleryHero() {
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.6, ease: "easeOut" }}
-          className="mb-8 inline-flex items-center gap-2 px-4 py-2 rounded-full border border-white/10 bg-white/5 backdrop-blur-sm"
+          className="mb-8 inline-flex items-center gap-2 px-4 py-2 rounded-full border border-white/10 bg-white/5 backdrop-blur-xs"
         >
-          <Camera className="w-4 h-4 text-[var(--gallery-accent-4)]" />
-          <span className="text-sm font-medium tracking-wider uppercase text-[var(--gallery-text-muted)]">
+          <Camera className="w-4 h-4 text-(--gallery-accent-4)" />
+          <span className="text-sm font-medium tracking-wider uppercase text-(--gallery-text-muted)">
             Visual Stories
           </span>
         </motion.div>
@@ -38,7 +38,7 @@ export default function GalleryHero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.35 }}
-          className="text-lg sm:text-xl md:text-2xl text-[var(--gallery-text-muted)] max-w-2xl mx-auto font-light leading-relaxed"
+          className="text-lg sm:text-xl md:text-2xl text-(--gallery-text-muted) max-w-2xl mx-auto font-light leading-relaxed"
         >
           A curated collection of moments, perspectives, and visual experiments
           captured through the lens.
@@ -57,7 +57,7 @@ export default function GalleryHero() {
           ].map((stat, i) => (
             <div key={i} className="text-center">
               <div className="text-xl sm:text-2xl font-bold text-white">{stat.count}</div>
-              <div className="text-xs uppercase tracking-widest text-[var(--gallery-text-muted)]">{stat.label}</div>
+              <div className="text-xs uppercase tracking-widest text-(--gallery-text-muted)">{stat.label}</div>
             </div>
           ))}
         </motion.div>
@@ -71,10 +71,10 @@ export default function GalleryHero() {
       >
         <button
           onClick={() => document.getElementById("gallery-carousel")?.scrollIntoView({ behavior: "smooth" })}
-          className="flex flex-col items-center gap-2 text-[var(--gallery-text-muted)] hover:text-white transition-colors group"
+          className="flex flex-col items-center gap-2 text-(--gallery-text-muted) hover:text-white transition-colors group"
         >
           <span className="text-xs uppercase tracking-widest">Explore</span>
-          <ChevronDown className="w-5 h-5 gallery-scroll-hint group-hover:text-[var(--gallery-accent-4)]" />
+          <ChevronDown className="w-5 h-5 gallery-scroll-hint group-hover:text-(--gallery-accent-4)" />
         </button>
       </motion.div>
     </section>

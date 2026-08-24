@@ -7,7 +7,7 @@ import Link from "next/link";
 export default function GalleryFooter() {
   return (
     <footer className="relative py-24 sm:py-32 overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-t from-[var(--gallery-surface)] to-transparent" />
+      <div className="absolute inset-0 bg-linear-to-t from-(--gallery-surface) to-transparent" />
       
       <div className="relative z-10 max-w-4xl mx-auto px-6 text-center">
         <motion.div
@@ -20,7 +20,7 @@ export default function GalleryFooter() {
             Let&apos;s create something{" "}
             <span className="gallery-gradient-text">beautiful</span>
           </h2>
-          <p className="text-[var(--gallery-text-muted)] text-lg max-w-xl mx-auto mb-10">
+          <p className="text-(--gallery-text-muted) text-lg max-w-xl mx-auto mb-10">
             Interested in collaboration or have a project in mind? Reach out and let&apos;s make it happen.
           </p>
 
@@ -49,7 +49,7 @@ export default function GalleryFooter() {
           transition={{ duration: 0.5, delay: 0.3 }}
           className="mt-20 pt-8 border-t border-white/10"
         >
-          <p className="text-sm text-[var(--gallery-text-muted)]">
+          <p className="text-sm text-(--gallery-text-muted)">
             &copy; {new Date().getFullYear()} Mohtasham Murshid Madani. All visuals and content.
           </p>
         </motion.div>

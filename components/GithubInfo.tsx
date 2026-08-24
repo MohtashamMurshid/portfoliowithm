@@ -81,7 +81,7 @@ const GithubInfo = () => {
                       </span>
                     </div>
                   </a>
-                  <div className="flex items-center text-sm ml-8 flex-shrink-0">
+                  <div className="flex items-center text-sm ml-8 shrink-0">
                     {repo.homepage && (
                       <a
                         href={repo.homepage}

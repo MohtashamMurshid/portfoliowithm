@@ -1,7 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import "./report.css";
-import { EB_Garamond, IBM_Plex_Mono } from "next/font/google";
+import { Caveat, EB_Garamond, IBM_Plex_Mono, Instrument_Serif, Manrope } from "next/font/google";
 
 const siteUrl = "https://www.mohtasham.dev";
 const homeUrl = `${siteUrl}/`;
@@ -19,6 +19,25 @@ const registry = IBM_Plex_Mono({
   weight: ["400", "500"],
   subsets: ["latin"],
   variable: "--font-registry",
+  display: "swap",
+});
+
+const interfaceSerif = Instrument_Serif({
+  weight: "400",
+  subsets: ["latin"],
+  variable: "--font-interface-serif",
+  display: "swap",
+});
+
+const interfaceSans = Manrope({
+  subsets: ["latin"],
+  variable: "--font-interface-sans",
+  display: "swap",
+});
+
+const handwriting = Caveat({
+  subsets: ["latin"],
+  variable: "--font-handwriting",
   display: "swap",
 });
 
@@ -102,7 +121,7 @@ export default function RootLayout({
       <html
         lang="en"
         suppressHydrationWarning
-        className={`${editorial.variable} ${registry.variable}`}
+        className={`${editorial.variable} ${registry.variable} ${interfaceSerif.variable} ${interfaceSans.variable} ${handwriting.variable}`}
       >
         <head>
           <script

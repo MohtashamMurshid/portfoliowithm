@@ -4,14 +4,15 @@ import { useTheme } from "next-themes";
 import { Button } from "@/components/ui/button";
 import { Moon, Sun, Monitor } from "lucide-react";
 
+const subscribe = () => () => {};
+
 export function ModeToggle() {
   const { theme, setTheme } = useTheme();
-  const [mounted, setMounted] = React.useState(false);
-
-  // useEffect only runs on the client, so now we can safely show the UI
-  React.useEffect(() => {
-    setMounted(true);
-  }, []);
+  const mounted = React.useSyncExternalStore(
+    subscribe,
+    () => true,
+    () => false
+  );
 
   const cycleTheme = () => {
     if (theme === "light") {

@@ -1,0 +1,472 @@
+.home {
+  --paper: #f3f0e8;
+  --ink: #24231f;
+  --orange: #dc713d;
+  min-height: 100vh;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 50% 42%, rgb(255 255 255 / 74%), transparent 33rem),
+    var(--paper);
+  color: var(--ink);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.home::before {
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  pointer-events: none;
+  content: "";
+  opacity: 0.22;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.92' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.12'/%3E%3C/svg%3E");
+  mix-blend-mode: multiply;
+}
+
+.header {
+  position: absolute;
+  inset: 0 0 auto;
+  z-index: 30;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  padding: 24px 28px;
+  font-size: 14px;
+}
+
+.mark {
+  display: block;
+  width: 40px;
+  height: 40px;
+  text-decoration: none;
+  transform: rotate(-3deg);
+  transition: transform 180ms ease;
+}
+
+.mark:hover {
+  transform: rotate(0deg) scale(1.04);
+}
+
+.mark svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  filter: drop-shadow(0 6px 10px rgb(75 46 31 / 14%));
+}
+
+.mark rect {
+  fill: var(--orange);
+}
+
+.mark path {
+  fill: none;
+  stroke: #fff8ec;
+  stroke-width: 3.2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  gap: clamp(20px, 3vw, 40px);
+}
+
+.nav a {
+  color: inherit;
+  text-decoration: none;
+  text-underline-offset: 5px;
+}
+
+.nav a:hover,
+.activeNav {
+  color: var(--orange) !important;
+  text-decoration: underline !important;
+}
+
+.socials {
+  display: flex;
+  justify-self: end;
+  gap: 9px;
+}
+
+.socials a {
+  display: grid;
+  width: 31px;
+  height: 31px;
+  place-items: center;
+  border: 1px solid rgb(36 35 31 / 12%);
+  border-radius: 8px;
+  background: rgb(255 255 255 / 42%);
+  color: inherit;
+  transition: color 160ms ease, transform 160ms ease;
+}
+
+.socials a:hover {
+  color: var(--orange);
+  transform: translateY(-2px);
+}
+
+.socials svg {
+  width: 17px;
+}
+
+.hero {
+  position: relative;
+  display: grid;
+  min-height: 100svh;
+  place-items: center;
+  isolation: isolate;
+}
+
+.copy {
+  position: relative;
+  z-index: 10;
+  width: min(960px, 72vw);
+  padding-top: 5rem;
+  text-align: center;
+}
+
+.copy h1 {
+  margin: 0;
+  font-family: var(--font-interface-serif), Georgia, serif;
+  font-size: clamp(34px, 2.9vw, 44px);
+  font-weight: 400;
+  line-height: 1.08;
+  letter-spacing: -0.018em;
+}
+
+.copy h1 > span {
+  display: block;
+  white-space: nowrap;
+}
+
+.copy h1 em {
+  position: relative;
+  display: inline-block;
+  z-index: 0;
+  padding-inline: 0.08em;
+  font-style: normal;
+}
+
+.copy h1 em::before {
+  position: absolute;
+  inset: 53% -0.06em 4%;
+  z-index: -1;
+  border-radius: 0.15em;
+  background: #ed9a78;
+  content: "";
+  transform: rotate(-1deg);
+}
+
+.status {
+  max-width: 590px;
+  margin: 21px auto 0;
+  color: #777269;
+  font-family: var(--font-interface-sans), Arial, sans-serif;
+  font-size: clamp(12px, 1vw, 14px);
+  font-weight: 500;
+  line-height: 1.55;
+  letter-spacing: -0.01em;
+}
+
+.status a {
+  color: var(--ink);
+  font-weight: 650;
+  text-decoration-color: #c7754e;
+  text-underline-offset: 4px;
+}
+
+.email {
+  display: inline-block;
+  margin-top: 20px;
+  padding-bottom: 2px;
+  color: inherit;
+  font-family: var(--font-interface-sans), Arial, sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  text-decoration: none;
+  background-image: linear-gradient(currentColor, currentColor);
+  background-position: 0 100%;
+  background-repeat: no-repeat;
+  background-size: 0 1px;
+  transition: background-size 180ms ease;
+}
+
+.email:hover {
+  background-size: 100% 1px;
+}
+
+.object {
+  position: absolute;
+  z-index: 5;
+  cursor: grab;
+  touch-action: none;
+  user-select: none;
+  filter: drop-shadow(0 18px 18px rgb(56 45 34 / 16%));
+}
+
+.object img {
+  pointer-events: none;
+  object-fit: contain;
+}
+
+.macbook {
+  top: 5%;
+  left: -8%;
+  width: clamp(280px, 28vw, 470px);
+  aspect-ratio: 1.5;
+  transform: rotate(-8deg);
+}
+
+.watch {
+  top: 8%;
+  right: 5.5%;
+  width: clamp(100px, 10vw, 165px);
+  aspect-ratio: 0.67;
+  transform: rotate(13deg);
+}
+
+.monitor {
+  right: -7%;
+  bottom: -3%;
+  width: clamp(330px, 31vw, 520px);
+  aspect-ratio: 1.5;
+  transform: rotate(7deg);
+}
+
+.monitorScreen {
+  position: absolute;
+  top: 3.03%;
+  left: 14.06%;
+  z-index: 3;
+  width: 72.4%;
+  height: 66.31%;
+  overflow: hidden;
+  clip-path: polygon(0 0, 100% 10.9%, 100% 98.5%, 0 100%);
+  background: #6fb9bc;
+}
+
+.monitorScreen::after {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(105deg, transparent 25%, rgb(255 255 255 / 22%) 48%, transparent 65%);
+  content: "";
+  animation: screenSweep 2.8s linear infinite;
+}
+
+.monitorScreen > span {
+  position: absolute;
+  top: 7%;
+  left: 6%;
+  z-index: 5;
+  color: white;
+  font-family: Arial, sans-serif;
+  font-size: clamp(5px, 0.55vw, 9px);
+  font-weight: 800;
+  letter-spacing: 0.11em;
+}
+
+.monitorScreen img {
+  object-fit: cover;
+}
+
+.skis {
+  bottom: 3%;
+  left: -4%;
+  width: clamp(150px, 15vw, 240px);
+  aspect-ratio: 2 / 3;
+  transform: rotate(56deg);
+}
+
+.pen {
+  bottom: 13%;
+  left: 28%;
+  width: clamp(90px, 8vw, 130px);
+  aspect-ratio: 0.67;
+  transform: rotate(72deg);
+}
+
+.camera {
+  top: 25%;
+  left: 20%;
+  width: clamp(150px, 14vw, 220px);
+  aspect-ratio: 1.5;
+  transform: rotate(-6deg);
+}
+
+.oikina {
+  bottom: 5%;
+  left: 47%;
+  width: clamp(175px, 15vw, 230px);
+  aspect-ratio: 1.5;
+  text-decoration: none;
+  transform: rotate(-5deg);
+  -webkit-user-drag: none;
+}
+
+.oikina > img {
+  object-fit: contain;
+}
+
+.nameTag {
+  top: 14%;
+  right: 24%;
+  width: clamp(165px, 15vw, 230px);
+  aspect-ratio: 1.5;
+  transform: rotate(7deg);
+}
+
+.dragHint {
+  position: absolute;
+  right: 28px;
+  bottom: 20px;
+  z-index: 10;
+  margin: 0;
+  color: #8a857b;
+  font-family: var(--font-registry), monospace;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.anchor {
+  display: block;
+}
+
+@keyframes screenSweep {
+  from { transform: translateX(-130%); }
+  to { transform: translateX(130%); }
+}
+
+@media (max-width: 920px) {
+  .copy {
+    width: min(800px, 84vw);
+  }
+
+  .copy h1 {
+    font-size: clamp(32px, 4.5vw, 40px);
+  }
+
+  .nameTag {
+    right: 21%;
+  }
+
+  .watch {
+    right: 4%;
+  }
+}
+
+@media (max-width: 720px) {
+  .header {
+    grid-template-columns: auto 1fr;
+    padding: 17px 18px;
+  }
+
+  .nav {
+    justify-self: end;
+    gap: 17px;
+    font-size: 12px;
+  }
+
+  .nav a:nth-child(1) {
+    display: none;
+  }
+
+  .socials {
+    display: none;
+  }
+
+  .hero {
+    min-height: 820px;
+  }
+
+  .copy {
+    width: calc(100% - 36px);
+    padding-top: 2rem;
+  }
+
+  .copy h1 {
+    font-size: clamp(34px, 9.8vw, 45px);
+    line-height: 1;
+  }
+
+  .copy h1 > span {
+    display: inline;
+    white-space: normal;
+  }
+
+  .copy h1 > span + span::before {
+    content: " ";
+  }
+
+  .status {
+    max-width: 330px;
+    font-size: 12px;
+  }
+
+  .macbook {
+    top: 8%;
+    left: -18%;
+    width: 48vw;
+  }
+
+  .watch {
+    top: 8%;
+    right: 1%;
+    width: 22vw;
+  }
+
+  .nameTag {
+    top: 20%;
+    right: 5%;
+    width: 136px;
+  }
+
+  .oikina {
+    bottom: 3%;
+    left: 38%;
+    width: 38vw;
+  }
+
+  .monitor {
+    right: -22%;
+    bottom: 8%;
+    width: 62vw;
+  }
+
+  .skis {
+    bottom: 1%;
+    left: -12%;
+    width: 34vw;
+  }
+
+  .pen {
+    bottom: 12%;
+    left: 25%;
+    width: 18vw;
+    transform: rotate(70deg);
+  }
+
+  .camera {
+    top: 26%;
+    bottom: auto;
+    left: 4%;
+    width: 30vw;
+  }
+
+  .dragHint {
+    right: 16px;
+    bottom: 13px;
+  }
+
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .monitorScreen::after {
+    animation: none;
+  }
+
+  .monitorScreen img {
+    display: none;
+  }
+}

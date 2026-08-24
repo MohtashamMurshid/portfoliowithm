@@ -8,9 +8,11 @@ import { X, Play } from "lucide-react";
 
 function GalleryCard({
   item,
+  index,
   onOpen,
 }: {
   item: GalleryItem;
+  index: number;
   onOpen: (item: GalleryItem) => void;
 }) {
   const [loaded, setLoaded] = useState(false);
@@ -30,13 +32,14 @@ function GalleryCard({
           src={item.thumbnail}
           alt={item.alt}
           fill
+          loading={index < 3 ? "eager" : "lazy"}
           sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 20vw"
           className={`object-cover transition-opacity duration-500 ${loaded ? "opacity-100" : "opacity-0"}`}
           onLoad={() => setLoaded(true)}
         />
         {item.type === "video" && (
           <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-            <div className="w-10 h-10 rounded-full bg-black/50 backdrop-blur-sm flex items-center justify-center">
+            <div className="w-10 h-10 rounded-full bg-black/50 backdrop-blur-xs flex items-center justify-center">
               <Play className="w-5 h-5 text-white fill-white ml-0.5" />
             </div>
           </div>
@@ -70,7 +73,7 @@ function Lightbox({
     >
       <button
         onClick={onClose}
-        className="absolute top-6 right-6 z-50 w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 backdrop-blur-sm flex items-center justify-center transition-colors"
+        className="absolute top-6 right-6 z-50 w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 backdrop-blur-xs flex items-center justify-center transition-colors"
       >
         <X className="w-5 h-5 text-white" />
       </button>
@@ -170,10 +173,11 @@ export default function GalleryBoard() {
           exit={{ opacity: 0 }}
           transition={{ duration: 0.2 }}
         >
-          {filteredItems.map((item) => (
+          {filteredItems.map((item, index) => (
             <GalleryCard
               key={item.id}
               item={item}
+              index={index}
               onOpen={openLightbox}
             />
           ))}

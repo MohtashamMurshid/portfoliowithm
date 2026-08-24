@@ -67,7 +67,7 @@ export default function GalleryCarousel() {
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-white">
               Featured
             </h2>
-            <p className="mt-2 text-[var(--gallery-text-muted)] text-base sm:text-lg">
+            <p className="mt-2 text-(--gallery-text-muted) text-base sm:text-lg">
               Handpicked highlights from the collection
             </p>
           </div>

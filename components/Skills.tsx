@@ -24,7 +24,6 @@ import {
   SiVercel,
   SiCloudflare,
   SiGithub,
-  SiOpenai,
   SiTensorflow,
   SiPytorch,
   SiHuggingface,
@@ -32,7 +31,7 @@ import {
 import { FaJava, FaAws, FaReact, FaCode, FaTools } from "react-icons/fa";
 import { TbBrandVscode } from "react-icons/tb";
 import { DiReact } from "react-icons/di";
-import { RiRobot2Fill } from "react-icons/ri";
+import { RiOpenaiFill, RiRobot2Fill } from "react-icons/ri";
 import { GiArtificialIntelligence, GiBrain } from "react-icons/gi";
 import Section from "./Section";
 
@@ -210,7 +209,7 @@ const Skills = () => {
         },
         {
           name: "OpenAI",
-          icon: <SiOpenai className="text-2xl text-black dark:text-white" />,
+          icon: <RiOpenaiFill className="text-2xl text-black dark:text-white" />,
         },
         {
           name: "TensorFlow",

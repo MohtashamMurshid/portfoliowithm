@@ -12,16 +12,8 @@ const DynamicHeading: React.FC<DynamicHeadingProps> = ({
 }) => {
   const [currentName, setCurrentName] = useState(names[0]);
   const [hovered, setHovered] = useState(false);
-  const [mounted, setMounted] = useState(false);
-
-  // Ensure component is mounted before starting dynamic behavior
-  useEffect(() => {
-    setMounted(true);
-  }, []);
 
   useEffect(() => {
-    if (!mounted) return; // Don't start the interval until mounted
-
     let index = 0;
 
     const changeName = () => {
@@ -42,7 +34,7 @@ const DynamicHeading: React.FC<DynamicHeadingProps> = ({
     );
 
     return () => clearInterval(interval);
-  }, [hovered, names, mounted]);
+  }, [hovered, names]);
 
   return (
     <h1

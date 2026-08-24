@@ -54,14 +54,14 @@ function MasonryItem({
               <p className="text-white/60 text-sm mt-1 line-clamp-2">{item.description}</p>
             )}
             <div className="flex items-center gap-3 mt-3">
-              <span className="text-xs uppercase tracking-wider text-[var(--gallery-accent-4)] font-medium">
+              <span className="text-xs uppercase tracking-wider text-(--gallery-accent-4) font-medium">
                 {item.category}
               </span>
             </div>
           </div>
         </div>
         <div className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex gap-2">
-          <div className="w-8 h-8 rounded-full bg-black/50 backdrop-blur-sm flex items-center justify-center">
+          <div className="w-8 h-8 rounded-full bg-black/50 backdrop-blur-xs flex items-center justify-center">
             <ZoomIn className="w-4 h-4 text-white" />
           </div>
         </div>
@@ -90,7 +90,7 @@ function Lightbox({
     >
       <button
         onClick={onClose}
-        className="absolute top-6 right-6 z-50 w-11 h-11 rounded-full bg-white/10 hover:bg-white/20 backdrop-blur-sm flex items-center justify-center transition-colors"
+        className="absolute top-6 right-6 z-50 w-11 h-11 rounded-full bg-white/10 hover:bg-white/20 backdrop-blur-xs flex items-center justify-center transition-colors"
       >
         <X className="w-5 h-5 text-white" />
       </button>
@@ -169,7 +169,7 @@ export default function MasonryGrid() {
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-white mb-3">
             Collection
           </h2>
-          <p className="text-[var(--gallery-text-muted)] text-base sm:text-lg mb-8 sm:mb-10">
+          <p className="text-(--gallery-text-muted) text-base sm:text-lg mb-8 sm:mb-10">
             Browse the full gallery by category
           </p>
 
