@@ -1,23 +1,15 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
-import { motion, useReducedMotion } from "framer-motion";
-import { FaGithub, FaLinkedinIn } from "react-icons/fa";
+import { motion, useReducedMotion, type MotionProps } from "framer-motion";
 import FutureLetter from "./FutureLetter";
 import ProjectCollage from "./ProjectCollage";
 import styles from "./HeroExperience.module.css";
 
-const navItems = [
-  { label: "Home", href: "#top" },
-  { label: "Work", href: "#projects" },
-  { label: "About", href: "#about" },
-  { label: "Archive", href: "/archive" },
-];
-
 type DraggableObjectProps = {
   children: React.ReactNode;
   className: string;
+  entrance: { x: string; y: string; delay: number };
   href?: string;
   label: string;
   reducedMotion: boolean;
@@ -26,20 +18,36 @@ type DraggableObjectProps = {
 function DraggableObject({
   children,
   className,
+  entrance,
   href,
   label,
   reducedMotion,
 }: DraggableObjectProps) {
+  const entranceMotion: MotionProps = reducedMotion
+    ? { initial: false }
+    : {
+        initial: { opacity: 0, scale: 0.78, x: entrance.x, y: entrance.y },
+        animate: { opacity: 1, scale: 1, x: 0, y: 0 },
+        transition: {
+          type: "spring",
+          stiffness: 44,
+          damping: 18,
+          mass: 1.05,
+          delay: entrance.delay * 1.35,
+        },
+      };
+
   if (href) {
     return (
       <motion.a
         className={`${styles.object} ${className}`}
+        {...entranceMotion}
         href={href}
         draggable={false}
         drag
         dragMomentum={false}
         dragElastic={0.12}
-        whileHover={reducedMotion ? undefined : { scale: 1.025, rotate: 0 }}
+        whileHover={reducedMotion ? undefined : { scale: 1.025, transition: { duration: 0.18, ease: "easeOut" } }}
         whileTap={{ scale: 0.98, cursor: "grabbing" }}
         aria-label={`${label}, draggable link`}
       >
@@ -51,10 +59,11 @@ function DraggableObject({
   return (
     <motion.div
       className={`${styles.object} ${className}`}
+      {...entranceMotion}
       drag
       dragMomentum={false}
       dragElastic={0.12}
-      whileHover={reducedMotion ? undefined : { scale: 1.025, rotate: 0 }}
+      whileHover={reducedMotion ? undefined : { scale: 1.025, transition: { duration: 0.18, ease: "easeOut" } }}
       whileTap={{ scale: 0.98, cursor: "grabbing" }}
       aria-label={`${label}, draggable decoration`}
       role="img"
@@ -69,46 +78,16 @@ export default function HeroExperience() {
 
   return (
     <main className={styles.home} id="top">
-      <header className={styles.header}>
-        <Link className={styles.mark} href="#top" aria-label="Mohtasham, home">
-          <svg viewBox="0 0 48 48" aria-hidden="true">
-            <rect x="2" y="2" width="44" height="44" rx="13" />
-            <path d="M10 34V14l7 10 7-10 7 10 7-10v20" />
-          </svg>
-        </Link>
-
-        <nav className={styles.nav} aria-label="Primary navigation">
-          {navItems.map((item, index) => (
-            <Link
-              key={item.label}
-              className={index === 0 ? styles.activeNav : undefined}
-              href={item.href}
-            >
-              {item.label}
-            </Link>
-          ))}
-        </nav>
-
-        <div className={styles.socials} aria-label="Social links">
-          <a href="https://github.com/mohtashammurshid" aria-label="GitHub">
-            <FaGithub aria-hidden="true" />
-          </a>
-          <a href="https://www.linkedin.com/in/mohtashammurshid/" aria-label="LinkedIn">
-            <FaLinkedinIn aria-hidden="true" />
-          </a>
-        </div>
-      </header>
-
       <section className={styles.hero} aria-labelledby="hero-title">
-        <DraggableObject className={styles.macbook} label="A closed MacBook" reducedMotion={reduceMotion}>
+        <DraggableObject className={styles.macbook} entrance={{ x: "-48vw", y: "-30vh", delay: 0.04 }} label="A closed MacBook" reducedMotion={reduceMotion}>
           <Image src="/hero/macbook-midnight-m3.png" alt="" fill priority sizes="(max-width: 720px) 42vw, 27vw" />
         </DraggableObject>
 
-        <DraggableObject className={styles.watch} label="A blue Arabic-dial Seiko watch" reducedMotion={reduceMotion}>
+        <DraggableObject className={styles.watch} entrance={{ x: "34vw", y: "-34vh", delay: 0.16 }} label="A blue Arabic-dial Seiko watch" reducedMotion={reduceMotion}>
           <Image src="/hero/seiko-arabic-blue.png" alt="" fill priority sizes="(max-width: 720px) 22vw, 11vw" />
         </DraggableObject>
 
-        <DraggableObject className={styles.monitor} label="A monitor playing Valorant" reducedMotion={reduceMotion}>
+        <DraggableObject className={styles.monitor} entrance={{ x: "48vw", y: "32vh", delay: 0.22 }} label="A monitor playing Valorant" reducedMotion={reduceMotion}>
           <div className={styles.monitorScreen} aria-hidden="true">
             <Image src="/hero/valorant-icebox.gif" alt="" fill unoptimized sizes="20vw" />
             <span>VALORANT</span>
@@ -116,27 +95,32 @@ export default function HeroExperience() {
           <Image src="/hero/monitor.png" alt="" fill priority sizes="(max-width: 720px) 52vw, 30vw" />
         </DraggableObject>
 
-        <DraggableObject className={styles.skis} label="A pair of alpine skis" reducedMotion={reduceMotion}>
+        <DraggableObject className={styles.skis} entrance={{ x: "-42vw", y: "34vh", delay: 0.4 }} label="A pair of alpine skis" reducedMotion={reduceMotion}>
           <Image src="/hero/alpine-skis.png" alt="" fill priority sizes="(max-width: 720px) 34vw, 15vw" />
         </DraggableObject>
 
-        <DraggableObject className={styles.pen} label="A translucent blue pen" reducedMotion={reduceMotion}>
+        <DraggableObject className={styles.pen} entrance={{ x: "-22vw", y: "40vh", delay: 0.34 }} label="A translucent blue pen" reducedMotion={reduceMotion}>
           <Image src="/hero/pen.png" alt="" fill priority sizes="(max-width: 720px) 18vw, 10vw" />
         </DraggableObject>
 
-        <DraggableObject className={styles.camera} label="A Fujifilm camera facing forward" reducedMotion={reduceMotion}>
+        <DraggableObject className={styles.camera} entrance={{ x: "-38vw", y: "-12vh", delay: 0.46 }} label="A Fujifilm camera facing forward" reducedMotion={reduceMotion}>
           <Image src="/hero/fujifilm-camera-front.png" alt="" fill sizes="(max-width: 720px) 32vw, 14vw" />
         </DraggableObject>
 
-        <DraggableObject className={styles.oikina} href="https://oikina.com" label="Visit Oikina" reducedMotion={reduceMotion}>
+        <DraggableObject className={styles.oikina} entrance={{ x: "4vw", y: "44vh", delay: 0.28 }} href="https://oikina.com" label="Visit Oikina" reducedMotion={reduceMotion}>
           <Image src="/hero/oikina-badge.png" alt="" fill priority sizes="(max-width: 720px) 38vw, 15vw" />
         </DraggableObject>
 
-        <DraggableObject className={styles.nameTag} label="Hello, my name is Mohtasham" reducedMotion={reduceMotion}>
+        <DraggableObject className={styles.nameTag} entrance={{ x: "18vw", y: "-38vh", delay: 0.1 }} label="Hello, my name is Mohtasham" reducedMotion={reduceMotion}>
           <Image src="/hero/name-tag.png" alt="" fill priority sizes="(max-width: 720px) 36vw, 15vw" />
         </DraggableObject>
 
-        <div className={styles.copy}>
+        <motion.div
+          className={styles.copy}
+          initial={reduceMotion ? false : { opacity: 0, y: 22 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: reduceMotion ? 0 : 0.68, delay: reduceMotion ? 0 : 0.38, ease: [0.22, 1, 0.36, 1] }}
+        >
           <h1 id="hero-title">
             <span>I&apos;m a <em>founder</em> and AI engineer,</span>
             <span>exploring how AI can change the way we live.</span>
@@ -148,9 +132,16 @@ export default function HeroExperience() {
           <a className={styles.email} href="mailto:mohtashammurshid@gmail.com">
             Email me
           </a>
-        </div>
+        </motion.div>
 
-        <p className={styles.dragHint}>Drag the objects around</p>
+        <motion.p
+          className={styles.dragHint}
+          initial={reduceMotion ? false : { opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: reduceMotion ? 0 : 0.55, delay: reduceMotion ? 0 : 1.05 }}
+        >
+          Drag the objects around
+        </motion.p>
       </section>
 
       <FutureLetter />

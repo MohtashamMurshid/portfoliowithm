@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowLeft, ArrowUpRight } from "lucide-react";
 import { notFound } from "next/navigation";
+import MarkdownToDocxCaseStudy from "@/components/work/MarkdownToDocxCaseStudy";
 import { getProject, projects } from "@/lib/projects";
 
 type WorkPageProps = {
@@ -34,6 +35,10 @@ export default async function WorkPage({ params }: WorkPageProps) {
   const { slug } = await params;
   const project = getProject(slug);
   if (!project) notFound();
+
+  if (project.slug === "markdown-to-docx") {
+    return <MarkdownToDocxCaseStudy project={project} />;
+  }
 
   return (
     <main className="work-file">

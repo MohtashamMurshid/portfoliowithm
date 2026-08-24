@@ -1,0 +1,12 @@
+.page {
+  position: relative;
+  width: 100%;
+  min-height: 100svh;
+  will-change: opacity;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .page {
+    will-change: auto;
+  }
+}

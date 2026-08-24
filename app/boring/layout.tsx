@@ -20,7 +20,7 @@ export default function BoringLayout({ children }: { children: React.ReactNode }
       <div className={`${sans.className} min-h-screen bg-background text-foreground transition-colors duration-300`}>
         <Link
           href="/"
-          className="fixed right-4 top-4 z-50 border border-border bg-background/90 px-3 py-2 text-xs font-semibold backdrop-blur-sm transition-opacity hover:opacity-70"
+          className="fixed right-4 top-24 z-40 border border-border bg-background/90 px-3 py-2 text-xs font-semibold backdrop-blur-sm transition-opacity hover:opacity-70"
         >
           View field report ↗
         </Link>

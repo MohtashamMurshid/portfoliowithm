@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import "./report.css";
 import { Caveat, EB_Garamond, IBM_Plex_Mono, Instrument_Serif, Manrope } from "next/font/google";
+import PageTransition from "@/components/PageTransition";
 
 const siteUrl = "https://www.mohtasham.dev";
 const homeUrl = `${siteUrl}/`;
@@ -213,7 +214,9 @@ export default function RootLayout({
             }}
           />
         </head>
-        <body>{children}</body>
+        <body>
+          <PageTransition>{children}</PageTransition>
+        </body>
       </html>
     </>
   );
