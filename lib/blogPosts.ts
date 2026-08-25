@@ -15,23 +15,49 @@ export type BlogPost = {
 
 export const blogPosts: BlogPost[] = [
   {
-    slug: "markdown-to-docx-guide",
-    title: "From Markdown to Word in Seconds: A Practical Guide to @mohtasham/md-to-docx",
-    shortTitle: "From Markdown to Word in Seconds",
+    slug: "comparing-cnns-for-fracture-x-rays",
+    title: "What happened when we compared three CNNs on fracture X-rays",
+    shortTitle: "Comparing CNNs on fracture X-rays",
     description:
-      "A practical guide to converting Markdown into Word documents with the @mohtasham/md-to-docx CLI and TypeScript API.",
+      "A practical account of comparing ResNet50, VGG16, and a custom CNN on a multi-region fracture X-ray dataset.",
+    category: "Computer vision",
+    date: "2026-08-26",
+    source: "comparing-cnns-for-fracture-x-rays.md",
+    image: "/blog/fracture-cnn-comparison.png",
+    imageAlt:
+      "A hand-drawn X-ray feeding into three neural-network paths and a result chart.",
+  },
+  {
+    slug: "llm-disclosure-behavior",
+    title: "What makes an AI agent disclose sensitive information?",
+    shortTitle: "How AI agents handle sensitive information",
+    description:
+      "A 1,120-trial study of how prompt tone and tool type shaped disclosure attempts across 14 language models.",
+    category: "AI safety",
+    date: "2026-08-26",
+    source: "llm-disclosure-behavior.md",
+    image: "/blog/llm-disclosure-behavior.png",
+    imageAlt:
+      "A hand-drawn model inside a sandbox choosing between terminal and email tools.",
+  },
+  {
+    slug: "markdown-to-docx-guide",
+    title: "How to convert Markdown to Word with @mohtasham/md-to-docx",
+    shortTitle: "Markdown to Word with md-to-docx",
+    description:
+      "Use md-to-docx from the CLI, Node.js, React, a Word template, or an AI agent.",
     category: "Developer tools",
-    date: "2026-02-24",
+    date: "2026-08-26",
     source: "markdown-to-docx-guide.md",
     image: "/blog/markdown-to-docx.png",
     imageAlt: "A hand-drawn sequence of Markdown pages becoming a formatted document.",
   },
   {
     slug: "cognitive-systems-design",
-    title: "Design Principles for Cognitive Systems: Architecture, Components, and Learning Modalities",
-    shortTitle: "Cognitive systems",
+    title: "How cognitive systems work",
+    shortTitle: "How cognitive systems work",
     description:
-      "A study of cognitive-system architecture, learning methods, confidence scoring, and human-guided decision support.",
+      "A practical guide to the data, models, evidence, confidence, and human feedback inside a cognitive system.",
     category: "Cognitive computing",
     date: "2025-08-15",
     source: "cognitive-systems-design.md",
@@ -40,10 +66,10 @@ export const blogPosts: BlogPost[] = [
   },
   {
     slug: "node-js-deep-dive",
-    title: "Node.js Deep Dive: From Fundamentals to Pro-Level Techniques",
-    shortTitle: "Node.js deep dive",
+    title: "How Node.js handles concurrent work",
+    shortTitle: "How Node.js handles concurrent work",
     description:
-      "A tour of the Node.js event loop, module resolution, streams, worker threads, and common performance techniques.",
+      "A practical guide to the event loop, async I/O, worker threads, streams, modules, and performance checks.",
     category: "Backend engineering",
     date: "2025-08-14",
     source: "node-js-deep-dive.md",

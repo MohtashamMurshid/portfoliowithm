@@ -6,32 +6,11 @@ import { motion, useReducedMotion } from "framer-motion";
 export default function BlogReveal({
   children,
   className,
-  sequential = false,
 }: {
   children: ReactNode;
   className?: string;
-  sequential?: boolean;
 }) {
-  const reduceMotion = Boolean(useReducedMotion());
-
-  if (sequential) {
-    return <div className={className}>{children}</div>;
-  }
-
-  return (
-    <motion.div
-      className={className}
-      initial={reduceMotion ? false : { opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{
-        delay: reduceMotion ? 0 : 0.14,
-        duration: reduceMotion ? 0 : 0.82,
-        ease: [0.22, 1, 0.36, 1],
-      }}
-    >
-      {children}
-    </motion.div>
-  );
+  return <div className={className}>{children}</div>;
 }
 
 export function BlogRevealItem({

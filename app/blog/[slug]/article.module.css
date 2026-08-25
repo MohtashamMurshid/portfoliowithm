@@ -45,9 +45,10 @@
 
 .hero {
   position: relative;
+  left: 50%;
   width: min(52rem, calc(100vw - 48px));
   aspect-ratio: 2.32 / 1;
-  margin: 22px 50% 0;
+  margin: 22px 0 0;
   overflow: hidden;
   border: 1px solid rgb(55 53 47 / 7%);
   border-radius: 4px;
@@ -145,43 +146,128 @@
   font-size: .8em;
 }
 
-.prose pre {
+.codeWindow {
+  position: relative;
+  left: 50%;
   box-sizing: border-box;
   width: min(52rem, calc(100vw - 48px));
   max-width: none;
-  margin: 1.8em 50%;
-  overflow-x: auto;
-  padding: 17px 19px;
-  border-radius: 4px;
-  background: #292b27;
-  color: #f4f0e7;
-  font-size: 12.5px;
-  line-height: 1.6;
+  margin: 1.8em 0;
+  overflow: hidden;
+  border: 1px solid #c5c1b9;
+  border-radius: 7px;
+  background: #fbfaf7;
+  box-shadow: 0 16px 34px rgb(31 29 25 / 12%);
   transform: translateX(-50%);
 }
 
-.prose pre code {
+.codeHeader {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  padding: 10px 13px;
+  border-bottom: 1px solid #d2cec6;
+  background: #ece9e2;
+  color: #77736c;
+  font: 500 10px/1 var(--font-registry), monospace;
+  letter-spacing: .02em;
+}
+
+.codeHeader > span:nth-child(2) { text-align: center; }
+.codeHeader > span:last-child { text-align: right; }
+
+.windowControls {
+  display: flex;
+  gap: 6px;
+}
+
+.windowControls i {
+  display: block;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #69ad62;
+}
+
+.windowControls i:first-child { background: #d46a5f; }
+.windowControls i:nth-child(2) { background: #d9ae52; }
+
+.prose .codeWindow pre {
+  margin: 0;
+  overflow-x: auto;
+  padding: 22px 24px;
+  background: #fbfaf7;
+  color: #403d38;
+  font-family: var(--font-registry), monospace;
+  font-size: 12.5px;
+  line-height: 1.72;
+}
+
+.prose .codeWindow pre code {
   padding: 0;
   background: transparent;
   color: inherit;
   font-size: inherit;
 }
 
-.prose table {
-  display: block;
+.codeWindow :global(.hljs-comment),
+.codeWindow :global(.hljs-quote) {
+  color: #98948c;
+  font-style: italic;
+}
+
+.codeWindow :global(.hljs-keyword),
+.codeWindow :global(.hljs-selector-tag),
+.codeWindow :global(.hljs-literal),
+.codeWindow :global(.hljs-doctag) { color: #a45532; }
+
+.codeWindow :global(.hljs-string),
+.codeWindow :global(.hljs-regexp),
+.codeWindow :global(.hljs-attr),
+.codeWindow :global(.hljs-addition) { color: #667541; }
+
+.codeWindow :global(.hljs-number),
+.codeWindow :global(.hljs-symbol),
+.codeWindow :global(.hljs-bullet) { color: #9a6539; }
+
+.codeWindow :global(.hljs-title),
+.codeWindow :global(.hljs-title.function_),
+.codeWindow :global(.hljs-title.class_) { color: #6e5078; }
+
+.codeWindow :global(.hljs-property),
+.codeWindow :global(.hljs-attribute),
+.codeWindow :global(.hljs-variable),
+.codeWindow :global(.hljs-template-variable) { color: #4b6d86; }
+
+.codeWindow :global(.hljs-built_in),
+.codeWindow :global(.hljs-type),
+.codeWindow :global(.hljs-meta) { color: #8d5e36; }
+
+.codeWindow :global(.hljs-deletion) { color: #a14e48; }
+.codeWindow :global(.hljs-emphasis) { font-style: italic; }
+.codeWindow :global(.hljs-strong) { font-weight: 700; }
+
+.tableFrame {
+  position: relative;
+  left: 50%;
   width: min(52rem, calc(100vw - 48px));
-  margin: 2em 50%;
+  margin: 2em 0;
   overflow-x: auto;
-  border-collapse: collapse;
-  font-size: 11px;
-  line-height: 1.45;
   transform: translateX(-50%);
+}
+
+.prose table {
+  width: 100%;
+  margin: 0;
+  border-collapse: collapse;
+  font-size: 13px;
+  line-height: 1.5;
 }
 
 .prose th,
 .prose td {
   min-width: 110px;
-  padding: 8px 10px;
+  padding: 9px 11px;
   border: 1px solid rgb(55 53 47 / 15%);
   text-align: left;
   vertical-align: top;
@@ -194,10 +280,12 @@
 }
 
 .prose img {
+  position: relative;
+  left: 50%;
   display: block;
   width: min(52rem, calc(100vw - 48px));
   height: auto;
-  margin: 2em 50% .6em;
+  margin: 2em 0 .6em;
   border-radius: 4px;
   filter: saturate(.85);
   transform: translateX(-50%);
@@ -234,7 +322,7 @@
 
   .hero {
     width: calc(100vw - 20px);
-    margin: 20px 50% 0;
+    margin: 20px 0 0;
     transform: translateX(-50%);
   }
 
@@ -244,14 +332,14 @@
     line-height: 1.72;
   }
 
-  .prose pre,
-  .prose table,
+  .codeWindow,
+  .tableFrame,
   .prose img {
     width: calc(100vw - 20px);
   }
 
-  .prose pre {
-    padding: 14px;
+  .prose .codeWindow pre {
+    padding: 17px 16px;
     font-size: 11px;
   }
 }

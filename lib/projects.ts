@@ -84,11 +84,11 @@ export const projects: Project[] = [
     role: "Creator",
     category: "Interactive field guide",
     url: "https://understanding-software.vercel.app",
-    eyebrow: "Software literacy",
-    summary: "A visual field guide and artifact studio for understanding software.",
+    eyebrow: "Weekend design experiment",
+    summary: "A Making Software landing-page clone that turned into an AI-assisted field-guide generator.",
     description:
-      "Understanding Software combines an authored visual field guide with an Artifact Studio that plans, writes, illustrates, revises, and exports structured explanations as Markdown and DOCX.",
-    evidence: ["Artifact planning", "Generated figures", "Markdown", "DOCX"],
+      "I built Understanding Software with an AI agent after falling in love with Dan Hollick's field-guide design. The Artifact Studio now plans, writes, illustrates, revises, and exports custom software explanations.",
+    evidence: ["Weekend project", "AI collaboration", "Generated figures", "Markdown and DOCX"],
   },
   {
     slug: "getdesign",
@@ -97,11 +97,11 @@ export const projects: Project[] = [
     role: "Founder",
     category: "Design infrastructure",
     url: "https://getdesign.app",
-    eyebrow: "Design-system extraction",
-    summary: "A design system for any public URL, grounded in the page itself.",
+    eyebrow: "Design extraction startup",
+    summary: "The tool I built because screenshots kept hiding the exact design decisions my coding agents needed.",
     description:
-      "getdesign inspects a rendered page, HTML, CSS, computed styles, screenshots, and visible pixels, then writes a predictable nine-section design document. The public web and agent skill are live; API, CLI, SDK, dashboard, and desktop surfaces are in-repository beta work.",
-    evidence: ["Public web", "Agent skill", "Grounded tokens", "Nine-section output"],
+      "getdesign renders a public page inside a Daytona sandbox and returns its full-page screenshot with a CSS-backed, nine-section design.md. The hosted product is in private beta, while the skill, CLI, and SDK are public.",
+    evidence: ["118-person waitlist", "46 GitHub stars", "Published CLI and SDK", "Private beta"],
   },
 ];
 

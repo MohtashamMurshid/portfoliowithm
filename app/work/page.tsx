@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ViewTransition } from "react";
 import WorkEntrance from "@/components/work/WorkEntrance";
+import { archiveProjects } from "@/lib/archiveProjects";
 import styles from "./work.module.css";
 
 type WorkItem = {
@@ -27,28 +28,20 @@ const featured: WorkItem = {
 
 const work: WorkItem[] = [
   {
-    slug: "iris",
-    name: "Iris",
-    category: "Open-source camera",
-    date: "Aug 24, 2026",
-    href: "/work/iris",
-    image: "/projects/iris-camera.png",
-  },
-  {
-    slug: "skills",
-    name: "Skills",
-    category: "Agent tooling",
-    date: "Aug 22, 2026",
-    href: "/work/skills",
-    image: "/projects/agent-skills.png",
-  },
-  {
     slug: "markdown-to-docx",
     name: "md-to-docx",
     category: "Developer tool",
     date: "Aug 21, 2026",
     href: "/work/markdown-to-docx",
     image: "/projects/md-to-docx.png",
+  },
+  {
+    slug: "getdesign",
+    name: "getdesign",
+    category: "Design infrastructure",
+    date: "Jul 20, 2026",
+    href: "/work/getdesign",
+    image: "/projects/getdesign.png",
   },
   {
     slug: "eikon-studio",
@@ -67,16 +60,22 @@ const work: WorkItem[] = [
     image: "/projects/understanding-software-zine.png",
   },
   {
-    slug: "getdesign",
-    name: "getdesign",
-    category: "Design infrastructure",
-    date: "Jul 20, 2026",
-    href: "/work/getdesign",
-    image: "/projects/getdesign.png",
+    slug: "iris",
+    name: "Iris",
+    category: "Open-source camera",
+    date: "Aug 24, 2026",
+    href: "/work/iris",
+    image: "/projects/iris-camera.png",
+  },
+  {
+    slug: "skills",
+    name: "Skills",
+    category: "Agent tooling",
+    date: "Aug 22, 2026",
+    href: "/work/skills",
+    image: "/projects/agent-skills.png",
   },
 ];
-
-const archive = [featured, ...work];
 
 const portfolioEditions = [
   {
@@ -143,26 +142,19 @@ export default function WorkIndexPage() {
         <section className={styles.archive} aria-labelledby="archive-title">
           <h2 id="archive-title">Archive</h2>
           <div className={styles.archiveList}>
-            {archive.map((item) => {
-              const external = item.href.startsWith("http");
-
-              return (
-                <Link
-                  className={styles.archiveRow}
-                  href={item.href}
-                  key={item.name}
-                  target={external ? "_blank" : undefined}
-                  rel={external ? "noreferrer" : undefined}
-                >
-                  <span className={styles.archiveName}>
-                    <strong>{item.name}</strong>
-                    {item.status ? <small>{item.status}</small> : null}
-                  </span>
-                  <span className={styles.category}>{item.category}</span>
-                  <time>{item.date}</time>
-                </Link>
-              );
-            })}
+            {archiveProjects.map((item) => (
+              <Link
+                className={styles.archiveRow}
+                href={`/work/archive/${item.slug}`}
+                key={item.name}
+              >
+                <span className={styles.archiveName}>
+                  <strong>{item.name}</strong>
+                </span>
+                <span className={styles.category}>{item.category}</span>
+                <time>{item.year}</time>
+              </Link>
+            ))}
           </div>
 
           <div className={styles.editions}>

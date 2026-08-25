@@ -156,13 +156,7 @@ export default function AboutExperience() {
   const reduceMotion = Boolean(useReducedMotion());
 
   return (
-    <motion.main
-      className={styles.page}
-      initial={reduceMotion ? false : { opacity: 0, y: 18 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={reduceMotion ? undefined : { opacity: 0, y: -10 }}
-      transition={{ duration: reduceMotion ? 0 : 0.29, ease: [0.22, 1, 0.36, 1] }}
-    >
+    <main className={styles.page}>
       <section className={styles.desk} aria-label="A draggable desk assembled from generated objects">
         <DraggableAsset className={styles.mat} delay={entranceDelay.mat} label="A worn green cutting mat">
           <Image src="/about/cutting-mat.png" alt="" fill priority sizes="(max-width: 720px) 110vw, 76vw" />
@@ -272,6 +266,6 @@ export default function AboutExperience() {
           </p>
         </footer>
       </motion.article>
-    </motion.main>
+    </main>
   );
 }

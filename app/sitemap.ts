@@ -1,4 +1,5 @@
 import type { MetadataRoute } from "next";
+import { archiveProjects } from "@/lib/archiveProjects";
 import { blogPosts } from "@/lib/blogPosts";
 import { projects } from "@/lib/projects";
 
@@ -53,6 +54,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified: now,
       changeFrequency: "monthly" as const,
       priority: 0.75,
+    })),
+    ...archiveProjects.map((project) => ({
+      url: `${baseUrl}/work/archive/${project.slug}`,
+      lastModified: now,
+      changeFrequency: "yearly" as const,
+      priority: 0.55,
     })),
   ];
 }

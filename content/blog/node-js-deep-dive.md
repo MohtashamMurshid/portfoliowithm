@@ -1,316 +1,199 @@
 ---
 layout: ../../layouts/MarkdownPostLayout.astro
 
-title: Node js Deep Dive
+title: "How Node.js handles concurrent work"
 author: Mohtasham Murshid Madani
-description: "Are you ready to take your Node.js skills to the next level? Node.js has revolutionized server-side JavaScript development, powering everything from real-time applications to robust APIs. But understanding its core principles and advanced techniques is crucial for building scalable and maintainable applications."
-
+description: "A practical guide to the Node.js event loop, async I/O, worker threads, streams, modules, and performance checks."
 pubDate: "2025-08-14"
-tags: ["nodejs", "deep dive", "performance", "backend", "javascript"]
+tags: ["nodejs", "event loop", "performance", "backend", "javascript"]
 department: School of Computer Science
-university: Taylor’s University Lakeside Campus
+university: Taylor's University Lakeside Campus
 email: mohtashammurshid@gmail.com
 ---
 
-# Node.js Deep Dive: From Fundamentals to Pro-Level Techniques
+# How Node.js handles concurrent work
 
-## Introduction
+Node.js can keep many network requests moving without creating one JavaScript thread for each request. That is useful, but the usual explanation that Node.js is "single-threaded" is incomplete. JavaScript callbacks normally run on one event-loop thread. The operating system, libuv's worker pool, and any worker threads or child processes you create can all do work outside that thread.
 
-Are you ready to take your Node.js skills to the next level? Node.js has revolutionized server-side JavaScript development, powering everything from real-time applications to robust APIs. But understanding its core principles and advanced techniques is crucial for building scalable and maintainable applications.
+The practical rule is simpler: keep each callback short, use asynchronous APIs for I/O, and move long CPU work away from the event loop.
 
-> "Node.js's non-blocking, event-driven architecture makes it exceptionally well-suited for I/O-intensive applications," says industry expert Alice Zimmerman, lead developer at TechForward Inc.
+## The useful mental model
 
-This blog post serves as your comprehensive guide to Node.js, diving deep into its internal mechanics, module system, and performance optimization strategies. Whether you're a beginner looking to solidify your foundation or an experienced developer seeking to refine your expertise, this deep dive will equip you with the knowledge and skills you need to excel.
+When a request reaches a Node.js server, the runtime does not wait beside every file read, database query, or socket. It starts the operation, lets another part of the system wait for it, and returns to other ready work. When the operation finishes, its callback or promise continuation becomes eligible to run.
 
-We'll explore the fundamental concepts that underpin Node.js, dissect its architecture, and uncover best practices for writing high-performance code. By the end of this journey, you'll have a solid understanding of how Node.js works under the hood and how to leverage its full potential.
+```text
+incoming request
+      |
+      v
+JavaScript callback on the event loop
+      |
+      +---- network I/O ----------> operating system
+      |
+      +---- file, DNS, crypto ----> libuv worker pool
+      |
+      +---- heavy JavaScript -----> worker thread you create
+      |
+      v
+completion becomes ready
+      |
+      v
+JavaScript callback resumes on the event loop
+```
 
-## Main Points
+This is concurrency, not automatic parallel execution of all your JavaScript. If one callback spends 800 ms parsing a huge payload or calculating a result, other callbacks on that event loop wait.
 
-### Understanding Node.js Fundamentals
+## What the event loop actually does
 
-Node.js is an open-source, cross-platform JavaScript runtime environment built on the V8 engine. It allows you to execute JavaScript code outside of a web browser. Key characteristics include its suitability for scalable, I/O-intensive, and real-time applications. Node.js achieves concurrency through a single-threaded event loop.
+The event loop repeatedly checks groups of ready callbacks. The main phases are:
 
-### Dissecting the Node.js Architecture
+| Phase | Typical work |
+| --- | --- |
+| Timers | Callbacks whose `setTimeout` or `setInterval` threshold has passed |
+| Pending callbacks | Certain system callbacks deferred from an earlier iteration |
+| Poll | New I/O events and their callbacks |
+| Check | `setImmediate` callbacks |
+| Close callbacks | Cleanup such as a socket's `close` event |
 
-The core components of Node.js include:
+Idle and prepare phases also exist, but Node.js uses them internally.
 
-- **V8 Engine:** Compiles JavaScript code into machine code for execution.
-- **libuv:** Manages the event loop, asynchronous I/O operations, and a thread pool.
-- **Built-in Modules:** Provides essential functionalities like networking (`http`), file system (`fs`), and cryptography (`crypto`).
+A timeout is a minimum delay, not a reservation. `setTimeout(fn, 10)` means that `fn` may run after 10 ms once the event loop reaches an appropriate point. A busy callback can make it run much later.
 
-The event loop handles concurrency by delegating heavy tasks to a background thread pool, enabling non-blocking I/O and supporting thousands of concurrent connections.
+Promises add another layer. Promise reactions and `queueMicrotask()` use the microtask queue. Node.js also has a `process.nextTick()` queue, which runs before the event loop continues. Recursive use can starve I/O, and current Node.js documentation marks `process.nextTick()` as legacy for most user code. Prefer promises or `queueMicrotask()` unless an API specifically needs next-tick behavior.
 
-### Mastering the Event Loop Phases
+## Do not memorize one universal callback order
 
-The libuv event loop operates in several phases:
-
-1.  **Timers:** Executes callbacks scheduled by `setTimeout` and `setInterval`.
-2.  **Pending Callbacks:** Executes I/O callbacks deferred from the previous loop iteration.
-3.  **Idle, Prepare:** Used internally by Node.js.
-4.  **Poll:** Retrieves new I/O events and executes associated callbacks.
-5.  **Check:** Executes `setImmediate` callbacks.
-6.  **Close Callbacks:** Executes `close` events, such as `socket.on('close')`.
-
-### Leveraging Modules Effectively
-
-Node.js uses three primary types of modules:
-
-- **Core Modules:** Built-in modules like `fs` and `http`.
-- **Local Modules:** Modules you define within your project.
-- **Third-party Modules:** Modules installed from npm (Node Package Manager).
-
-### Module Resolution Algorithm Explained
-
-When you use `require('module')`, Node.js follows these steps:
-
-1.  Checks if the module is a core module.
-2.  If the module path starts with `'./'` or `'../'`, it resolves the path relative to the current file.
-3.  If there's no path prefix, Node.js looks in the `node_modules` directory in the current directory and then moves up the directory tree until it reaches the root.
-4.  If found, the module is loaded and cached in `require.cache`.
-
-### npm Usage and Semantic Versioning
-
-`npm` is essential for managing dependencies:
-
-- `npm init`: Initializes a `package.json` file.
-- `npm install <pkg>`: Installs a package as a dependency.
-- `npm install <pkg> --save-dev`: Installs a package as a development dependency.
-
-Semantic versioning (MAJOR.MINOR.PATCH) helps manage updates:
-
-- **MAJOR:** Breaking changes.
-- **MINOR:** New features (backwards compatible).
-- **PATCH:** Bug fixes.
-
-Example: `"express": "4.17.1"`
-
-### Understanding Buffers and Streams
-
-- **Buffers:** Used to handle binary data directly in memory, crucial for tasks like streaming media and file manipulation.
-
-  ```javascript
-  const buf = Buffer.from("NodeJS");
-  console.log(buf); // <Buffer 4e 6f 64 65 4a 53>
-  console.log(buf.toString()); // NodeJS
-  ```
-
-- **Streams:** Enable processing large datasets piece by piece, avoiding the need to load entire files into memory. Types include Readable, Writable, Duplex, and Transform streams.
-
-### Performance Best Practices
-
-Experienced Node.js developers should:
-
-- Avoid blocking the event loop with CPU-intensive tasks.
-- Use `cluster` or worker threads for CPU-bound operations.
-- Monitor memory usage with `process.memoryUsage()`.
-- Use `async/await` or Promises for non-blocking I/O.
-- Limit dependencies to reduce the attack surface.
-
-By understanding these main points, you'll gain a solid foundation for building robust and scalable Node.js applications. Let's move on to exploring practical examples and advanced techniques.
-
-## Supporting Evidence
-
-To substantiate the claims made about Node.js's capabilities and best practices, let's delve into specific examples, case studies, and data-driven insights.
-
-### Node.js Architecture and Performance
-
-The non-blocking, event-driven architecture of Node.js is not just a theoretical advantage; it translates into tangible performance benefits.
-
-> "Netflix migrated part of its backend to Node.js and saw a 70% reduction in startup time," according to a Netflix engineering blog post. This highlights Node.js's ability to handle I/O-bound operations efficiently.
-
-![Figure 2.1: Netflix's Node.js Migration](https://placehold.co/600x400/)
-
-Figure 2.1 illustrates the architectural shift Netflix undertook, leveraging Node.js for improved performance and scalability.
-
-### Event Loop Efficiency
-
-The event loop's phases are critical for understanding how Node.js manages concurrency. Consider a scenario where you need to read a file and then immediately execute a callback.
+This example often appears in event-loop tutorials:
 
 ```javascript
-const fs = require("fs");
+import { readFile } from "node:fs";
 
-setTimeout(() => {
-  console.log("Timeout callback");
-}, 0);
+setTimeout(() => console.log("timeout"), 0);
+setImmediate(() => console.log("immediate"));
 
-fs.readFile("data.txt", () => {
-  console.log("File read callback");
-});
-
-setImmediate(() => {
-  console.log("Immediate callback");
+readFile(new URL(import.meta.url), () => {
+  console.log("file read");
 });
 ```
 
-In this example, the "Immediate callback" will likely execute before the "File read callback" because `setImmediate` callbacks are executed in the "Check" phase, while file I/O callbacks are handled in the "Poll" phase. The "Timeout callback" is scheduled in the timer phase. Understanding this execution order is crucial for optimizing asynchronous operations.
+The output is affected by where the callbacks were scheduled, whether I/O is already ready, the platform, and the Node.js/libuv version. Use the phase model to understand behavior, but do not build application logic around a race between a zero-delay timeout and `setImmediate`.
 
-### Module Resolution in Practice
+If one operation must follow another, express that dependency directly with `await`, a promise chain, or a callback.
 
-Let's say you have a project structure like this:
+## Async I/O is not the same as worker threads
 
-```
-project/
-├── app.js
-├── math/
-│   └── index.js
-└── node_modules/
-    └── lodash/
-        └── ...
-```
+Choose the mechanism based on the work:
 
-In `app.js`, if you have `const math = require('./math');` and `const _ = require('lodash');`, Node.js will:
+| Work | First choice | Reason |
+| --- | --- | --- |
+| HTTP, database, or socket I/O | The library's asynchronous API | The event loop can wait without blocking JavaScript |
+| File-system, selected DNS, crypto, or compression work | Node.js async API | Node.js can use libuv's worker pool |
+| Expensive JavaScript calculation | `worker_threads` | JavaScript can run in parallel on another thread |
+| Separate program or strong process isolation | `child_process` | The work runs in another process |
+| Several server processes listening on the same port | A process manager or `cluster` where appropriate | Uses more CPU cores with process isolation |
 
-1.  For `./math`, resolve it relative to `app.js`, finding `project/math/index.js`.
-2.  For `lodash`, look in `project/node_modules/lodash`.
+Worker threads help with CPU-heavy JavaScript. They usually make I/O-heavy work more complicated without making it faster. A worker also has startup and communication costs, so do not create a fresh worker for every tiny calculation. Use a pool for repeated jobs.
 
-This resolution algorithm ensures that modules are loaded correctly, whether they are local or third-party.
+## A blocking endpoint affects everyone
 
-### npm and Semantic Versioning: Avoiding Dependency Hell
+This server looks small, but one large request can delay every other request handled by the same event loop:
 
-Consider a `package.json` with the following dependency:
+```javascript
+import { createServer } from "node:http";
 
-```json
-{
-  "dependencies": {
-    "express": "^4.17.1"
+createServer((request, response) => {
+  if (request.url === "/sum") {
+    let total = 0;
+    for (let i = 0; i < 2_000_000_000; i += 1) total += i;
+    response.end(String(total));
+    return;
   }
-}
+
+  response.end("still waiting");
+}).listen(3000);
 ```
 
-The `^` symbol means that npm is allowed to install versions up to `5.0.0`, but not including it (as that would be a breaking change). This allows for bug fixes and minor feature updates without risking compatibility issues. However, major version updates (e.g., from `4.x.x` to `5.x.x`) should be approached with caution due to potential breaking changes.
+The loop is synchronous JavaScript. `async` would not fix it because adding `async` does not move computation to another thread. The options are to reduce the work, split it into bounded chunks, cache the result, run it in a worker, or move it to a different service.
 
-### Buffers and Streams: Real-World Use Cases
+Input limits matter too. A function that is fast for a 2 KB payload may be dangerous for an unbounded 200 MB payload. Bound request bodies, expensive regular expressions, JSON size, and per-request iteration counts.
 
-Imagine you're building a video streaming service. Instead of loading the entire video file into memory, you can use streams:
+## Streams keep memory use bounded
+
+Reading a large file with `readFile` holds the complete file in memory. A stream processes chunks as they arrive. The `pipeline` helper connects streams, handles backpressure, and reports failures through one promise.
 
 ```javascript
-const fs = require("fs");
-const stream = fs.createReadStream("large-video.mp4");
+import { createReadStream, createWriteStream } from "node:fs";
+import { pipeline } from "node:stream/promises";
+import { createGzip } from "node:zlib";
 
-stream.on("data", (chunk) => {
-  // Process each chunk of data
-  console.log(`Received ${chunk.length} bytes of data.`);
-});
-
-stream.on("end", () => {
-  console.log("Finished reading the video.");
-});
-
-stream.on("error", (err) => {
-  console.error("An error occurred:", err);
-});
+await pipeline(
+  createReadStream("archive.tar"),
+  createGzip(),
+  createWriteStream("archive.tar.gz"),
+);
 ```
 
-This approach allows you to handle large video files efficiently, reducing memory consumption and improving performance.
+Backpressure is the important part. If the destination is slower than the source, a good pipeline slows the source instead of letting chunks accumulate until the process runs out of memory.
 
-### Performance Optimization: Avoiding Blocking Operations
+Use streams for large files, uploads, downloads, transformations, and long result sets. For a tiny configuration file, `readFile` is usually clearer.
 
-A common mistake is performing CPU-intensive operations on the main thread. For example, complex calculations or cryptographic operations can block the event loop. To avoid this, use worker threads:
+## Be explicit about modules
+
+Node.js supports CommonJS and ECMAScript modules. Use an explicit marker so the runtime and tooling do not have to guess.
+
+| Format | Explicit package setting | File escape hatch | Main syntax |
+| --- | --- | --- | --- |
+| ECMAScript modules | `"type": "module"` | `.mjs` | `import` and `export` |
+| CommonJS | `"type": "commonjs"` | `.cjs` | `require` and `module.exports` |
+
+Relative ESM imports require complete file names such as `./config.js`. CommonJS resolution can try extensions and directory indexes. That difference explains many "module not found" errors during migrations.
+
+For new application code, ESM is a sensible default. For a library, test both your package exports and the Node.js versions you claim to support. Do not assume that a successful local import proves every consumer can load the package.
+
+## Measure event-loop delay
+
+CPU percentage alone does not tell you whether callbacks are waiting too long. Node.js exposes an event-loop delay histogram through `node:perf_hooks`:
 
 ```javascript
-const { Worker } = require("worker_threads");
+import { monitorEventLoopDelay } from "node:perf_hooks";
 
-const worker = new Worker("./worker.js");
+const delay = monitorEventLoopDelay({ resolution: 20 });
+delay.enable();
 
-worker.on("message", (result) => {
-  console.log(`Result from worker: ${result}`);
-});
-
-worker.postMessage({ data: "some input" });
+setInterval(() => {
+  console.log({
+    meanMs: Number(delay.mean / 1e6).toFixed(2),
+    p99Ms: Number(delay.percentile(99) / 1e6).toFixed(2),
+    maxMs: Number(delay.max / 1e6).toFixed(2),
+  });
+  delay.reset();
+}, 10_000).unref();
 ```
 
-In `worker.js`, you perform the CPU-intensive task. This keeps the main thread responsive and prevents performance bottlenecks.
+Measure this beside request latency, throughput, error rate, memory, garbage collection, worker-pool saturation, and downstream service timing. A high p99 event-loop delay tells you that ready callbacks could not run promptly. It does not tell you which function caused the delay, so pair it with profiling and traces.
 
-```javascript
-// worker.js
-const { parentPort } = require("worker_threads");
+## A practical review checklist
 
-parentPort.on("message", (data) => {
-  // Perform CPU-intensive task
-  const result = someCpuIntensiveFunction(data);
-  parentPort.postMessage(result);
-});
-```
+Before shipping a Node.js service, check the following:
 
-By providing these concrete examples and use cases, we've demonstrated how the theoretical concepts of Node.js translate into practical applications and performance optimizations. Understanding these principles is key to building efficient and scalable Node.js applications.
+- Synchronous file, crypto, compression, and child-process APIs are not used in request handlers.
+- CPU-heavy work is bounded, cached, split up, or moved off the event loop.
+- Request bodies, query sizes, regex inputs, and loops have limits.
+- Stream pipelines handle errors and backpressure.
+- Every outbound request has a timeout and a cancellation path.
+- Promise rejections reach centralized error handling.
+- Shutdown stops new work, finishes or cancels current work, and closes resources.
+- Module format and supported Node.js versions are explicit.
+- Event-loop delay and tail latency are measured in production.
+- Dependencies and the Node.js runtime receive security updates.
 
-Let's move on and summarize the core concepts we've covered.
+You do not need to reason about every libuv detail to build a good service. You do need to know which work occupies the event loop, which work is delegated, and how you will notice when either queue is falling behind.
 
-## Personal Insights
+## Sources
 
-Throughout my journey with Node.js, I've had my share of eureka moments and frustrating debugging sessions. One particular experience stands out: optimizing a real-time chat application. Initially, the application struggled to maintain responsiveness during peak hours, leading to dropped messages and unhappy users.
-
-> "The key to mastering Node.js is not just understanding the theory but also applying it in real-world scenarios and learning from the challenges you encounter," I realized during this project.
-
-By diving deep into the event loop, identifying and offloading CPU-intensive tasks to worker threads, and implementing efficient data streaming, we were able to significantly improve the application's performance and stability. This hands-on experience reinforced the importance of understanding Node.js internals and applying best practices for building scalable applications. It's not enough to just know the syntax; you need to understand _why_ things work the way they do. This allows you to make informed decisions about architecture, dependencies, and optimization strategies.
-
-![Figure 3.1: Performance Improvement After Optimization](https://placehold.co/600x400/)
-
-Figure 3.1 illustrates the dramatic improvement in response times after implementing the optimization techniques discussed earlier.
-
-Furthermore, I've learned that continuous learning and staying updated with the latest Node.js releases and best practices are crucial. The Node.js ecosystem is constantly evolving, with new features, modules, and performance improvements being introduced regularly. Embracing this evolution and actively seeking out opportunities to expand your knowledge is essential for staying ahead of the curve and building cutting-edge applications.
-
-Finally, don't be afraid to experiment and contribute to the Node.js community. Sharing your knowledge, participating in open-source projects, and engaging with other developers can accelerate your learning and help you discover new perspectives and approaches to solving complex problems.
-
-Let's wrap up with a summary of what we've covered and some actionable next steps.
-
-## Practical Tips
-
-Ready to put your newfound Node.js knowledge into action? Here are some practical tips to help you build better, more efficient applications:
-
-- **Master the Event Loop:** Understanding how the event loop works is crucial for writing non-blocking code. Use tools like `async_hooks` to trace asynchronous operations and identify potential bottlenecks.
-
-- **Profile Your Code:** Use the Node.js profiler (`node --prof`) to identify performance hotspots in your code. Analyze the generated log files with tools like `node-clinic` to pinpoint slow functions and optimize them.
-
-- **Use Streams Wisely:** When dealing with large files or data streams, leverage streams to avoid loading everything into memory at once. Choose the appropriate stream type (Readable, Writable, Duplex, Transform) based on your specific needs.
-
-- **Optimize npm Dependencies:** Regularly audit your `package.json` file for outdated or unnecessary dependencies. Use `npm audit` to identify security vulnerabilities and `npm prune` to remove extraneous packages. Consider using tools like `webpack` or `rollup` to bundle your code and reduce the number of files transferred to the client.
-
-- **Implement Caching:** Caching frequently accessed data can significantly improve performance. Use in-memory caches like `node-cache` or distributed caching systems like Redis or Memcached to store data closer to your application.
-
-- **Handle Errors Gracefully:** Implement robust error handling throughout your application. Use `try...catch` blocks to catch synchronous errors and `Promise.catch` or `.then(null, errorHandler)` to handle asynchronous errors. Implement centralized error logging and monitoring to quickly identify and address issues.
-
-- **Secure Your Application:** Follow security best practices to protect your Node.js application from common vulnerabilities. Use tools like `helmet` to secure HTTP headers, `bcrypt` to hash passwords, and `validator` to sanitize user input. Stay up-to-date with the latest security advisories and apply patches promptly.
-
-- **Scale with Clustering:** Take advantage of Node.js's built-in `cluster` module to fork multiple worker processes and distribute incoming requests across them. This can significantly improve performance on multi-core systems. Consider using process managers like `pm2` to automate the clustering process and provide additional features like automatic restarts and load balancing.
-
-- **Monitor Performance:** Implement comprehensive monitoring to track key performance metrics like CPU usage, memory consumption, and response times. Use tools like `New Relic`, `AppDynamics`, or `Prometheus` to collect and visualize these metrics. Set up alerts to notify you of potential issues before they impact your users.
-
-- **Stay Updated:** The Node.js ecosystem is constantly evolving. Keep up with the latest releases, best practices, and security advisories by following the Node.js blog, attending conferences, and participating in online communities.
-
-By following these practical tips, you can build robust, scalable, and performant Node.js applications that meet the demands of modern web development. This helps you move beyond theoretical understanding and into real-world application.
-
-Let's conclude with a call to action to encourage you to continue learning and experimenting.
-
-## Call to Action
-
-Ready to put your Node.js skills to the test? Now's the time to dive in and apply what you've learned. Start by experimenting with the concepts and techniques discussed in this blog post. Try building a small application, optimizing its performance, and deploying it to a production environment.
-
-> "The best way to learn Node.js is by doing," says seasoned developer Mark Thompson. "Don't be afraid to experiment, break things, and learn from your mistakes."
-
-Here are a few specific actions you can take:
-
-- **Build a Simple API:** Create a RESTful API using Express.js and connect it to a database. Focus on implementing efficient data retrieval and manipulation techniques.
-- **Optimize a Slow Application:** Identify a Node.js application that suffers from performance issues and use the techniques discussed in this post to optimize its performance.
-- **Contribute to Open Source:** Find a Node.js open-source project that interests you and contribute bug fixes, new features, or documentation improvements.
-
-Don't forget to share your experiences, challenges, and successes with the Node.js community. Engage in discussions, ask questions, and offer your expertise to help others learn and grow.
-
-What are your biggest takeaways from this deep dive? What specific areas of Node.js are you most excited to explore further? Share your thoughts and questions in the comments below! Let's continue the conversation and learn from each other.
-
-## Conclusion
-
-We've covered a lot of ground in this deep dive into Node.js, from its fundamental architecture and event loop mechanics to advanced performance optimization techniques and practical tips. Hopefully, you now have a much stronger grasp of how Node.js works under the hood and how to leverage its full potential.
-
-> "Node.js is more than just a runtime environment; it's a powerful platform for building scalable, real-time applications," concludes lead architect Sarah Chen. "Embrace its asynchronous nature, optimize your code, and you'll be amazed at what you can achieve."
-
-The key takeaways from our journey include:
-
-- **Understanding the Event Loop:** Essential for writing non-blocking, efficient code.
-- **Mastering Modules:** Leveraging core, local, and third-party modules effectively.
-- **Optimizing Performance:** Avoiding blocking operations, using streams, and caching data.
-- **Applying Best Practices:** Securing your application, handling errors gracefully, and monitoring performance.
-
-Remember, the journey doesn't end here. Node.js is a constantly evolving ecosystem, and continuous learning is crucial for staying ahead of the curve. Keep experimenting, building, and contributing to the community.
-
-Thank you for joining me on this deep dive into Node.js. I hope this has been a valuable and insightful experience. Now, go forth and build amazing things!
+- [Node.js: About Node.js](https://nodejs.org/en/about)
+- [Node.js: The event loop, timers, and `nextTick`](https://nodejs.org/en/learn/asynchronous-work/event-loop-timers-and-nexttick)
+- [Node.js: Do not block the event loop or worker pool](https://nodejs.org/en/learn/asynchronous-work/dont-block-the-event-loop)
+- [Node.js worker threads documentation](https://nodejs.org/api/worker_threads.html)
+- [Node.js streams documentation](https://nodejs.org/api/stream.html)
+- [Node.js packages documentation](https://nodejs.org/api/packages.html)
+- [Node.js performance hooks documentation](https://nodejs.org/api/perf_hooks.html)

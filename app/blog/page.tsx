@@ -17,7 +17,7 @@ export default function BlogIndexPage() {
 
   return (
     <main className={styles.page}>
-      <BlogReveal className={styles.content} sequential>
+      <BlogReveal className={styles.content}>
         <BlogRevealItem delay={0.14}>
           <article className={styles.featured}>
             <Link className={styles.artwork} href={`/blog/${featured.slug}`} aria-label={`Read ${featured.title}`}>

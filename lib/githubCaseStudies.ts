@@ -671,9 +671,9 @@ python3 scripts/validate-skills.py`,
 
   "understanding-software": {
     name: "Understanding Software",
-    dateLine: "July 2026 · Editorial Design, Development, AI Workflow",
+    dateLine: "July 2026 · Weekend project · Design, development, and AI workflow",
     description:
-      "An interactive visual field guide and artifact studio that turns software questions into structured, illustrated documents.",
+      "A landing-page clone that turned into an AI-assisted platform for making software explanations easier to understand.",
     image: {
       src: "/projects/understanding-software-zine.png",
       alt: "A blue technical field guide titled Understanding Software",
@@ -681,34 +681,35 @@ python3 scripts/validate-skills.py`,
       height: 1024,
     },
     introduction: [
-      "Understanding Software is an interactive visual field guide for people who use, design, or build software. It starts from physical actions and follows them through interface, application, runtime, and data layers so a reader can see what the phrase 'the software did it' leaves out.",
-      "The larger product is an Artifact Studio for software literacy. A reader asks about a concept, system, or line of code. The agent plans a complete field guide, writes its sections, creates explanatory figures when prose is not enough, and assembles a document the reader can revise and keep.",
+      "Understanding Software started as a weekend clone of Dan Hollick's Making Software website. I loved his work and wanted to see whether I could recreate that technical field-guide style myself.",
+      "There was no larger product idea at first. It was a design problem. I worked closely with an AI agent, gave it very specific visual instructions, reviewed what it produced, and kept iterating until the page felt right.",
     ],
     metadata: [
-      { title: "My contributions", items: ["Editorial system", "Interaction design", "Full-stack development"] },
+      { title: "Project type", items: ["Weekend project", "Design experiment", "AI collaboration"] },
+      { title: "What it became", items: ["Visual field guide", "Artifact Studio"] },
       { title: "Artifact output", items: ["2 to 8 sections", "Up to 4 figures", "Markdown and DOCX"] },
-      { title: "Runtime", items: ["Next.js", "Vercel AI SDK", "OpenAI and Google"] },
     ],
     sections: [
       {
-        title: "The field guide it is becoming",
+        title: "It started as a clone",
         paragraphs: [
-          "The authored field guide and the generative studio are meant to reinforce each other. Published chapters establish the visual grammar and teach durable mental models. The studio lets a reader bring the question the fixed chapters did not anticipate and receive an illustrated explanation in the same editorial form.",
-          "The useful end state is a growing library of software explanations plus personal artifacts that can be revised, shared, cited, downloaded, and revisited. The product should help a curious non-specialist move from 'it just works' to a concrete picture of the layers and tradeoffs involved.",
+          "Making Software gave me the basic reference: dense editorial layouts, blue technical drawings, grid paper, numbered figures, and explanations that treat diagrams as part of the writing.",
+          "I did not begin by trying to invent another educational platform. I wanted to understand how that visual system worked by rebuilding something similar. The clone was the exercise.",
         ],
       },
       {
-        title: "What works now",
+        title: "The design was the hardest part",
         paragraphs: [
-          "The opening field guide is live with custom accessible SVG diagrams for a signal stack, software stack, key-switch cutaway, and system map. The Artifact Studio accepts a question and first produces a typed plan with two to eight sections, zero to four figures, reading time, section responsibilities, and stable IDs.",
-          "Three section writers and two figure jobs can run concurrently. Progress streams into a live document canvas, and a revision keeps unaffected section and figure IDs instead of rebuilding everything. A finished artifact can be copied or downloaded as Markdown or an editable DOCX through @mohtasham/md-to-docx.",
+          "The design is still the part I am most proud of. Getting the page to feel technical without becoming unreadable took a lot of iteration. The typography, spacing, diagrams, borders, labels, and small annotations all had to work together.",
+          "My agent wrote much of the implementation, but it was not a one-prompt build. I directed the work, pointed out what felt wrong, and asked for specific changes. We kept going back and forth until the page matched the idea in my head. A lot of designers I know have seen or used the landing page, and the design is usually what they respond to first.",
         ],
       },
       {
-        title: "What comes next",
+        title: "Then the clone became a product idea",
         paragraphs: [
-          "The next work turns a strong generation demo into a durable learning product. It needs more authored chapters, saved artifact history, shareable links, source and citation handling, and export tests that keep figures, captions, headings, and document structure intact.",
-          "Generated diagrams also need evaluation, not only attractive output. The studio should check whether a figure explains the section, whether its labels and caption agree with the prose, and whether revisions preserve the right parts. Those checks matter more than increasing the number of models or decorative styles.",
+          "While building the clone, I realized the format could explain more than one fixed set of topics. That became the Artifact Studio. A reader asks a software question. The agent plans a field guide with two to eight sections, decides whether diagrams would help, writes the sections, generates the figures, and assembles everything into one live document.",
+          "Revisions preserve sections and figures that still work instead of rebuilding the entire guide. Three section writers and two figure jobs can run at the same time. The finished artifact can be copied or downloaded as Markdown or an editable Word document.",
+          "The exports are useful if someone wants to keep or change the guide. They are also a marketing experiment for my Markdown-to-Docx package. This is not a startup or a finished educational product. It is a weekend project I made for my own satisfaction.",
         ],
       },
     ],
@@ -718,26 +719,95 @@ python3 scripts/validate-skills.py`,
         items: [
           {
             type: "image",
+            src: "/projects/case-studies/making-software-reference.jpg",
+            alt: "The Making Software website by Dan Hollick with blue technical diagrams and editorial columns",
+            width: 1280,
+            height: 720,
+            caption: "Making Software by Dan Hollick was the design reference for the original clone.",
+          },
+          {
+            type: "image",
             src: "/projects/case-studies/understanding-software-landing.png",
             alt: "The Understanding Software field guide with blue technical diagrams of software layers",
             width: 1440,
             height: 900,
-            caption: "The live field guide establishes the visual language the Artifact Studio is meant to extend.",
+            caption: "My version began as an attempt to rebuild the same technical field-guide feeling.",
+          },
+        ],
+      },
+      {
+        afterSection: 1,
+        items: [
+          {
+            type: "image",
+            src: "/projects/case-studies/making-software-reference-detail.jpg",
+            alt: "Making Software diagrams explaining Gaussian blur, Bezier curves, and rasterisation",
+            width: 1280,
+            height: 720,
+            caption: "The reference mixes dense prose with diagrams that carry part of the explanation. Screenshot from Making Software by Dan Hollick.",
           },
         ],
       },
     ],
+    flowFigure: {
+      title: "From one question to a finished field guide",
+      steps: [
+        { title: "Ask", detail: "The reader brings a software question." },
+        { title: "Plan", detail: "The agent defines the sections and useful figures." },
+        { title: "Write and draw", detail: "Section writers and figure jobs run together." },
+        { title: "Stream", detail: "The document assembles while the work finishes." },
+        { title: "Review", detail: "The reader inspects the prose, structure, and diagrams." },
+        { title: "Revise", detail: "Useful sections and figures keep their stable IDs." },
+        { title: "Export", detail: "Copy it or download Markdown or DOCX." },
+      ],
+      caption: "The studio keeps the document visible instead of hiding the work behind a loading screen.",
+      afterSection: 2,
+    },
+    architectureFigure: {
+      title: "How I worked with the agent on the original clone",
+      stages: [
+        {
+          label: "Reference",
+          nodes: [
+            { title: "Making Software", detail: "Layout, typography, diagrams, and annotations" },
+          ],
+        },
+        {
+          label: "Direction",
+          nodes: [
+            { title: "Specific instructions", detail: "What to reproduce and what felt wrong" },
+            { title: "Visual review", detail: "Spacing, hierarchy, labels, and density" },
+          ],
+        },
+        {
+          label: "Agent work",
+          nodes: [
+            { title: "Page implementation", detail: "Next.js, React, and CSS" },
+            { title: "Technical diagrams", detail: "Custom SVG figures and annotations" },
+          ],
+        },
+        {
+          label: "Iteration",
+          nodes: [
+            { title: "Compare and correct", detail: "Repeat until the page matched the intended feeling" },
+          ],
+        },
+      ],
+      caption: "The agent produced much of the code. I directed the visual decisions and the repeated corrections.",
+      afterSection: 1,
+    },
     mappingFigure: {
       sourceLabel: "reader action",
       targetLabel: "studio mechanism",
       rows: [
-        { source: "ask a question", target: "Structured artifact plan" },
-        { source: "revise the outline", target: "Stable section and figure IDs" },
-        { source: "generate", target: "Three writers and two figure jobs" },
-        { source: "finish", target: "Copy, Markdown, or DOCX" },
+        { source: "ask a question", target: "Structured artifact plan", detail: "Two to eight sections and up to four figures" },
+        { source: "approve the plan", target: "Parallel generation", detail: "Three section writers and two figure jobs" },
+        { source: "watch the document", target: "Streamed artifact state", detail: "Sections appear while other jobs continue" },
+        { source: "request a revision", target: "Stable section and figure IDs", detail: "Unaffected work does not regenerate" },
+        { source: "finish", target: "Copy, Markdown, or DOCX", detail: "The document can leave the site" },
       ],
       caption: "The studio keeps the document structure visible while the work runs.",
-      afterSection: 1,
+      afterSection: 2,
     },
     codeFigure: {
       label: "DOCX export",
@@ -754,10 +824,11 @@ python3 scripts/validate-skills.py`,
       afterSection: 2,
     },
     footer: {
-      statement: "A field guide should leave the reader with a model they can inspect, revise, download, and keep.",
+      statement: "I started by cloning a website I loved. Somewhere along the way, it became a way for me and an AI agent to design explanations together.",
       links: [
         { label: "Open the field guide ↗", href: "https://understanding-software.vercel.app" },
         { label: "View the source ↗", href: "https://github.com/MohtashamMurshid/understanding-software" },
+        { label: "View Making Software ↗", href: "https://www.makingsoftware.com" },
       ],
     },
     pageUrl: `${siteUrl}/work/understanding-software`,
@@ -768,9 +839,9 @@ python3 scripts/validate-skills.py`,
 
   getdesign: {
     name: "getdesign",
-    dateLine: "April to July 2026 · Product Design, Agent Engineering, Developer Tools",
+    dateLine: "April 2026 to present · Founder · Solo project with AI agents",
     description:
-      "A design-system extraction product that turns a public URL into a grounded design.md for people and coding agents, with web, skill, API, CLI, SDK, dashboard, and desktop entry points.",
+      "A startup that turns a public webpage into a screenshot and a detailed design.md that coding agents can use to reproduce its visual system.",
     image: {
       src: "/projects/getdesign.png",
       alt: "A getdesign interface card with design tokens and a rendered page",
@@ -778,34 +849,36 @@ python3 scripts/validate-skills.py`,
       height: 1086,
     },
     introduction: [
-      "getdesign is becoming the design system for any public URL. It reads a real rendered page, finds the visual rules behind it, and turns that evidence into a predictable design.md that a person or coding agent can use to build something new without copying the original page blindly.",
-      "The product is planned as one extraction engine with several ways in: a public web app, a portable agent skill, an API, a CLI, typed SDKs, a dashboard, and a desktop app. Each route should return the same grounded account of color, type, components, layout, depth, motion, responsive behavior, and implementation guidance.",
+      "I am not a strong designer, so most of my design work starts with references. I would give an agent a screenshot and ask it to build something similar. It could usually copy the big decisions, but it missed the details that made the original work: the exact colors, border radii, spacing, typography, shadows, and component proportions.",
+      "I built getdesign to give the agent both sides of the reference. It gets a screenshot of the rendered page and a structured design document built from the page's actual CSS.",
     ],
     metadata: [
-      { title: "My contributions", items: ["Product design", "Agent pipeline", "Developer tooling"] },
-      { title: "Grounding sources", items: ["Rendered page", "HTML and CSS", "Computed styles"] },
-      { title: "Surface status", items: ["Public web and skill", "In-repo API, CLI, SDK", "Desktop work"] },
+      { title: "My work", items: ["Founder", "Built alone", "AI agent collaboration"] },
+      { title: "Current access", items: ["Private beta", "Public skill", "Published CLI and SDK"] },
+      { title: "August 2026", items: ["118 waitlist", "46 GitHub stars", "Friends in beta"] },
     ],
     sections: [
       {
-        title: "The product getdesign is becoming",
+        title: "Why a screenshot was not enough",
         paragraphs: [
-          "The finished product should let a designer paste a URL and inspect the result in the browser, let a developer run the same extraction in a terminal or application, and let an agent load the workflow as a skill. A shared schema keeps the result consistent across all of them.",
-          "After the first release, the product plan adds conversational refinement, page comparisons, token exports, more model providers, and integrations for VS Code, Raycast, and Figma. Later work can handle multiple pages, signed-in products, and interactive states. Those jobs need stronger capture and evidence rules before they can be trusted.",
+          "A screenshot tells an agent what the page looks like. It does not reliably tell it whether a card uses a 12px or 16px radius, which gray belongs to a border, or how the spacing changes between sections.",
+          "getdesign collects the page's HTML and stylesheets, renders it in a real browser, and extracts colors, typography, spacing, radii, borders, shadows, and responsive rules. It then combines that evidence with screenshots instead of asking the model to guess everything from pixels.",
+          "I based the file format on Google Labs Code's DESIGN.md idea, then made getdesign's own fixed nine-section contract. Every run returns the same order, including components, layout, depth, interactions, responsive behavior, and an agent prompt guide.",
         ],
       },
       {
-        title: "What works now",
+        title: "The Daytona implementation",
         paragraphs: [
-          "The public web app, documentation site, and portable agent skill work today. The agent validates the URL, fetches the page and linked stylesheets, checks available theme modes, captures what the browser renders, and extracts colors, type, spacing, radii, shadows, borders, and breakpoints. It then writes the same nine-section document every time.",
-          "The default branch also has a Hono API with regular and streamed routes, a Bun CLI that writes local run folders, a TypeScript SDK, a dashboard, and an Electron app. Those are working beta implementations in the repository. They do not have GitHub releases yet, so I do not describe them as broadly shipped products.",
+          "The Daytona capture system was the hardest part to build, and it is the part I am most proud of. Each run creates a temporary Daytona sandbox and launches Chromium inside it. getdesign measures the rendered page, captures it in viewport-sized tiles, scrolls through the full page, and stitches those tiles into one screenshot. The sandbox is deleted after the run.",
+          "This took far more work than calling a screenshot API. Pages load at different speeds, some continue growing as they scroll, fixed headers appear in every tile, and the browser can report a page as ready before the visual layout has settled.",
         ],
       },
       {
-        title: "What comes next",
+        title: "What works today and what still breaks",
         paragraphs: [
-          "The immediate work is to make the API, CLI, SDK, dashboard, and desktop app release-ready around the shared pipeline. That means stable package contracts, authentication and usage controls for hosted runs, reliable streaming, better failure recovery, versioned output, and documentation that matches the code.",
-          "The extraction itself also needs broader site coverage and sharper proof. A concrete value belongs in design.md only when getdesign can trace it to CSS, a computed style, or a visible pixel. If there is no evidence for a hex value or measurement, the document should describe the pattern instead of inventing a token.",
+          "getdesign is ready for private beta clients. A few friends use it, but the hosted extractor is not publicly available yet. The agent skill is public and works, although it is less reliable than the complete Daytona pipeline. The CLI and TypeScript SDK are published. The dashboard, documentation, and desktop app also work. The hosted API is not ready.",
+          "The weakest part is fetching the page source and CSS. Some sites render most of their interface on the server. Others inject styles after JavaScript runs, lazy-load assets, hide files behind authentication, or ship more CSS than the fetcher can reasonably process. The screenshot shows what appeared, but the crawler may still miss the rule that produced it.",
+          "getdesign is one of my startup projects, but Oikina gets most of my time. getdesign will stay open source. The business would come from hosted runs through a subscription, usage pricing, or a mix of both. I have not settled on the model yet.",
         ],
       },
     ],
@@ -819,7 +892,7 @@ python3 scripts/validate-skills.py`,
             alt: "The getdesign landing page with a URL input and an example design document",
             width: 1440,
             height: 900,
-            caption: "The public web app starts with a URL and produces a design system grounded in the inspected page.",
+            caption: "The private-beta product starts with a URL and returns a screenshot plus design.md.",
           },
         ],
       },
@@ -831,40 +904,95 @@ python3 scripts/validate-skills.py`,
             src: "/projects/case-studies/getdesign-launch.mp4",
             poster: "/projects/case-studies/getdesign-landing.png",
             label: "getdesign launch film",
-            caption: "The repository's launch film shows the product story and the design.md workflow.",
+            caption: "The launch film shows the URL-to-design.md product story.",
           },
         ],
       },
     ],
-    mappingFigure: {
-      sourceLabel: "source evidence",
-      targetLabel: "pipeline result",
-      rows: [
-        { source: "URL + HTML + CSS", target: "Crawl summary and source inventory" },
-        { source: "rendered page", target: "Screenshots and capture tiles" },
-        { source: "rules + visible pixels", target: "Tokens and visual description" },
-        { source: "grounded draft", target: "Nine-section design.md" },
+    flowFigure: {
+      title: "How getdesign captures a full page",
+      steps: [
+        { title: "Create a sandbox", detail: "Start a short-lived Daytona environment." },
+        { title: "Launch Chromium", detail: "Open the submitted URL in kiosk mode." },
+        { title: "Measure the page", detail: "Read the rendered height inside the sandbox." },
+        { title: "Capture tiles", detail: "Screenshot each viewport while moving down the page." },
+        { title: "Stitch the page", detail: "Combine the ordered tiles into one full-page image." },
+        { title: "Delete the sandbox", detail: "Remove the temporary environment after the run." },
       ],
-      caption: "Concrete claims must survive the trip back to source evidence.",
+      caption: "The screenshot comes from a real browser session, not a static HTML preview.",
+      afterSection: 1,
+    },
+    architectureFigure: {
+      title: "One extraction pipeline, several ways in",
+      stages: [
+        {
+          label: "Entry points",
+          nodes: [
+            { title: "Hosted web", detail: "Private beta" },
+            { title: "Agent skill", detail: "Public, lighter capture path" },
+            { title: "CLI and SDK", detail: "Published packages" },
+            { title: "Hosted API", detail: "Not ready" },
+          ],
+        },
+        {
+          label: "Evidence",
+          nodes: [
+            { title: "Crawler", detail: "HTML, stylesheets, fonts, and CSS rules" },
+            { title: "Daytona", detail: "Rendered page and ordered screenshot tiles" },
+          ],
+        },
+        {
+          label: "Analysis",
+          nodes: [
+            { title: "Token extraction", detail: "Colors, type, spacing, radii, borders, and shadows" },
+            { title: "Visual description", detail: "What the full rendered page actually shows" },
+            { title: "Structured synthesis", detail: "Validated nine-section document" },
+          ],
+        },
+        {
+          label: "Output",
+          nodes: [
+            { title: "Full-page screenshot", detail: "The visual reference" },
+            { title: "design.md", detail: "Exact values and instructions for the coding agent" },
+          ],
+        },
+      ],
+      caption: "The screenshot and CSS evidence meet in the same structured result.",
+      afterSection: 1,
+    },
+    mappingFigure: {
+      sourceLabel: "what the agent misses",
+      targetLabel: "what getdesign adds",
+      rows: [
+        { source: "exact colors", target: "CSS-backed palette", detail: "Values come from fetched and rendered styles" },
+        { source: "border radius", target: "Radius scale", detail: "Repeated values become usable rules" },
+        { source: "spacing rhythm", target: "Layout guidance", detail: "Section and component spacing are recorded" },
+        { source: "type hierarchy", target: "Typography roles", detail: "Family, size, weight, and line height" },
+        { source: "below-the-fold design", target: "Full-page capture", detail: "Ordered tiles cover the complete landing page" },
+        { source: "how to apply it", target: "Agent prompt guide", detail: "The last section turns evidence into instructions" },
+      ],
+      caption: "The document carries the small decisions that a screenshot leaves ambiguous.",
       afterSection: 0,
     },
     codeFigure: {
-      label: "Portable agent skill",
-      fileName: "terminal",
-      code: `# Install the skill into a supported coding agent
-npx skills add MohtashamMurshid/getdesign
+      label: "Published CLI and SDK",
+      fileName: "terminal + app.ts",
+      code: `# CLI
+npx @getdesign/cli https://cursor.com --out design.md
 
-# Then ask:
-Extract the design system from https://cursor.com into design.md`,
-      command: "npx skills add MohtashamMurshid/getdesign",
-      caption: "The public skill uses the host agent's browser and file tools.",
-      afterSection: 1,
+# TypeScript SDK
+import { getDesign } from "@getdesign/sdk";
+const result = await getDesign("https://cursor.com");`,
+      command: "npx @getdesign/cli https://cursor.com --out design.md",
+      caption: "The CLI and TypeScript SDK are published, although the hosted product is still private beta.",
+      afterSection: 2,
     },
     footer: {
-      statement: "The promise is simple: turn a real page into design instructions that can show their work.",
+      statement: "I built getdesign because 'make it look like this screenshot' was never enough. The agent needed the page and the small design decisions hiding behind it.",
       links: [
         { label: "Open getdesign ↗", href: "https://getdesign.app" },
         { label: "View the source ↗", href: "https://github.com/MohtashamMurshid/getdesign" },
+        { label: "Google DESIGN.md spec ↗", href: "https://github.com/google-labs-code/design.md" },
       ],
     },
     pageUrl: `${siteUrl}/work/getdesign`,
