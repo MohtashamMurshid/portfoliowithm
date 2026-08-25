@@ -44,10 +44,11 @@ const logoBlobs: Array<{ cx: number; cy: number; r: number; style: BlobStyle }> 
 export default function SiteHeader() {
   const pathname = usePathname();
   const overlaysPage = pathname === "/" || pathname === "/work" || pathname === "/about" || pathname === "/blog";
+  const keepsHeaderVisible = pathname === "/books";
 
   return (
     <>
-      <header className={styles.header}>
+      <header className={`${styles.header} ${keepsHeaderVisible ? styles.fixedHeader : ""}`}>
         <Link className={styles.mark} href="/" aria-label="Mohtasham, home">
           <span className={styles.logoTile} aria-hidden="true">
             <svg className={styles.logoBlobs} viewBox="0 0 48 48">
@@ -76,8 +77,6 @@ export default function SiteHeader() {
           {navItems.map((item) => {
             const active = item.href === "/"
               ? pathname === "/"
-              : item.href === "/about"
-                ? pathname === "/about" || pathname === "/books"
               : item.href.startsWith("/") && (pathname === item.href || pathname.startsWith(`${item.href}/`));
 
             return item.href.startsWith("http") ? (

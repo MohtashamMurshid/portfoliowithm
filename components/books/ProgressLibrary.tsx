@@ -12,6 +12,7 @@ export function ProgressLibrary() {
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   const [mode, setMode] = useState<ShelfMode>("browse");
   const [ready, setReady] = useState(false);
+  const [shelfStatus, setShelfStatus] = useState("Loading the shelf");
 
   const activeBook = catalog[activeIndex];
   const selectedBook = useMemo(
@@ -41,12 +42,13 @@ export function ProgressLibrary() {
             setMode(nextMode);
             setSelectedIndex(index);
           },
-          onStatus: () => undefined,
+          onStatus: setShelfStatus,
           onReady: () => setReady(true),
         });
         engineRef.current = engine;
       } catch (error) {
         console.error("The bookshelf could not start.", error);
+        setShelfStatus("The shelf could not load.");
       }
     }
 
@@ -72,6 +74,17 @@ export function ProgressLibrary() {
         tabIndex={0}
         aria-label={`Interactive three-dimensional shelf of ${catalog.length} books. Drag or use the arrow keys to browse. Press Enter to inspect the selected book.`}
       />
+
+      <div className="shelf-loader" aria-hidden={ready} aria-live="polite">
+        <div className="shelf-loader__books" aria-hidden="true">
+          <i />
+          <i />
+          <i />
+          <i />
+          <i />
+        </div>
+        <p>{shelfStatus}</p>
+      </div>
 
       <section
         className="browse-caption"

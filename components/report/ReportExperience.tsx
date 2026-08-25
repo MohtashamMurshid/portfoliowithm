@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import Image from "@/components/PortfolioImage";
 import Link from "next/link";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { ArrowLeft, ArrowRight, ArrowUpRight, Mail, Volume2, VolumeX } from "lucide-react";
@@ -260,7 +260,7 @@ export default function ReportExperience({ npmDownloadText }: ReportExperiencePr
                 src="/report/getdesign-interface.png"
                 alt="The public getdesign interface showing its design-system extraction workflow."
                 fill
-                sizes="48vw"
+                sizes="(max-width: 899px) 90vw, 48vw"
                 className="report-ui-shot"
               />
             </div>
@@ -365,13 +365,12 @@ export default function ReportExperience({ npmDownloadText }: ReportExperiencePr
               </p>
               <div className="report-note-links">
                 <Link href="/blog">Technical writing <ArrowUpRight aria-hidden="true" /></Link>
-                <Link href="/gallery">Visual archive <ArrowUpRight aria-hidden="true" /></Link>
                 <a href="https://www.researchgate.net/profile/Mohtasham-Madani">Research record <ArrowUpRight aria-hidden="true" /></a>
               </div>
             </div>
             <div className="report-photo-pair">
-              <figure><Image src="/gallery/IMG_0566.jpg" alt="A photograph from Mohtasham's visual archive." fill sizes="28vw" /><figcaption>Field image 01</figcaption></figure>
-              <figure><Image src="/gallery/IMG_0607.jpg" alt="A second photograph from Mohtasham's visual archive." fill sizes="28vw" /><figcaption>Field image 02</figcaption></figure>
+              <figure><Image src="/report/field-image-01.jpg" alt="A photograph from Mohtasham's visual archive." fill sizes="(max-width: 899px) 44vw, 28vw" /><figcaption>Field image 01</figcaption></figure>
+              <figure><Image src="/report/field-image-02.jpg" alt="A second photograph from Mohtasham's visual archive." fill sizes="(max-width: 899px) 44vw, 28vw" /><figcaption>Field image 02</figcaption></figure>
             </div>
           </motion.div>
           <Folio number="09" label="Field notes" />

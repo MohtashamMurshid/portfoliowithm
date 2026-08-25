@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import Image from "@/components/PortfolioImage";
 import Link from "next/link";
 import { motion, useMotionValue, useReducedMotion } from "framer-motion";
 import { useEffect, useRef, useState, type PointerEvent, type ReactNode } from "react";
@@ -20,10 +20,9 @@ const milestones = [
 ];
 
 const entranceDelay = {
-  mat: 0.06,
-  notebook: 0.46,
-  pen: 0.85,
-  article: 1.49,
+  mat: 0.02,
+  notebook: 0.14,
+  pen: 0.26,
 } as const;
 
 const personalPhotos = [
@@ -95,13 +94,13 @@ function DraggableAsset({
     <motion.figure
       aria-label={`${label}, draggable`}
       className={`${styles.draggable} ${isDragging ? styles.dragging : ""} ${className}`}
-      initial={reduceMotion ? false : { opacity: 0, scale: 0.94 }}
+      initial={reduceMotion ? false : { opacity: 0, scale: 0.97 }}
       animate={{ opacity: 1, scale: 1 }}
       onPointerDown={handlePointerDown}
       style={{ x, y }}
       transition={{
         delay: reduceMotion ? 0 : delay,
-        duration: reduceMotion ? 0 : 0.44,
+        duration: reduceMotion ? 0 : 0.62,
         ease: [0.22, 1, 0.36, 1],
       }}
     >
@@ -208,7 +207,7 @@ function PersonalPhotoStack() {
         Close
       </button>
       <div className={styles.lightboxFrame} onClick={(event) => event.stopPropagation()}>
-        <Image alt={selectedPhoto.alt} fill sizes="100vw" src={selectedPhoto.src} />
+        <Image alt={selectedPhoto.alt} fill loading="eager" sizes="100vw" src={selectedPhoto.src} />
       </div>
     </div>
   ) : null;
@@ -243,7 +242,7 @@ export default function AboutExperience() {
     <main className={styles.page}>
       <section className={styles.desk} aria-label="A draggable desk assembled from generated objects">
         <DraggableAsset className={styles.mat} delay={entranceDelay.mat} label="A worn green cutting mat">
-          <Image src="/about/cutting-mat.png" alt="" fill priority sizes="(max-width: 720px) 110vw, 76vw" />
+          <Image src="/about/cutting-mat.png" alt="" fill priority sizes="(max-width: 720px) 96vw, 42rem" />
         </DraggableAsset>
         <DraggableAsset className={styles.notebook} delay={entranceDelay.notebook} label="An open grid-paper notebook">
           <Image
@@ -251,7 +250,7 @@ export default function AboutExperience() {
             alt=""
             fill
             priority
-            sizes="(max-width: 720px) 92vw, 55vw"
+            sizes="(max-width: 720px) 80vw, 29rem"
           />
           <div className={styles.notebookNote} aria-hidden="true">
             <time dateTime="2026-08-26">26 / 08 / 2026</time>
@@ -261,21 +260,12 @@ export default function AboutExperience() {
         </DraggableAsset>
         <DraggableAsset className={styles.pen} delay={entranceDelay.pen} label="An orange fountain pen">
           <span className={styles.penArt}>
-            <Image src="/about/orange-pen.png" alt="" fill loading="eager" sizes="(max-width: 720px) 38vw, 14rem" unoptimized />
+            <Image src="/about/orange-pen.png" alt="" fill sizes="(max-width: 720px) 7.2rem, 13.7rem" />
           </span>
         </DraggableAsset>
       </section>
 
-      <motion.article
-        animate={{ opacity: 1, y: 0 }}
-        className={styles.article}
-        initial={reduceMotion ? false : { opacity: 0, y: 24 }}
-        transition={{
-          delay: reduceMotion ? 0 : entranceDelay.article,
-          duration: reduceMotion ? 0 : 0.48,
-          ease: [0.22, 1, 0.36, 1],
-        }}
-      >
+      <article className={styles.article}>
         <header className={styles.intro}>
           <h1>Hi, I&apos;m Mohtasham.</h1>
           <p className={styles.updated}>Updated Aug 26, 2026</p>
@@ -352,8 +342,8 @@ export default function AboutExperience() {
         <section className={styles.prose} aria-label="Life away from work">
           <h2>Away from work</h2>
           <p>
-            When I&apos;m away from my computer, I sleep. A lot. I play Valorant—mostly
-            Viper, Omen, and Jett—and watch scripted Minecraft videos.
+            When I&apos;m away from my computer, I sleep. A lot. I play Valorant, mostly
+            Viper, Omen, and Chamber. I also watch scripted Minecraft videos.
           </p>
           <p>
             I ski in Gulmarg almost every year. It is my retreat and one of the few
@@ -388,7 +378,7 @@ export default function AboutExperience() {
             through <Link href="/work">my work</Link>.
           </p>
         </footer>
-      </motion.article>
+      </article>
     </main>
   );
 }

@@ -1,4 +1,4 @@
-import Image from "next/image";
+import Image from "@/components/PortfolioImage";
 import styles from "./FutureLetter.module.css";
 
 export default function FutureLetter() {

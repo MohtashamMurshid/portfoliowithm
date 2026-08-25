@@ -1,4 +1,4 @@
-import Image from "next/image";
+import Image from "@/components/PortfolioImage";
 import Link from "next/link";
 import { ViewTransition, type ReactNode } from "react";
 import type { Project } from "@/lib/projects";

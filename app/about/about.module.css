@@ -37,6 +37,8 @@
   filter: drop-shadow(0 22px 20px rgb(54 44 32 / 14%));
   touch-action: none;
   user-select: none;
+  backface-visibility: hidden;
+  will-change: transform, opacity;
 }
 
 .draggable img {
@@ -48,6 +50,7 @@
 .dragging {
   cursor: grabbing;
   z-index: 20 !important;
+  filter: none;
 }
 
 .mat {

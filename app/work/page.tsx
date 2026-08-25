@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import Image from "next/image";
+import Image from "@/components/PortfolioImage";
 import Link from "next/link";
 import { ViewTransition } from "react";
 import WorkEntrance from "@/components/work/WorkEntrance";

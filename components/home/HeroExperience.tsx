@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import Image from "@/components/PortfolioImage";
 import { motion, useReducedMotion, type MotionProps } from "framer-motion";
 import ContactCta from "./ContactCta";
 import FutureLetter from "./FutureLetter";
@@ -96,23 +96,31 @@ export default function HeroExperience() {
         </DraggableObject>
 
         <DraggableObject className={styles.watch} entrance={{ x: "34vw", y: "-34vh", delay: 0.16 }} label="A blue Arabic-dial Seiko watch" reducedMotion={reduceMotion}>
-          <Image src="/hero/seiko-arabic-blue.png" alt="" fill priority sizes="(max-width: 720px) 22vw, 11vw" />
+          <Image src="/hero/seiko-arabic-blue.png" alt="" fill sizes="(max-width: 720px) 22vw, 11vw" />
         </DraggableObject>
 
         <DraggableObject className={styles.monitor} entrance={{ x: "48vw", y: "32vh", delay: 0.22 }} label="A monitor playing Valorant" reducedMotion={reduceMotion}>
           <div className={styles.monitorScreen} aria-hidden="true">
-            <Image src="/hero/valorant-icebox.gif" alt="" fill unoptimized sizes="20vw" />
+            <video
+              autoPlay
+              loop
+              muted
+              playsInline
+              poster="/hero/valorant-icebox-poster.jpg"
+              preload="auto"
+              src="/hero/valorant-icebox.mp4"
+            />
             <span>VALORANT</span>
           </div>
           <Image src="/hero/monitor.png" alt="" fill priority sizes="(max-width: 720px) 52vw, 30vw" />
         </DraggableObject>
 
         <DraggableObject className={styles.skis} entrance={{ x: "-42vw", y: "34vh", delay: 0.4 }} label="A pair of alpine skis" reducedMotion={reduceMotion}>
-          <Image src="/hero/alpine-skis.png" alt="" fill priority sizes="(max-width: 720px) 34vw, 15vw" />
+          <Image src="/hero/alpine-skis.png" alt="" fill sizes="(max-width: 720px) 34vw, 15vw" />
         </DraggableObject>
 
         <DraggableObject className={styles.pen} entrance={{ x: "-22vw", y: "40vh", delay: 0.34 }} label="A translucent blue pen" reducedMotion={reduceMotion}>
-          <Image src="/hero/pen.png" alt="" fill priority sizes="(max-width: 720px) 18vw, 10vw" />
+          <Image src="/hero/pen.png" alt="" fill sizes="(max-width: 720px) 18vw, 10vw" />
         </DraggableObject>
 
         <DraggableObject className={styles.camera} entrance={{ x: "-38vw", y: "-12vh", delay: 0.46 }} label="A Fujifilm camera facing forward" reducedMotion={reduceMotion}>
@@ -120,11 +128,11 @@ export default function HeroExperience() {
         </DraggableObject>
 
         <DraggableObject className={styles.oikina} entrance={{ x: "4vw", y: "44vh", delay: 0.28 }} href="https://oikina.com" label="Visit Oikina" reducedMotion={reduceMotion}>
-          <Image src="/hero/oikina-badge.png" alt="" fill priority sizes="(max-width: 720px) 38vw, 15vw" />
+          <Image src="/hero/oikina-badge.png" alt="" fill sizes="(max-width: 720px) 38vw, 15vw" />
         </DraggableObject>
 
         <DraggableObject className={styles.nameTag} entrance={{ x: "18vw", y: "-38vh", delay: 0.1 }} label="Hello, my name is Mohtasham" reducedMotion={reduceMotion}>
-          <Image src="/hero/name-tag.png" alt="" fill priority sizes="(max-width: 720px) 36vw, 15vw" />
+          <Image src="/hero/name-tag.png" alt="" fill sizes="(max-width: 720px) 36vw, 15vw" />
         </DraggableObject>
 
         <motion.div

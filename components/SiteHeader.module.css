@@ -16,6 +16,10 @@
   view-transition-name: site-header;
 }
 
+.fixedHeader {
+  position: fixed;
+}
+
 .mark {
   display: block;
   width: 40px;
