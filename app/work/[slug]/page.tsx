@@ -44,7 +44,7 @@ export default async function WorkPage({ params }: WorkPageProps) {
 
   const githubCaseStudy = githubCaseStudies[project.slug];
   if (githubCaseStudy) {
-    return <GitHubProjectCaseStudy project={githubCaseStudy} />;
+    return <GitHubProjectCaseStudy project={githubCaseStudy} slug={project.slug} />;
   }
 
   return (

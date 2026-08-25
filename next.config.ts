@@ -30,6 +30,9 @@ const contactRedirects = [
 
 const nextConfig: NextConfig = {
   trailingSlash: false,
+  experimental: {
+    viewTransition: true,
+  },
   images: {
     remotePatterns: [
       {

@@ -1,10 +1,12 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
+import { ViewTransition } from "react";
 import WorkEntrance from "@/components/work/WorkEntrance";
 import styles from "./work.module.css";
 
 type WorkItem = {
+  slug: string;
   name: string;
   category: string;
   date: string;
@@ -14,6 +16,7 @@ type WorkItem = {
 };
 
 const featured: WorkItem = {
+  slug: "oikina",
   name: "Oikina",
   category: "Enterprise software",
   date: "Building now",
@@ -24,6 +27,7 @@ const featured: WorkItem = {
 
 const work: WorkItem[] = [
   {
+    slug: "iris",
     name: "Iris",
     category: "Open-source camera",
     date: "Aug 24, 2026",
@@ -31,6 +35,7 @@ const work: WorkItem[] = [
     image: "/projects/iris-camera.png",
   },
   {
+    slug: "skills",
     name: "Skills",
     category: "Agent tooling",
     date: "Aug 22, 2026",
@@ -38,6 +43,7 @@ const work: WorkItem[] = [
     image: "/projects/agent-skills.png",
   },
   {
+    slug: "markdown-to-docx",
     name: "md-to-docx",
     category: "Developer tool",
     date: "Aug 21, 2026",
@@ -45,6 +51,7 @@ const work: WorkItem[] = [
     image: "/projects/md-to-docx.png",
   },
   {
+    slug: "eikon-studio",
     name: "Eikon Studio",
     category: "AI image studio",
     date: "Aug 20, 2026",
@@ -52,6 +59,7 @@ const work: WorkItem[] = [
     image: "/projects/eikon-studio.png",
   },
   {
+    slug: "understanding-software",
     name: "Understanding Software",
     category: "Interactive field guide",
     date: "Jul 31, 2026",
@@ -59,6 +67,7 @@ const work: WorkItem[] = [
     image: "/projects/understanding-software-zine.png",
   },
   {
+    slug: "getdesign",
     name: "getdesign",
     category: "Design infrastructure",
     date: "Jul 20, 2026",
@@ -103,14 +112,16 @@ function ProjectLink({ item, featuredCard = false }: { item: WorkItem; featuredC
       rel={external ? "noreferrer" : undefined}
     >
       <span className={featuredCard ? styles.featuredImage : styles.projectImage}>
-        <Image
-          src={item.image}
-          alt=""
-          fill
-          priority={featuredCard}
-          loading={featuredCard ? undefined : "eager"}
-          sizes={featuredCard ? "(max-width: 720px) 92vw, 660px" : "(max-width: 720px) 88vw, 280px"}
-        />
+        <ViewTransition name={`work-image-${item.slug}`} share="work-image-morph">
+          <Image
+            src={item.image}
+            alt=""
+            fill
+            priority={featuredCard}
+            loading={featuredCard ? undefined : "eager"}
+            sizes={featuredCard ? "(max-width: 720px) 92vw, 660px" : "(max-width: 720px) 88vw, 280px"}
+          />
+        </ViewTransition>
       </span>
       <span className={styles.projectMeta}>
         <strong>{item.name}</strong>

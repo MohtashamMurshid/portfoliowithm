@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import type { ReactNode } from "react";
+import { ViewTransition, type ReactNode } from "react";
 import styles from "./GitHubProjectCaseStudy.module.css";
 
 export type GitHubProjectImage = {
@@ -111,6 +111,7 @@ export type GitHubProjectCaseStudyData = {
 
 export type GitHubProjectCaseStudyProps = {
   project: GitHubProjectCaseStudyData;
+  slug: string;
   backHref?: string;
 };
 
@@ -169,6 +170,7 @@ function isExternalLink(link: GitHubProjectFooterLink): boolean {
 
 export default function GitHubProjectCaseStudy({
   project,
+  slug,
   backHref = "/work",
 }: GitHubProjectCaseStudyProps) {
   const author = project.author ?? {
@@ -206,14 +208,16 @@ export default function GitHubProjectCaseStudy({
         </div>
 
         <figure className={styles.cover}>
-          <Image
-            src={project.image.src}
-            alt={project.image.alt}
-            width={project.image.width}
-            height={project.image.height}
-            priority
-            sizes="(max-width: 760px) 72vw, 520px"
-          />
+          <ViewTransition name={`work-image-${slug}`} share="work-image-morph">
+            <Image
+              src={project.image.src}
+              alt={project.image.alt}
+              width={project.image.width}
+              height={project.image.height}
+              priority
+              sizes="(max-width: 760px) 72vw, 520px"
+            />
+          </ViewTransition>
         </figure>
 
         <section className={styles.introduction} aria-label="Project introduction">

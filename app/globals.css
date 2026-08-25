@@ -163,3 +163,19 @@
 .animate-fadeIn {
   animation: fadeIn 0.2s ease-out forwards;
 }
+
+::view-transition-group(.work-image-morph) {
+  z-index: 50;
+  animation-duration: 620ms;
+  animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+::view-transition-image-pair(.work-image-morph) {
+  isolation: auto;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(.work-image-morph) {
+    animation-duration: 0.01ms;
+  }
+}

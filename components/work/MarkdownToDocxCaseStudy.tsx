@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import type { ReactNode } from "react";
+import { ViewTransition, type ReactNode } from "react";
 import type { Project } from "@/lib/projects";
 import styles from "./MarkdownToDocxCaseStudy.module.css";
 
@@ -152,14 +152,16 @@ export default async function MarkdownToDocxCaseStudy({ project }: MarkdownToDoc
         </div>
 
         <figure className={styles.cover}>
-          <Image
-            src="/projects/md-to-docx.png"
-            alt="A machine transforming a Markdown sheet into a formatted document"
-            width={1536}
-            height={1024}
-            priority
-            sizes="(max-width: 760px) 60vw, 420px"
-          />
+          <ViewTransition name={`work-image-${project.slug}`} share="work-image-morph">
+            <Image
+              src="/projects/md-to-docx.png"
+              alt="A machine transforming a Markdown sheet into a formatted document"
+              width={1536}
+              height={1024}
+              priority
+              sizes="(max-width: 760px) 60vw, 420px"
+            />
+          </ViewTransition>
         </figure>
 
         <section className={styles.introduction} aria-label="Project introduction">
