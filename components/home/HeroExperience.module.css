@@ -111,10 +111,16 @@
 .object {
   position: absolute;
   z-index: 5;
+  filter: drop-shadow(0 18px 18px rgb(56 45 34 / 16%));
+}
+
+.dragTarget {
+  position: absolute;
+  inset: 0;
+  display: block;
   cursor: grab;
   touch-action: none;
   user-select: none;
-  filter: drop-shadow(0 18px 18px rgb(56 45 34 / 16%));
 }
 
 .object img {

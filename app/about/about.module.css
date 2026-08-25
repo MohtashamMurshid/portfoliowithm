@@ -1,0 +1,461 @@
+.page {
+  --paper: #f5f3ed;
+  --ink: #2d2b27;
+  --muted: #8a867d;
+  --orange: #e8753f;
+  min-height: 100svh;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 50% 8%, rgb(255 255 255 / 90%), transparent 42rem),
+    var(--paper);
+  color: var(--ink);
+  font-family: var(--font-interface-sans), Arial, sans-serif;
+}
+
+.page::before {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  pointer-events: none;
+  content: "";
+  opacity: 0.22;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.72' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.11'/%3E%3C/svg%3E");
+  mix-blend-mode: multiply;
+}
+
+.desk {
+  position: relative;
+  width: min(64rem, calc(100% - 48px));
+  height: clamp(500px, 52vw, 620px);
+  margin: 0 auto;
+  padding-top: 100px;
+}
+
+.draggable {
+  position: absolute;
+  z-index: 1;
+  margin: 0;
+  cursor: grab;
+  filter: drop-shadow(0 22px 20px rgb(54 44 32 / 14%));
+  touch-action: none;
+  user-select: none;
+}
+
+.draggable img {
+  object-fit: contain;
+  pointer-events: none;
+  user-select: none;
+}
+
+.dragging {
+  cursor: grabbing;
+  z-index: 20 !important;
+}
+
+.mat {
+  top: 16%;
+  left: 11%;
+  width: 78%;
+  aspect-ratio: 1.5;
+  rotate: -1.5deg;
+}
+
+.notebook {
+  top: 26%;
+  left: 24%;
+  z-index: 3;
+  width: 54%;
+  aspect-ratio: 1.5;
+  rotate: -5deg;
+}
+
+.pen {
+  top: 26%;
+  left: 64%;
+  z-index: 5;
+  width: 48px;
+  height: 240px;
+  filter: none;
+}
+
+.penArt {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 225px;
+  aspect-ratio: 1.5;
+  filter: drop-shadow(0 16px 14px rgb(54 44 32 / 14%));
+  pointer-events: none;
+  transform: translate(-50%, -50%) rotate(51deg);
+}
+
+.notebookNote {
+  position: absolute;
+  top: 30%;
+  right: 13%;
+  z-index: 2;
+  width: 36%;
+  rotate: -1deg;
+  color: #59554e;
+  font-family: var(--font-handwriting), cursive;
+  text-align: center;
+}
+
+.notebookNote time {
+  display: block;
+  margin-bottom: 12%;
+  font-family: var(--font-registry), monospace;
+  font-size: clamp(6px, .65vw, 10px);
+}
+
+.notebookNote p {
+  margin: 0;
+  font-size: clamp(11px, 1.45vw, 22px);
+  line-height: 1.05;
+}
+
+.notebookNote span {
+  display: block;
+  margin-top: 8%;
+  font-size: clamp(9px, 1vw, 16px);
+  text-align: right;
+}
+
+.article {
+  padding-bottom: 100px;
+}
+
+.intro,
+.prose,
+.footer {
+  width: min(42rem, calc(100% - 48px));
+  margin-inline: auto;
+}
+
+.intro h1 {
+  margin: 0;
+  font-family: var(--font-interface-serif), Georgia, serif;
+  font-size: clamp(38px, 4vw, 50px);
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: -.03em;
+}
+
+.updated {
+  margin: 8px 0 0;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.intro blockquote {
+  position: relative;
+  width: min(42rem, calc(100vw - 48px));
+  margin: 72px 50% 96px;
+  translate: -50% 0;
+  font-family: var(--font-interface-serif), Georgia, serif;
+  font-size: clamp(28px, 3.2vw, 42px);
+  font-style: italic;
+  line-height: 1.18;
+  text-align: center;
+}
+
+.intro blockquote > span {
+  position: absolute;
+  color: rgb(45 43 39 / 14%);
+  font-size: 92px;
+  font-style: normal;
+  line-height: 1;
+}
+
+.intro blockquote > span:first-child {
+  top: -32px;
+  left: -10px;
+}
+
+.intro blockquote > span:last-child {
+  right: 0;
+  bottom: -70px;
+}
+
+.intro blockquote em {
+  position: relative;
+  display: inline-block;
+  color: var(--orange);
+  font-weight: 400;
+}
+
+.intro blockquote em::after {
+  position: absolute;
+  inset: -8px -15px -5px;
+  border: 3px solid var(--orange);
+  border-radius: 48% 52% 46% 54%;
+  content: "";
+  rotate: -2deg;
+}
+
+.prose {
+  color: #5d5952;
+  font-size: 15px;
+  line-height: 1.85;
+}
+
+.prose p {
+  margin: 0;
+}
+
+.prose p + p {
+  margin-top: 30px;
+}
+
+.dropCap::first-letter {
+  float: left;
+  margin: 7px 4px 0 0;
+  color: var(--ink);
+  font-family: var(--font-interface-serif), Georgia, serif;
+  font-size: 48px;
+  line-height: .7;
+}
+
+.sketches {
+  position: relative;
+  width: min(52rem, calc(100% - 32px));
+  height: clamp(280px, 40vw, 500px);
+  margin: 96px auto 110px;
+  rotate: -1deg;
+}
+
+.prose h2 {
+  margin: 76px 0 18px;
+  color: var(--ink);
+  font-family: var(--font-interface-serif), Georgia, serif;
+  font-size: 30px;
+  font-weight: 400;
+  line-height: 1;
+}
+
+.journey {
+  width: min(58rem, calc(100% - 32px));
+  margin: 120px auto 100px;
+}
+
+.journeyHeading {
+  display: flex;
+  width: min(42rem, 100%);
+  margin: 0 auto 18px;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.journeyHeading p,
+.journeyHeading span {
+  margin: 0;
+}
+
+.journeyHeading p {
+  color: var(--ink);
+  font-family: var(--font-interface-serif), Georgia, serif;
+  font-size: 26px;
+}
+
+.journeyHeading span {
+  color: var(--muted);
+  font-size: 11px;
+}
+
+.journey svg {
+  display: block;
+  width: 100%;
+  overflow: visible;
+}
+
+.journeyPath {
+  fill: none;
+  stroke: #7ba1a0;
+  stroke-dasharray: 7 7;
+  stroke-linecap: round;
+  stroke-width: 1.7;
+}
+
+.milestone line {
+  stroke: #ee8d63;
+  stroke-linecap: round;
+  stroke-width: 1.8;
+}
+
+.milestone text,
+.nowMarker text {
+  fill: #668b8b;
+  font-family: var(--font-handwriting), cursive;
+  font-size: 19px;
+}
+
+.nowMarker line,
+.nowMarker path {
+  fill: var(--orange);
+  stroke: var(--orange);
+  stroke-width: 1.5;
+}
+
+.nowMarker text {
+  fill: var(--orange);
+  text-anchor: middle;
+}
+
+.traveller {
+  fill: var(--orange);
+  filter: drop-shadow(0 0 5px rgb(232 117 63 / 60%));
+}
+
+.closing {
+  margin-top: 24px;
+}
+
+.underlined {
+  display: inline-block;
+  padding-bottom: 2px;
+  border-bottom: 3px solid #ee8d63;
+  color: var(--ink);
+  font-size: 17px;
+  font-weight: 650;
+  rotate: -.4deg;
+}
+
+.signature {
+  margin-top: 58px !important;
+  color: #45423d;
+  font-family: var(--font-handwriting), cursive;
+  font-size: 58px;
+  line-height: .8;
+}
+
+.signatureDate {
+  margin-top: 12px !important;
+  color: #a29d92;
+  font-family: var(--font-handwriting), cursive;
+  font-size: 21px;
+}
+
+.footer {
+  margin-top: 100px;
+  padding-top: 22px;
+  border-top: 1px dashed rgb(45 43 39 / 16%);
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.footer a {
+  color: #5c5851;
+  text-underline-offset: 3px;
+}
+
+@media (max-width: 720px) {
+  .desk {
+    width: 100%;
+    height: 450px;
+    padding-top: 72px;
+  }
+
+  .mat {
+    top: 18%;
+    left: 2%;
+    width: 96%;
+  }
+
+  .notebook {
+    top: 28%;
+    left: 10%;
+    width: 80%;
+  }
+
+  .pen {
+    top: 23%;
+    left: 67%;
+    width: 40px;
+    height: 190px;
+  }
+
+  .penArt {
+    width: 140px;
+  }
+
+  .notebookNote {
+    top: 29%;
+    right: 12%;
+  }
+
+  .intro,
+  .prose,
+  .footer {
+    width: min(100% - 32px, 35rem);
+  }
+
+  .intro h1 {
+    font-size: 38px;
+  }
+
+  .intro blockquote {
+    margin-top: 60px;
+    margin-bottom: 82px;
+    font-size: clamp(28px, 7.5vw, 36px);
+  }
+
+  .intro blockquote > span {
+    font-size: 64px;
+  }
+
+  .intro blockquote > span:first-child {
+    top: -26px;
+    left: 3px;
+  }
+
+  .intro blockquote > span:last-child {
+    right: 2px;
+    bottom: -55px;
+  }
+
+  .prose {
+    font-size: 14.5px;
+    line-height: 1.8;
+  }
+
+  .sketches {
+    height: 300px;
+    margin-top: 75px;
+    margin-bottom: 85px;
+  }
+
+  .journey {
+    width: calc(100% - 18px);
+    margin-top: 100px;
+    margin-bottom: 80px;
+  }
+
+  .journeyHeading {
+    width: calc(100% - 14px);
+  }
+
+  .journeyHeading span {
+    display: none;
+  }
+
+  .journey svg {
+    min-width: 0;
+    translate: none;
+  }
+
+  .milestone text,
+  .nowMarker text {
+    font-size: 24px;
+  }
+
+  .footer {
+    margin-top: 72px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .draggable {
+    cursor: default;
+  }
+}

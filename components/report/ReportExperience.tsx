@@ -139,7 +139,7 @@ export default function ReportExperience({ npmDownloadText }: ReportExperiencePr
           <span>{spreadLabels[activeSpread]}</span>
         </div>
         <div className="report-chrome-actions">
-          <Link href="/archive">Archive</Link>
+          <Link href="/work#archive">Past editions</Link>
           <button
             onClick={() => setSoundEnabled((enabled) => !enabled)}
             aria-label={soundEnabled ? "Turn sound off" : "Turn sound on"}
@@ -390,7 +390,7 @@ export default function ReportExperience({ npmDownloadText }: ReportExperiencePr
               <a href="https://github.com/mohtashammurshid">GitHub</a>
               <a href="https://www.linkedin.com/in/mohtashammurshid/">LinkedIn</a>
               <a href="https://x.com/mohtashamdotdev">X</a>
-              <Link href="/archive">Archive</Link>
+              <Link href="/work#archive">Past editions</Link>
             </div>
             <div className="report-seal" aria-hidden="true"><span>OII</span><small>01</small></div>
             <p className="report-fineprint">Designed and assembled in Kuala Lumpur · Set in EB Garamond and IBM Plex Mono · 2026</p>

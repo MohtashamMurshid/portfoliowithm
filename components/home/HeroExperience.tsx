@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { motion, useReducedMotion, type MotionProps } from "framer-motion";
+import ContactCta from "./ContactCta";
 import FutureLetter from "./FutureLetter";
 import ProjectCollage from "./ProjectCollage";
 import styles from "./HeroExperience.module.css";
@@ -37,22 +38,33 @@ function DraggableObject({
         },
       };
 
+  const interactionMotion: MotionProps = {
+    drag: true,
+    dragMomentum: false,
+    dragElastic: 0.12,
+    whileHover: reducedMotion
+      ? undefined
+      : { scale: 1.025, transition: { duration: 0.18, ease: "easeOut" } },
+    whileTap: { scale: 0.98, cursor: "grabbing", transition: { duration: 0.08 } },
+    transition: { scale: { duration: 0.18, ease: "easeOut" } },
+  };
+
   if (href) {
     return (
-      <motion.a
+      <motion.div
         className={`${styles.object} ${className}`}
         {...entranceMotion}
-        href={href}
-        draggable={false}
-        drag
-        dragMomentum={false}
-        dragElastic={0.12}
-        whileHover={reducedMotion ? undefined : { scale: 1.025, transition: { duration: 0.18, ease: "easeOut" } }}
-        whileTap={{ scale: 0.98, cursor: "grabbing" }}
-        aria-label={`${label}, draggable link`}
       >
-        {children}
-      </motion.a>
+        <motion.a
+          className={styles.dragTarget}
+          {...interactionMotion}
+          href={href}
+          draggable={false}
+          aria-label={`${label}, draggable link`}
+        >
+          {children}
+        </motion.a>
+      </motion.div>
     );
   }
 
@@ -60,15 +72,15 @@ function DraggableObject({
     <motion.div
       className={`${styles.object} ${className}`}
       {...entranceMotion}
-      drag
-      dragMomentum={false}
-      dragElastic={0.12}
-      whileHover={reducedMotion ? undefined : { scale: 1.025, transition: { duration: 0.18, ease: "easeOut" } }}
-      whileTap={{ scale: 0.98, cursor: "grabbing" }}
-      aria-label={`${label}, draggable decoration`}
-      role="img"
     >
-      {children}
+      <motion.div
+        className={styles.dragTarget}
+        {...interactionMotion}
+        aria-label={`${label}, draggable decoration`}
+        role="img"
+      >
+        {children}
+      </motion.div>
     </motion.div>
   );
 }
@@ -146,6 +158,7 @@ export default function HeroExperience() {
 
       <FutureLetter />
       <ProjectCollage />
+      <ContactCta />
 
       <span id="about" className={styles.anchor} aria-hidden="true" />
     </main>

@@ -69,6 +69,23 @@ const work: WorkItem[] = [
 
 const archive = [featured, ...work];
 
+const portfolioEditions = [
+  {
+    number: "01",
+    title: "The plain portfolio",
+    taste: "My sensible phase",
+    description: "Dark mode, skills grids, GitHub stats, and everything in its proper box.",
+    href: "/archive/1",
+  },
+  {
+    number: "02",
+    title: "The field report",
+    taste: "My editorial phase",
+    description: "A landscape dossier with archival birds, official stamps, and plenty of ceremony.",
+    href: "/archive/2",
+  },
+];
+
 export const metadata: Metadata = {
   title: "Work",
   description: "Selected projects and experiments by Mohtasham Murshid Madani.",
@@ -135,6 +152,31 @@ export default function WorkIndexPage() {
                 </Link>
               );
             })}
+          </div>
+
+          <div className={styles.editions}>
+            <div className={styles.editionsHeading}>
+              <p>Portfolio time capsule</p>
+              <span>Designs I used to like enough to ship.</span>
+            </div>
+            <div className={styles.archiveList}>
+              {portfolioEditions.map((edition) => (
+                <Link
+                  className={`${styles.archiveRow} ${styles.editionRow}`}
+                  href={edition.href}
+                  key={edition.number}
+                >
+                  <span className={styles.archiveName}>
+                    <strong>{edition.title}</strong>
+                    <small className={styles.editionBadge}>Old site</small>
+                  </span>
+                  <span className={styles.category}>
+                    {edition.taste}. {edition.description}
+                  </span>
+                  <span className={styles.editionNumber}>Edition {edition.number}</span>
+                </Link>
+              ))}
+            </div>
           </div>
         </section>
       </div>

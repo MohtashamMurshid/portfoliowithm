@@ -24,7 +24,7 @@
 }
 
 .content {
-  width: min(820px, calc(100% - 48px));
+  width: min(42rem, calc(100% - 48px));
   margin: 0 auto;
   padding-top: 88px;
   padding-bottom: 150px;
@@ -136,6 +136,58 @@
   margin-top: 25px;
 }
 
+.editions {
+  margin-top: 88px;
+  padding-top: 22px;
+  border-top: 1px dashed rgb(48 45 39 / 20%);
+}
+
+.editionsHeading {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.editionsHeading p,
+.editionsHeading span {
+  margin: 0;
+}
+
+.editionsHeading p {
+  font-family: var(--font-interface-serif), Georgia, serif;
+  font-size: clamp(26px, 2.7vw, 36px);
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: -.015em;
+}
+
+.editionsHeading span {
+  color: #8c877d;
+  font-size: 11px;
+}
+
+.editionRow .category {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-transform: none;
+  white-space: nowrap;
+}
+
+.archiveName .editionBadge {
+  border-color: rgb(220 113 61 / 28%);
+  background: rgb(220 113 61 / 10%);
+  color: #a24f2b;
+}
+
+.editionNumber {
+  color: #969187;
+  font-size: 10px;
+  text-align: right;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
 .archiveRow {
   display: grid;
   min-height: 67px;
@@ -236,6 +288,16 @@
     margin-top: 110px;
   }
 
+  .editions {
+    margin-top: 68px;
+  }
+
+  .editionsHeading {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 8px;
+  }
+
   .archiveRow {
     min-height: 72px;
     grid-template-columns: minmax(0, 1fr) auto;
@@ -253,6 +315,11 @@
     grid-column: 2;
     grid-row: 1 / span 2;
     font-size: 10px;
+  }
+
+  .editionNumber {
+    grid-column: 2;
+    grid-row: 1 / span 2;
   }
 }
 

@@ -1,0 +1,217 @@
+.section {
+  position: relative;
+  min-height: 920px;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 50% 32%, rgb(255 255 255 / 68%), transparent 30rem),
+    #f3f0e8;
+  color: #292722;
+}
+
+.stitch {
+  position: absolute;
+  top: 35px;
+  right: 2vw;
+  left: 2vw;
+  height: 18px;
+  opacity: .46;
+  background: no-repeat center / 100% 100% url("data:image/svg+xml,%3Csvg viewBox='0 0 1200 20' preserveAspectRatio='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 11 C84 2 120 17 201 9 S337 16 412 8 S553 15 630 8 S773 15 854 7 S1004 14 1080 7 S1143 13 1199 6' fill='none' stroke='%23aaa69c' stroke-width='3' stroke-linecap='round' stroke-dasharray='20 19'/%3E%3C/svg%3E");
+}
+
+.inner {
+  box-sizing: border-box;
+  display: flex;
+  width: min(820px, calc(100% - 48px));
+  min-height: 920px;
+  margin: 0 auto;
+  padding: 150px 0 42px;
+  flex-direction: column;
+}
+
+.copy {
+  text-align: center;
+}
+
+.eyebrow {
+  margin: 0 0 12px;
+  color: #9a7461;
+  font-family: var(--font-registry), monospace;
+  font-size: 10px;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+
+.copy h2 {
+  margin: 0;
+  font-family: var(--font-interface-serif), Georgia, serif;
+  font-size: clamp(30px, 3vw, 43px);
+  font-weight: 400;
+  line-height: 1.03;
+  letter-spacing: -.018em;
+}
+
+.noteWrap {
+  position: relative;
+  width: 355px;
+  margin: 100px auto 0;
+}
+
+.note {
+  position: relative;
+  display: flex;
+  width: 300px;
+  aspect-ratio: 1;
+  margin-left: 0;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  background:
+    linear-gradient(118deg, rgb(255 255 255 / 14%), transparent 32%),
+    #f3d68e;
+  color: #343129;
+  font-family: var(--font-handwriting), "Comic Sans MS", cursive;
+  font-size: 67px;
+  font-weight: 600;
+  line-height: .72;
+  text-decoration: none;
+  box-shadow: 1px 14px 24px rgb(69 56 38 / 18%);
+  transform: rotate(-1.6deg);
+  transition: box-shadow 190ms ease, transform 190ms ease;
+}
+
+.note::after {
+  position: absolute;
+  right: 13px;
+  bottom: 11px;
+  width: 44px;
+  height: 38px;
+  background: linear-gradient(135deg, transparent 48%, rgb(119 93 51 / 10%) 49%);
+  content: "";
+}
+
+.note:hover,
+.note:focus-visible {
+  outline: none;
+  box-shadow: 2px 19px 30px rgb(69 56 38 / 24%);
+  transform: translateY(-7px) rotate(1deg);
+}
+
+.underlined {
+  position: relative;
+}
+
+.underlined::after {
+  position: absolute;
+  right: -3px;
+  bottom: -19px;
+  left: -4px;
+  height: 12px;
+  background: no-repeat center / 100% 100% url("data:image/svg+xml,%3Csvg viewBox='0 0 100 12' preserveAspectRatio='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M2 7 C22 2 38 9 55 5 S80 8 98 4' fill='none' stroke='%23635b47' stroke-width='2.2' stroke-linecap='round'/%3E%3C/svg%3E");
+  content: "";
+}
+
+.annotation {
+  position: absolute;
+  top: -50px;
+  left: 265px;
+  z-index: 2;
+  width: 145px;
+  font-family: var(--font-handwriting), "Comic Sans MS", cursive;
+  font-size: 31px;
+  line-height: 1;
+  transform: rotate(8deg);
+  white-space: nowrap;
+}
+
+.annotation svg {
+  position: absolute;
+  top: 24px;
+  right: 12px;
+  width: 145px;
+  overflow: visible;
+}
+
+.annotation path {
+  fill: none;
+  stroke: #dc713d;
+  stroke-width: 6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.footer {
+  display: flex;
+  margin-top: auto;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 30px;
+  color: #969187;
+  font-family: var(--font-interface-sans), Arial, sans-serif;
+  font-size: 10px;
+  line-height: 1.6;
+}
+
+.footer p {
+  margin: 0;
+}
+
+.footer a {
+  color: #625e56;
+  text-decoration-color: #b1aca2;
+  text-underline-offset: 3px;
+}
+
+@media (max-width: 720px) {
+  .section,
+  .inner {
+    min-height: 790px;
+  }
+
+  .inner {
+    width: min(100% - 32px, 560px);
+    padding-top: 120px;
+    padding-bottom: 28px;
+  }
+
+  .copy h2 {
+    font-size: clamp(32px, 9vw, 43px);
+  }
+
+  .copy h2 br {
+    display: none;
+  }
+
+  .noteWrap {
+    width: 280px;
+    margin-top: 94px;
+  }
+
+  .note {
+    width: 250px;
+    font-size: 58px;
+  }
+
+  .annotation {
+    top: -46px;
+    left: 192px;
+    font-size: 26px;
+  }
+
+  .annotation svg {
+    top: 20px;
+    right: 24px;
+    width: 120px;
+  }
+
+  .footer {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 8px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .note {
+    transition: none;
+  }
+}

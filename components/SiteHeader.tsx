@@ -10,8 +10,8 @@ import styles from "./SiteHeader.module.css";
 const navItems = [
   { label: "Home", href: "/" },
   { label: "Work", href: "/work" },
+  { label: "About", href: "/about" },
   { label: "Blog", href: "https://blog.mohtasham.dev" },
-  { label: "Archive", href: "/archive" },
 ];
 
 type BlobStyle = CSSProperties & {
@@ -43,12 +43,10 @@ const logoBlobs: Array<{ cx: number; cy: number; r: number; style: BlobStyle }> 
 
 export default function SiteHeader() {
   const pathname = usePathname();
-  const overlaysPage = pathname === "/" || pathname === "/work";
+  const overlaysPage = pathname === "/" || pathname === "/work" || pathname === "/about";
   const toneClass = overlaysPage
     ? ""
-    : pathname === "/archive"
-      ? styles.paper
-      : pathname === "/archive/2"
+    : pathname === "/archive/2"
         ? styles.report
         : pathname === "/work/markdown-to-docx"
           ? styles.document
