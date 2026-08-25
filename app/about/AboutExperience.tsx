@@ -257,6 +257,9 @@ export default function AboutExperience() {
 
         <footer className={styles.footer}>
           <p>
+            <Link href="/books">Check my favorite books</Link>.
+          </p>
+          <p>
             You can <a href="mailto:mohtashammurshid@gmail.com">email me</a>, find me on{" "}
             <a href="https://x.com/mohtashamdotdev">X</a> and{" "}
             <a href="https://www.linkedin.com/in/mohtashammurshid/">LinkedIn</a>, or look

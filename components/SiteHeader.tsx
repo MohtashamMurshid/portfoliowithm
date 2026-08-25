@@ -48,7 +48,7 @@ export default function SiteHeader() {
       ? ""
       : pathname === "/archive/2"
         ? styles.report
-        : pathname.startsWith("/work/")
+        : pathname.startsWith("/work/") || pathname === "/books"
           ? styles.document
           : styles.plain;
 
@@ -83,6 +83,8 @@ export default function SiteHeader() {
           {navItems.map((item) => {
             const active = item.href === "/"
               ? pathname === "/"
+              : item.href === "/about"
+                ? pathname === "/about" || pathname === "/books"
               : item.href.startsWith("/") && (pathname === item.href || pathname.startsWith(`${item.href}/`));
 
             return item.href.startsWith("http") ? (

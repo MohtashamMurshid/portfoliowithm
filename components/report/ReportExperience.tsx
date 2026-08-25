@@ -139,6 +139,7 @@ export default function ReportExperience({ npmDownloadText }: ReportExperiencePr
           <span>{spreadLabels[activeSpread]}</span>
         </div>
         <div className="report-chrome-actions">
+          <Link href="/books">Shelf</Link>
           <Link href="/work#archive">Past editions</Link>
           <button
             onClick={() => setSoundEnabled((enabled) => !enabled)}
