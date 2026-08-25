@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
+import BlogReveal from "@/components/blog/BlogReveal";
 import { blogPosts, formatBlogDate } from "@/lib/blogPosts";
 import styles from "./blog.module.css";
 
@@ -16,7 +17,7 @@ export default function BlogIndexPage() {
 
   return (
     <main className={styles.page}>
-      <div className={styles.content}>
+      <BlogReveal className={styles.content}>
         <article className={styles.featured}>
           <Link className={styles.artwork} href={`/blog/${featured.slug}`} aria-label={`Read ${featured.title}`}>
             <Image
@@ -47,7 +48,7 @@ export default function BlogIndexPage() {
             ))}
           </div>
         </section>
-      </div>
+      </BlogReveal>
     </main>
   );
 }

@@ -21,37 +21,38 @@
 }
 
 .article {
-  width: min(812px, calc(100% - 48px));
+  width: min(42rem, calc(100% - 48px));
   margin: 0 auto;
-  padding: 38px 0 112px;
+  padding: 32px 0 96px;
 }
 
 .header h1 {
   margin: 0;
   font-family: var(--font-interface-serif), Georgia, serif;
-  font-size: clamp(42px, 4.5vw, 52px);
+  font-size: clamp(30px, 3.2vw, 38px);
   font-weight: 400;
-  line-height: 1.04;
-  letter-spacing: -.03em;
+  line-height: 1.08;
+  letter-spacing: -.025em;
 }
 
 .header time {
   display: block;
-  margin-top: 10px;
+  margin-top: 7px;
   color: var(--muted);
   font-family: var(--font-interface-sans), Arial, sans-serif;
-  font-size: 17px;
+  font-size: 13px;
 }
 
 .hero {
   position: relative;
-  width: 100%;
+  width: min(52rem, calc(100vw - 48px));
   aspect-ratio: 2.32 / 1;
-  margin-top: 28px;
+  margin: 22px 50% 0;
   overflow: hidden;
   border: 1px solid rgb(55 53 47 / 7%);
   border-radius: 4px;
   background: #f7f5ef;
+  transform: translateX(-50%);
 }
 
 .hero img {
@@ -60,11 +61,11 @@
 }
 
 .prose {
-  padding-top: 50px;
+  padding-top: 38px;
   color: #55524c;
   font-family: var(--font-interface-sans), Arial, sans-serif;
-  font-size: 17px;
-  line-height: 1.68;
+  font-size: 15px;
+  line-height: 1.72;
 }
 
 .prose > :first-child { margin-top: 0; }
@@ -79,23 +80,28 @@
 }
 
 .prose h2 {
-  margin: 2.2em 0 .65em;
-  font-size: clamp(29px, 4vw, 38px);
+  margin: 2em 0 .6em;
+  font-size: clamp(24px, 3vw, 30px);
   line-height: 1.15;
 }
 
 .prose h3 {
   margin: 1.9em 0 .55em;
-  font-size: 25px;
+  font-size: 21px;
   line-height: 1.25;
 }
 
 .prose h4 {
   margin: 1.7em 0 .45em;
-  font-size: 21px;
+  font-size: 18px;
 }
 
-.prose p { margin: 0 0 1.25em; }
+.prose p {
+  margin: 0 0 1.25em;
+  hyphens: auto;
+  text-align: justify;
+  text-justify: inter-word;
+}
 
 .prose a {
   color: #d65f30;
@@ -112,20 +118,23 @@
   padding-left: 1.35em;
 }
 
-.prose li { margin: .42em 0; }
+.prose li {
+  margin: .42em 0;
+  text-align: justify;
+}
 .prose li::marker { color: var(--orange); }
 
 .prose blockquote {
   margin: 2em 0;
-  padding: .25em 0 .25em 22px;
+  padding: .25em 0 .25em 18px;
   border-left: 2px solid var(--orange);
   color: #66625b;
   font-family: var(--font-interface-serif), Georgia, serif;
-  font-size: 1.15em;
+  font-size: 1.1em;
   font-style: italic;
 }
 
-.prose blockquote p { margin: 0; }
+.prose blockquote p { margin: 0; text-align: left; }
 
 .prose code {
   padding: .12em .34em;
@@ -137,15 +146,18 @@
 }
 
 .prose pre {
-  max-width: 100%;
-  margin: 1.8em 0;
+  box-sizing: border-box;
+  width: min(52rem, calc(100vw - 48px));
+  max-width: none;
+  margin: 1.8em 50%;
   overflow-x: auto;
-  padding: 20px 22px;
+  padding: 17px 19px;
   border-radius: 4px;
   background: #292b27;
   color: #f4f0e7;
-  font-size: 14px;
+  font-size: 12.5px;
   line-height: 1.6;
+  transform: translateX(-50%);
 }
 
 .prose pre code {
@@ -157,18 +169,19 @@
 
 .prose table {
   display: block;
-  width: 100%;
-  margin: 2em 0;
+  width: min(52rem, calc(100vw - 48px));
+  margin: 2em 50%;
   overflow-x: auto;
   border-collapse: collapse;
-  font-size: 12px;
+  font-size: 11px;
   line-height: 1.45;
+  transform: translateX(-50%);
 }
 
 .prose th,
 .prose td {
-  min-width: 120px;
-  padding: 10px 12px;
+  min-width: 110px;
+  padding: 8px 10px;
   border: 1px solid rgb(55 53 47 / 15%);
   text-align: left;
   vertical-align: top;
@@ -182,11 +195,12 @@
 
 .prose img {
   display: block;
-  width: 100%;
+  width: min(52rem, calc(100vw - 48px));
   height: auto;
-  margin: 2em 0 .6em;
+  margin: 2em 50% .6em;
   border-radius: 4px;
   filter: saturate(.85);
+  transform: translateX(-50%);
 }
 
 .prose hr {
@@ -196,11 +210,11 @@
 }
 
 .footer {
-  margin-top: 72px;
+  margin-top: 60px;
   padding-top: 20px;
   border-top: 1px dashed rgb(55 53 47 / 16%);
   font-family: var(--font-interface-sans), Arial, sans-serif;
-  font-size: 14px;
+  font-size: 12px;
 }
 
 .footer a {
@@ -210,29 +224,34 @@
 
 @media (max-width: 720px) {
   .article {
-    width: min(100% - 36px, 620px);
-    padding-top: 28px;
-    padding-bottom: 84px;
+    width: min(100% - 32px, 35rem);
+    padding-top: 24px;
+    padding-bottom: 72px;
   }
 
-  .header h1 { font-size: clamp(39px, 11vw, 52px); }
-  .header time { font-size: 15px; }
+  .header h1 { font-size: clamp(29px, 8vw, 36px); }
+  .header time { font-size: 12px; }
 
   .hero {
     width: calc(100vw - 20px);
-    margin: 24px 50% 0;
+    margin: 20px 50% 0;
     transform: translateX(-50%);
   }
 
   .prose {
-    padding-top: 36px;
-    font-size: 16px;
-    line-height: 1.7;
+    padding-top: 30px;
+    font-size: 14px;
+    line-height: 1.72;
+  }
+
+  .prose pre,
+  .prose table,
+  .prose img {
+    width: calc(100vw - 20px);
   }
 
   .prose pre {
-    margin-inline: -8px;
-    padding: 16px;
-    font-size: 12px;
+    padding: 14px;
+    font-size: 11px;
   }
 }

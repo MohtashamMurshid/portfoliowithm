@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import BlogReveal from "@/components/blog/BlogReveal";
 import MarkdownArticle from "@/components/blog/MarkdownArticle";
 import {
   blogPosts,
@@ -64,28 +65,30 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 
   return (
     <main className={styles.page}>
-      <article className={styles.article}>
-        <header className={styles.header}>
-          <h1>{post.title}</h1>
-          <time dateTime={post.date}>{formatBlogDate(post.date)}</time>
-        </header>
+      <BlogReveal>
+        <article className={styles.article}>
+          <header className={styles.header}>
+            <h1>{post.title}</h1>
+            <time dateTime={post.date}>{formatBlogDate(post.date)}</time>
+          </header>
 
-        <div className={styles.hero}>
-          <Image
-            src={post.image}
-            alt={post.imageAlt}
-            fill
-            priority
-            sizes="(max-width: 860px) 100vw, 812px"
-          />
-        </div>
+          <div className={styles.hero}>
+            <Image
+              src={post.image}
+              alt={post.imageAlt}
+              fill
+              priority
+              sizes="(max-width: 860px) 100vw, 832px"
+            />
+          </div>
 
-        <MarkdownArticle body={body} />
+          <MarkdownArticle body={body} />
 
-        <footer className={styles.footer}>
-          <Link href="/blog">← All blogs</Link>
-        </footer>
-      </article>
+          <footer className={styles.footer}>
+            <Link href="/blog">← All blogs</Link>
+          </footer>
+        </article>
+      </BlogReveal>
 
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: schema }} />
     </main>
