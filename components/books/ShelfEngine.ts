@@ -69,7 +69,6 @@ type RuntimeBook = {
 const shelfTop = 0.34;
 const browseCamera = new THREE.Vector3(0, 1.42, 6.65);
 const browseTarget = new THREE.Vector3(0, 1.28, 0.15);
-const pageColor = new THREE.Color("#faf9f7");
 const shelfColor = new THREE.Color("#5a4132");
 const clamp = THREE.MathUtils.clamp;
 const focusInDuration = 0.46;
@@ -158,6 +157,7 @@ export class ShelfEngine {
   private callbacks: ShelfCallbacks;
   private renderer: THREE.WebGLRenderer;
   private scene = new THREE.Scene();
+  private pageColor: THREE.Color;
   private camera: THREE.PerspectiveCamera;
   private controls: OrbitControls;
   private shelfGroup = new THREE.Group();
@@ -213,6 +213,10 @@ export class ShelfEngine {
     this.canvas = canvas;
     this.booksData = books;
     this.callbacks = callbacks;
+    const sitePaper = getComputedStyle(document.documentElement)
+      .getPropertyValue("--site-paper")
+      .trim();
+    this.pageColor = new THREE.Color(sitePaper || "#f3f0e8");
     this.reducedMotion = window.matchMedia(
       "(prefers-reduced-motion: reduce)",
     ).matches;
@@ -275,8 +279,8 @@ export class ShelfEngine {
   }
 
   private setupScene() {
-    this.scene.background = new THREE.Color("#faf9f7");
-    this.scene.fog = new THREE.Fog("#faf9f7", 10, 26);
+    this.scene.background = this.pageColor.clone();
+    this.scene.fog = new THREE.Fog(this.pageColor, 10, 26);
 
     const hemisphere = new THREE.HemisphereLight("#fff8ea", "#6e5848", 2.4);
     this.scene.add(hemisphere);
@@ -419,7 +423,7 @@ export class ShelfEngine {
       clearcoatRoughness: 0.7,
     });
     const paperMaterial = new THREE.MeshStandardMaterial({
-      color: pageColor,
+      color: this.pageColor,
       roughness: 0.88,
       metalness: 0,
     });

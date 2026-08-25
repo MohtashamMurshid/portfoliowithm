@@ -101,6 +101,7 @@ export const githubCaseStudies: Record<string, GitHubProjectCaseStudyData> = {
     dateLine: "August 2026 · Product, Interface Design, Development",
     description:
       "An open-source iPhone camera project currently represented by an interactive Expo interface prototype and an Astro product site.",
+    compactImages: true,
     image: {
       src: "/projects/iris-camera.png",
       alt: "A compact black Iris camera concept",

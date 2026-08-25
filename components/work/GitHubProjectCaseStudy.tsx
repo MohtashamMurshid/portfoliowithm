@@ -79,6 +79,7 @@ export type GitHubProjectCaseStudyData = {
   name: string;
   dateLine: string;
   description: string;
+  compactImages?: boolean;
   image: GitHubProjectImage;
   introduction: readonly [string, string];
   metadata: readonly [
@@ -193,7 +194,7 @@ export default function GitHubProjectCaseStudy({
 
   return (
     <main className={styles.page}>
-      <article className={styles.article}>
+      <article className={`${styles.article} ${project.compactImages ? styles.compactImages : ""}`}>
         <div className={styles.headingRow}>
           <Link className={styles.backButton} href={backHref} aria-label="Back to work">
             <span aria-hidden="true">←</span>
@@ -260,7 +261,13 @@ export default function GitHubProjectCaseStudy({
                           alt={item.alt}
                           width={item.width}
                           height={item.height}
-                          sizes={block.items.length === 1 ? "(max-width: 760px) 94vw, 1080px" : "(max-width: 760px) 46vw, 500px"}
+                          sizes={
+                            project.compactImages
+                              ? "(max-width: 760px) 42vw, 320px"
+                              : block.items.length === 1
+                                ? "(max-width: 760px) 94vw, 1080px"
+                                : "(max-width: 760px) 46vw, 500px"
+                          }
                         />
                       ) : (
                         <video

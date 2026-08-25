@@ -83,6 +83,10 @@
   border-radius: 4px;
 }
 
+.compactImages .cover {
+  width: min(360px, 52%);
+}
+
 .introduction {
   width: min(600px, 100%);
   margin-inline: auto;
@@ -202,6 +206,18 @@
 .mediaPair .mediaItem img {
   max-height: 760px;
   object-fit: contain;
+}
+
+.compactImages .mediaGrid {
+  width: min(680px, calc(100vw - 48px));
+  gap: 14px;
+}
+
+.compactImages .mediaItem img {
+  width: auto;
+  max-width: 100%;
+  max-height: 560px;
+  margin-inline: auto;
 }
 
 .handLabel {
@@ -352,6 +368,7 @@
   .codeWindow pre { min-height: auto; padding: 20px; font-size: 10px; }
   .commandLine { font-size: 10px; }
   .mediaPair { gap: 10px; }
+  .compactImages .mediaGrid { width: calc(100vw - 40px); }
 }
 
 @media (max-width: 480px) {

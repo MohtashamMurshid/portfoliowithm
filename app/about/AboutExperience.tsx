@@ -224,7 +224,12 @@ export default function AboutExperience() {
         </section>
 
         <DraggableAsset className={styles.sketches} label="A collage of technical sketches">
-          <Image src="/about/sketch-collage.png" alt="" fill sizes="(max-width: 720px) 96vw, 62vw" />
+          <Image
+            src="/about/sketch-collage.png"
+            alt=""
+            fill
+            sizes="(max-width: 720px) calc(100vw - 32px), 42rem"
+          />
         </DraggableAsset>
 
         <section className={styles.prose} aria-label="Current work">

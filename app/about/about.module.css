@@ -24,7 +24,7 @@
 .desk {
   position: relative;
   width: min(42rem, calc(100% - 48px));
-  height: clamp(350px, 40vw, 430px);
+  height: clamp(440px, 48vw, 520px);
   margin: 0 auto;
   padding-top: 88px;
 }
@@ -51,28 +51,28 @@
 }
 
 .mat {
-  top: 16%;
-  left: 11%;
-  width: 78%;
+  top: 12%;
+  left: 0;
+  width: 100%;
   aspect-ratio: 1.5;
   rotate: -1.5deg;
 }
 
 .notebook {
-  top: 26%;
-  left: 24%;
+  top: 22%;
+  left: 17%;
   z-index: 3;
-  width: 54%;
+  width: 69%;
   aspect-ratio: 1.5;
   rotate: -5deg;
 }
 
 .pen {
-  top: 26%;
-  left: 64%;
+  top: 22%;
+  left: 68%;
   z-index: 5;
-  width: 38px;
-  height: 180px;
+  width: 49px;
+  height: 231px;
   filter: none;
 }
 
@@ -80,7 +80,7 @@
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 170px;
+  width: 218px;
   aspect-ratio: 1.5;
   filter: drop-shadow(0 16px 14px rgb(54 44 32 / 14%));
   pointer-events: none;
@@ -217,7 +217,7 @@
 .sketches {
   position: relative;
   width: min(42rem, calc(100% - 48px));
-  height: clamp(230px, 32vw, 350px);
+  aspect-ratio: 3 / 2;
   margin: 76px auto 88px;
   rotate: -1deg;
 }
@@ -419,7 +419,6 @@
 
   .sketches {
     width: min(100% - 32px, 35rem);
-    height: 230px;
     margin-top: 64px;
     margin-bottom: 70px;
   }
