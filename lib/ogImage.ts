@@ -1,5 +1,4 @@
 export type OgImageType =
-  | "home"
   | "page"
   | "blog"
   | "project"
