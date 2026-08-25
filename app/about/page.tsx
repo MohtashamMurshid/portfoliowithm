@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import AboutExperience from "./AboutExperience";
 
 export const metadata: Metadata = {
-  title: "About",
+  title: "About Mohtasham",
   description:
-    "About Mohtasham Murshid Madani, a founder and AI engineer based in Kuala Lumpur.",
+    "Mohtasham Murshid Madani is the founder of Oikina, an AI engineer, open-source builder, and researcher based in Kuala Lumpur.",
   alternates: { canonical: "/about" },
 };
 

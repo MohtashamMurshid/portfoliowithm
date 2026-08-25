@@ -8,7 +8,7 @@ const siteUrl = "https://www.mohtasham.dev";
 const homeUrl = `${siteUrl}/`;
 const siteName = "Mohtasham Murshid Madani";
 const siteDescription =
-  "Mohtasham Murshid Madani is an AI Engineer at CitySage, founder of getdesign, and open-source builder creating AI, developer tooling, and web experiences.";
+  "Mohtasham Murshid Madani is the founder of Oikina, an AI engineer at CitySage, an open-source builder, and a researcher based in Kuala Lumpur.";
 
 const editorial = EB_Garamond({
   subsets: ["latin"],
@@ -46,14 +46,14 @@ export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
     default:
-      "Mohtasham Murshid Madani | AI Engineer at CitySage, Founder of getdesign",
+      "Mohtasham Murshid Madani | Founder of Oikina and AI Engineer",
     template: `%s | ${siteName}`,
   },
   description: siteDescription,
   keywords: [
     "Mohtasham Murshid Madani",
     "AI Engineer at CitySage",
-    "getdesign founder",
+    "Oikina founder",
     "open-source builder",
     "Software Engineer",
     "AI Researcher",
@@ -72,7 +72,7 @@ export const metadata: Metadata = {
     locale: "en_US",
     url: homeUrl,
     siteName: "Mohtasham's Portfolio",
-    title: "Mohtasham Murshid Madani | AI Engineer at CitySage",
+    title: "Mohtasham Murshid Madani | Founder of Oikina and AI Engineer",
     description: siteDescription,
     images: [
       {
@@ -85,7 +85,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Mohtasham Murshid Madani | AI Engineer at CitySage",
+    title: "Mohtasham Murshid Madani | Founder of Oikina and AI Engineer",
     description: siteDescription,
     images: ["/twitter-image.png"],
     creator: "@mohtashamdotdev",

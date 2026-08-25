@@ -205,6 +205,13 @@
   margin-top: 24px;
 }
 
+.prose a {
+  color: var(--ink);
+  text-decoration-color: rgb(232 117 63 / 72%);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 3px;
+}
+
 .dropCap::first-letter {
   float: left;
   margin: 7px 4px 0 0;
@@ -303,6 +310,146 @@
 .traveller {
   fill: var(--orange);
   filter: drop-shadow(0 0 5px rgb(232 117 63 / 60%));
+}
+
+.photoStack {
+  position: relative;
+  width: min(42rem, calc(100% - 48px));
+  height: 500px;
+  margin: 70px auto 94px;
+}
+
+.photoStack::before {
+  position: absolute;
+  top: 13%;
+  right: 1%;
+  width: 38%;
+  height: 21%;
+  border: 2px solid rgb(232 117 63 / 64%);
+  border-radius: 47% 53% 46% 54%;
+  content: "";
+  rotate: 9deg;
+}
+
+.photoStack::after {
+  position: absolute;
+  bottom: 13%;
+  left: 3%;
+  width: 31%;
+  height: 17%;
+  border-top: 2px dashed rgb(102 139 139 / 58%);
+  border-radius: 50%;
+  content: "";
+  rotate: -13deg;
+}
+
+.photoCard {
+  position: absolute;
+  z-index: 1;
+  display: block;
+  padding: 0;
+  overflow: hidden;
+  border: 9px solid #f8f4ea;
+  border-bottom-width: 28px;
+  border-radius: 2px 5px 3px 4px;
+  background: #f8f4ea;
+  box-shadow: 0 17px 28px rgb(54 44 32 / 20%);
+  cursor: zoom-in;
+  transition: z-index 0s, scale 180ms ease, box-shadow 180ms ease;
+}
+
+.photoCard img {
+  object-fit: cover;
+}
+
+.photoCard:nth-of-type(1) {
+  top: 5%;
+  left: 0;
+  width: 59%;
+  aspect-ratio: 4 / 3;
+  rotate: -6deg;
+}
+
+.photoCard:nth-of-type(2) {
+  top: 2%;
+  right: 2%;
+  z-index: 3;
+  width: 46%;
+  aspect-ratio: 4 / 3;
+  rotate: 5deg;
+}
+
+.photoCard:nth-of-type(3) {
+  bottom: 6%;
+  left: 22%;
+  z-index: 2;
+  width: 61%;
+  aspect-ratio: 4 / 3;
+  rotate: -2deg;
+}
+
+.photoCard:hover,
+.photoCard:focus-visible {
+  z-index: 8;
+  box-shadow: 0 22px 34px rgb(54 44 32 / 26%);
+  outline: 2px solid var(--orange);
+  outline-offset: 5px;
+  scale: 1.035;
+}
+
+.photoStack figcaption {
+  position: absolute;
+  right: 4%;
+  bottom: -3px;
+  z-index: 5;
+  color: #6f6960;
+  font-family: var(--font-handwriting), cursive;
+  font-size: 18px;
+  rotate: -3deg;
+}
+
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: grid;
+  padding: 48px;
+  background: rgb(24 21 17 / 94%);
+  cursor: zoom-out;
+  place-items: center;
+}
+
+.lightboxFrame {
+  position: relative;
+  width: min(92vw, 96rem);
+  height: 86vh;
+  cursor: default;
+}
+
+.lightboxFrame img {
+  object-fit: contain;
+}
+
+.lightboxClose {
+  position: fixed;
+  top: 22px;
+  right: 24px;
+  z-index: 1;
+  padding: 8px 12px;
+  border: 1px solid rgb(255 255 255 / 38%);
+  border-radius: 999px;
+  background: rgb(255 255 255 / 9%);
+  color: #fff;
+  cursor: pointer;
+  font: inherit;
+  font-size: 13px;
+}
+
+.lightboxClose:hover,
+.lightboxClose:focus-visible {
+  border-color: #fff;
+  outline: 2px solid #fff;
+  outline-offset: 3px;
 }
 
 .closing {
@@ -445,6 +592,46 @@
   .milestone text,
   .nowMarker text {
     font-size: 20px;
+  }
+
+  .photoStack {
+    width: min(100% - 32px, 35rem);
+    height: 430px;
+    margin-top: 58px;
+    margin-bottom: 82px;
+  }
+
+  .photoCard {
+    border-width: 6px;
+    border-bottom-width: 22px;
+  }
+
+  .photoCard:nth-of-type(1) {
+    width: 67%;
+  }
+
+  .photoCard:nth-of-type(2) {
+    width: 53%;
+  }
+
+  .photoCard:nth-of-type(3) {
+    bottom: 8%;
+    left: 14%;
+    width: 72%;
+  }
+
+  .photoStack figcaption {
+    right: 1%;
+    font-size: 16px;
+  }
+
+  .lightbox {
+    padding: 42px 14px 18px;
+  }
+
+  .lightboxFrame {
+    width: calc(100vw - 28px);
+    height: calc(100svh - 60px);
   }
 
   .footer {
