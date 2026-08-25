@@ -72,10 +72,10 @@ export const projects: Project[] = [
     category: "AI media platform",
     url: "https://eikonstudio.xyz",
     eyebrow: "BYOK media workspace",
-    summary: "An open-source image and video platform built around your provider keys.",
+    summary: "An open-source image platform I built because the existing options were expensive, awkward, or would not accept my own provider keys.",
     description:
-      "Eikon Studio is becoming a self-hostable BYOK image and video platform with one catalog, studio, API, typed SDKs, durable jobs, storage, and usage reporting. The current release has three ready image models across Google and OpenAI.",
-    evidence: ["Three ready models", "Gallery", "Prompt skills", "REST API"],
+      "Eikon turns Google and OpenAI image models into one self-hostable studio and API. Generations keep running through Convex after the browser closes, then return to history, the gallery, and usage analytics.",
+    evidence: ["Solo project", "Self-hostable", "Three ready models", "Persistent generations"],
   },
   {
     slug: "understanding-software",

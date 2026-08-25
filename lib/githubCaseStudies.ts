@@ -514,9 +514,9 @@ python3 scripts/validate-skills.py`,
 
   "eikon-studio": {
     name: "Eikon Studio",
-    dateLine: "November 2025 to August 2026 · Product Design, Full-stack Development, API",
+    dateLine: "November 2025 to August 2026 · Solo project · Product design, full-stack development, and API",
     description:
-      "An open-source workspace for generating, editing, organizing, and accessing images through Google and OpenAI models.",
+      "An open-source, self-hostable image platform for people who want a better interface without paying another company for every generation.",
     image: {
       src: "/projects/eikon-studio.png",
       alt: "An Eikon Studio image workspace card",
@@ -524,34 +524,34 @@ python3 scripts/validate-skills.py`,
       height: 1024,
     },
     introduction: [
-      "Eikon Studio is an open-source, self-hostable image and video generation platform built around bring-your-own provider keys. The product is meant to put model discovery, visual creation, developer APIs, durable jobs, media storage, usage, and approximate cost behind one Eikon contract without reselling inference.",
-      "A creator should be able to move a prompt and its references between supported models without rebuilding the rest of the workflow. A developer should be able to call the same models through one API and typed SDKs while keeping provider-native capabilities visible.",
+      "I started Eikon because I hated the existing image-generation platforms. Some were too expensive. Others had terrible interfaces. Most would not let me use my own provider keys.",
+      "The first version only supported Nano Banana. At the time, it was the only image model I actually liked using. I started with Vercel's Nano Banana Starter template, which was little more than a simple generation screen. Most of Eikon has been built beyond that starting point.",
     ],
     metadata: [
-      { title: "My contributions", items: ["Product design", "Full-stack development", "API and docs"] },
-      { title: "Current interfaces", items: ["Web studio", "Personal gallery", "REST API"] },
+      { title: "My work", items: ["Built alone", "Product design", "Full-stack development"] },
+      { title: "Current status", items: ["Open source", "Self-hostable", "Actively developed"] },
       { title: "Ready models", items: ["Nano Banana 2", "Nano Banana Pro", "GPT Image 2"] },
     ],
     sections: [
       {
-        title: "The platform Eikon is becoming",
+        title: "Why bring your own key",
         paragraphs: [
-          "The full V1 plan covers ten image and video model families across OpenAI, Google, Black Forest Labs, BytePlus, Kling, and xAI. A public catalog explains models and capabilities. Signed-in users connect their own first-party credentials, generate or edit media, compare models, monitor asynchronous jobs, keep outputs, inspect usage, and create Eikon API keys.",
-          "Creator and Developer views organize the same registry, jobs, assets, and account. The Creator gets common controls, advanced provider fields, history, gallery, and comparisons. The Developer gets schemas, raw JSON, logs, webhooks, copyable examples, and TypeScript and Python SDKs.",
+          "I do not want to resell generations or add another markup. People already have access to Google and OpenAI. Eikon should make those models easier to use, not become another company selling the same inference through a different screen.",
+          "A creator can use the studio without learning a provider API. A developer can send the same request through Eikon's REST API. AI agents will eventually use the CLI and SDK without touching the dashboard. The web interface and REST API work today. The CLI and TypeScript and Python SDKs are still in development.",
         ],
       },
       {
-        title: "What works now",
+        title: "The hardest part was making generations persist",
         paragraphs: [
-          "The current web product handles text-to-image and image editing, reference images, reusable prompt skills, folders, generation history, usage analytics, Google sign-in, and a public REST endpoint. Three image variants can run today: Nano Banana 2, Nano Banana Pro, and GPT Image 2.",
-          "The source-backed catalog already covers ten model families and records provider IDs, tasks, lifecycle, readiness, sources, and checked dates. It deliberately separates discovery from execution. Preview, deprecated, entitlement-restricted, and not-yet-integrated entries remain visible but cannot enter the generation selector.",
+          "An image generation should not belong to an open browser tab. A user might change pages, close the app, or return later while the provider is still working. Eikon creates the generation record in Convex before starting the provider request. Convex keeps the work running, saves the completed output, and updates the user's history.",
+          "Building this was the hardest part of the project. Provider calls can take time, fail halfway through, or finish after the user has left. The system has to know whether it is safe to retry without accidentally creating another paid generation.",
         ],
       },
       {
-        title: "What comes next",
+        title: "What works now and where I want to take it",
         paragraphs: [
-          "The next engineering work completes the durable job system before adding more provider transports. That includes bounded retries, idempotent submissions, webhook or polling completion, cancellation, reconciliation, verified storage ownership, and cleanup that never guesses whether an object is safe to delete.",
-          "After the image cutover is accepted, Eikon can add video execution and the remaining provider adapters, then comparison runs, model playgrounds, SDKs, webhooks, logs, and self-hosting documentation. The catalog may describe those families now, but each one becomes runnable only after its adapter, credential boundary, schema, storage path, and failure behavior are tested.",
+          "The current release handles text-to-image generation, image editing, references, reusable prompt skills, folders, history, a personal gallery, usage analytics, Google sign-in, provider credentials, platform API keys, and a public REST endpoint. A couple of my friends and colleagues use it. Anyone can run the hosted version or self-host the project.",
+          "The useful breadth of fal.ai is the long-term reference point, not its branding or payment model. I want Eikon to provide a visual studio and one consistent way to call image and video models. More provider adapters, runnable models, comparison tools, model playgrounds, a CLI, and typed SDKs are still ahead.",
         ],
       },
     ],
@@ -570,17 +570,78 @@ python3 scripts/validate-skills.py`,
         ],
       },
     ],
-    mappingFigure: {
-      sourceLabel: "input or event",
-      targetLabel: "Eikon mechanism",
-      rows: [
-        { source: "prompt + references", target: "Validated generation request" },
-        { source: "provider + model", target: "Ready catalog entry and adapter" },
-        { source: "returned bytes", target: "Convex storage and generation record" },
-        { source: "completed job", target: "Gallery, history, and analytics" },
+    flowFigure: {
+      title: "A generation can outlive the browser",
+      steps: [
+        { title: "Connect a key", detail: "Save a Google or OpenAI credential." },
+        { title: "Choose a model", detail: "Select one of the three ready image models." },
+        { title: "Add the input", detail: "Write a prompt or attach reference images." },
+        { title: "Start the job", detail: "Convex records the generation before provider work begins." },
+        { title: "Leave if needed", detail: "Navigation or closing the app does not cancel the work." },
+        { title: "Return later", detail: "The result appears in generation history when it finishes." },
+        { title: "Keep the image", detail: "Download it or organize it in the gallery." },
       ],
-      caption: "One record follows the image from request through storage.",
+      caption: "The browser starts the job, but Convex owns its progress and result.",
+      afterSection: 0,
+    },
+    architectureFigure: {
+      title: "How Eikon connects the interface to the provider",
+      stages: [
+        {
+          label: "Ways in",
+          nodes: [
+            { title: "Web studio", detail: "Available now" },
+            { title: "REST API", detail: "Available now" },
+            { title: "CLI and SDKs", detail: "In development" },
+          ],
+        },
+        {
+          label: "Eikon",
+          nodes: [
+            { title: "Model registry", detail: "Capabilities and readiness" },
+            { title: "Generation contract", detail: "One request shape and job lifecycle" },
+            { title: "Credential boundary", detail: "Server-side provider-key access" },
+          ],
+        },
+        {
+          label: "Providers",
+          nodes: [
+            { title: "Google", detail: "Nano Banana models" },
+            { title: "OpenAI", detail: "GPT Image" },
+          ],
+        },
+        {
+          label: "Convex",
+          nodes: [
+            { title: "Background work", detail: "Continues after the browser leaves" },
+            { title: "Database and storage", detail: "Keeps the record and returned media" },
+          ],
+        },
+        {
+          label: "Back to the user",
+          nodes: [
+            { title: "History", detail: "Status and past generations" },
+            { title: "Gallery", detail: "Folders, saved media, and downloads" },
+            { title: "Analytics", detail: "Usage and estimated cost" },
+          ],
+        },
+      ],
+      caption: "The interface and API share the same model registry, provider path, and stored result.",
       afterSection: 1,
+    },
+    mappingFigure: {
+      sourceLabel: "what the user does",
+      targetLabel: "what Eikon keeps",
+      rows: [
+        { source: "connect provider key", target: "Encrypted credential", detail: "Only server-side code can resolve it" },
+        { source: "choose a model", target: "Ready catalog entry", detail: "Unavailable models stay out of the selector" },
+        { source: "prompt + references", target: "Validated request", detail: "Saved before provider work starts" },
+        { source: "start generation", target: "Persistent Convex record", detail: "Work continues after navigation or close" },
+        { source: "provider returns media", target: "Stored output", detail: "Copied into Convex storage" },
+        { source: "generation completes", target: "History and analytics", detail: "The result returns to the account" },
+      ],
+      caption: "The prompt, job, and returned image stay connected after the browser leaves.",
+      afterSection: 2,
     },
     codeFigure: {
       label: "Public REST API",
@@ -591,12 +652,12 @@ python3 scripts/validate-skills.py`,
   "imageSize": "2K",
   "aspectRatio": "landscape"
 }`,
-      command: "curl -X POST https://eikonstudio.xyz/api/v1/generate -H 'Authorization: Bearer eik_…'",
-      caption: "The API uses the same account-scoped generation path as the studio.",
+      command: "curl -X POST https://eikonstudio.xyz/api/v1/generate -H 'Authorization: Bearer eik_...'",
+      caption: "The current REST API sends a generation through the same account-scoped path as the studio.",
       afterSection: 1,
     },
     footer: {
-      statement: "One contract for the model catalog, the provider call, the job, and the media that comes back.",
+      statement: "I built Eikon because using an image model should not require choosing between a bad interface and another expensive subscription.",
       links: [
         { label: "Open Eikon Studio ↗", href: "https://eikonstudio.xyz" },
         { label: "View the source ↗", href: "https://github.com/MohtashamMurshid/eikonstudio" },

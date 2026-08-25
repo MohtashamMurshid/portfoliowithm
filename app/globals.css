@@ -174,6 +174,19 @@
   isolation: auto;
 }
 
+::view-transition-group(site-header) {
+  z-index: 100;
+  animation: none;
+}
+
+::view-transition-old(site-header) {
+  display: none;
+}
+
+::view-transition-new(site-header) {
+  animation: none;
+}
+
 @media (prefers-reduced-motion: reduce) {
   ::view-transition-group(.work-image-morph) {
     animation-duration: 0.01ms;

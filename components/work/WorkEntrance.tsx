@@ -1,8 +1,9 @@
 "use client";
 
-import { useEffect, useState, type ReactNode } from "react";
+import { useState, type ReactNode } from "react";
 import { motion, useReducedMotion, type Variants } from "framer-motion";
 import styles from "@/app/work/work.module.css";
+import { getLastCommittedPathname } from "@/components/navigation/clientRouteHistory";
 
 const projectVariants: Variants = {
   hidden: { opacity: 0, scale: 0.94, y: 28 },
@@ -14,8 +15,6 @@ const projectVariants: Variants = {
   },
 };
 
-let hasPlayedWorkEntrance = false;
-
 export default function WorkEntrance({
   featured,
   projects,
@@ -24,13 +23,12 @@ export default function WorkEntrance({
   projects: ReactNode[];
 }) {
   const reduceMotion = Boolean(useReducedMotion());
-  const [playEntrance] = useState(() => !hasPlayedWorkEntrance);
+  const [playEntrance] = useState(() => {
+    const previousPathname = getLastCommittedPathname();
+    return !previousPathname?.startsWith("/work/");
+  });
   const shouldAnimate = playEntrance && !reduceMotion;
   const initial = shouldAnimate ? "hidden" : false;
-
-  useEffect(() => {
-    hasPlayedWorkEntrance = true;
-  }, []);
 
   return (
     <section className={styles.featured} aria-labelledby="featured-title">
