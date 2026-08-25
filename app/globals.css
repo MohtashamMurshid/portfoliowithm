@@ -63,8 +63,15 @@
 }
 
 @layer base {
+  html {
+    min-height: 100%;
+    background-color: var(--site-paper, #f3f0e8);
+  }
+
   :root {
-    --background: 0 0% 100%;
+    --site-paper: #f3f0e8;
+    --site-paper-background: var(--site-paper);
+    --background: 44 31% 93%;
     --foreground: 0 0% 3.9%;
     --card: 0 0% 100%;
     --card-foreground: 0 0% 3.9%;
@@ -132,6 +139,7 @@
     @apply border-border;
   }
   body {
+    min-height: 100%;
     @apply bg-background text-foreground;
   }
 }

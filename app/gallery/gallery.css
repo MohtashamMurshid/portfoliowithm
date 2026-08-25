@@ -1,5 +1,6 @@
 .gallery-page {
   min-height: 100vh;
+  background: var(--site-paper);
 }
 
 .gallery-header {

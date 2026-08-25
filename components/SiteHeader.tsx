@@ -10,8 +10,8 @@ import styles from "./SiteHeader.module.css";
 const navItems = [
   { label: "Home", href: "/" },
   { label: "Work", href: "/work" },
+  { label: "Blog", href: "/blog" },
   { label: "About", href: "/about" },
-  { label: "Blog", href: "https://blog.mohtasham.dev" },
 ];
 
 type BlobStyle = CSSProperties & {
@@ -43,18 +43,11 @@ const logoBlobs: Array<{ cx: number; cy: number; r: number; style: BlobStyle }> 
 
 export default function SiteHeader() {
   const pathname = usePathname();
-  const overlaysPage = pathname === "/" || pathname === "/work" || pathname === "/about";
-  const toneClass = overlaysPage
-      ? ""
-      : pathname === "/archive/2"
-        ? styles.report
-        : pathname.startsWith("/work/") || pathname === "/books"
-          ? styles.document
-          : styles.plain;
+  const overlaysPage = pathname === "/" || pathname === "/work" || pathname === "/about" || pathname === "/blog";
 
   return (
     <>
-      <header className={`${styles.header} ${toneClass}`}>
+      <header className={styles.header}>
         <Link className={styles.mark} href="/" aria-label="Mohtasham, home">
           <span className={styles.logoTile} aria-hidden="true">
             <svg className={styles.logoBlobs} viewBox="0 0 48 48">
@@ -103,7 +96,7 @@ export default function SiteHeader() {
           <a href="https://www.linkedin.com/in/mohtashammurshid/" aria-label="LinkedIn"><FaLinkedinIn aria-hidden="true" /></a>
         </div>
       </header>
-      {overlaysPage ? null : <div className={`${styles.spacer} ${toneClass}`} aria-hidden="true" />}
+      {overlaysPage ? null : <div className={styles.spacer} aria-hidden="true" />}
     </>
   );
 }

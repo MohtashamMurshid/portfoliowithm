@@ -1,6 +1,6 @@
 :root {
-  --report-paper: #eee8d2;
-  --report-paper-light: #f5f0de;
+  --report-paper: var(--site-paper);
+  --report-paper-light: var(--site-paper);
   --report-ink: #181c17;
   --report-muted: #5f604f;
   --report-rust: #9e542f;
@@ -1243,7 +1243,7 @@
     grid-template-columns: 1fr auto;
     padding: max(1rem, env(safe-area-inset-top)) 1.2rem 1rem;
     color: var(--report-ink);
-    background: rgba(238, 232, 210, 0.9);
+    background: rgb(243 240 232 / 90%);
     border-bottom: 1px solid rgba(24, 28, 23, 0.25);
     backdrop-filter: blur(12px);
     mix-blend-mode: normal;

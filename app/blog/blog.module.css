@@ -1,0 +1,184 @@
+.page {
+  --paper: var(--site-paper);
+  --ink: #37352f;
+  --muted: #9a9790;
+  --orange: #ef6f3c;
+  position: relative;
+  min-height: 100svh;
+  overflow: hidden;
+  background: var(--site-paper-background);
+  color: var(--ink);
+  font-family: var(--font-interface-sans), Arial, sans-serif;
+}
+
+.page::before {
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+  pointer-events: none;
+  content: "";
+  opacity: .16;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.11'/%3E%3C/svg%3E");
+  mix-blend-mode: multiply;
+}
+
+.content {
+  width: min(42rem, calc(100% - 48px));
+  margin: 0 auto;
+  padding: 88px 0 130px;
+}
+
+.featured h1,
+.archive h2 {
+  margin: 0;
+  font-family: var(--font-interface-serif), Georgia, serif;
+  font-weight: 400;
+  letter-spacing: -.025em;
+}
+
+.artwork {
+  position: relative;
+  display: block;
+  width: min(560px, 72%);
+  height: clamp(180px, 29dvh, 280px);
+  margin: clamp(18px, 3.5dvh, 38px) auto 24px;
+  mask-image: radial-gradient(ellipse 76% 72% at center, #000 43%, transparent 88%);
+}
+
+.artwork img {
+  object-fit: contain;
+  transition: transform 300ms ease;
+}
+
+.artwork:hover img { transform: scale(1.012); }
+
+.featured h1 {
+  max-width: 620px;
+  font-size: clamp(28px, 3vw, 36px);
+  line-height: 1.08;
+}
+
+.featured time {
+  display: block;
+  margin-top: 6px;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.featured > p {
+  max-width: 650px;
+  margin: 18px 0 16px;
+  color: #5c5953;
+  font-size: 15px;
+  line-height: 1.58;
+}
+
+.continue {
+  display: inline-flex;
+  min-height: 40px;
+  align-items: center;
+  gap: 8px;
+  padding: 0 12px;
+  border: 1.5px solid var(--orange);
+  border-radius: 999px;
+  color: var(--orange);
+  font-size: 14px;
+  text-decoration: none;
+  transition: background-color 160ms ease, color 160ms ease;
+}
+
+.continue svg { width: 16px; }
+
+.continue:hover {
+  background: var(--orange);
+  color: #fffaf5;
+}
+
+.archive { margin-top: 42px; }
+
+.archive h2 {
+  font-size: 25px;
+  line-height: 1.1;
+}
+
+.archiveList { margin-top: 16px; }
+
+.archiveRow {
+  display: flex;
+  min-height: 44px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  border-bottom: 1px dashed rgb(55 53 47 / 12%);
+  color: inherit;
+  font-size: 14px;
+  text-decoration: none;
+  transition: color 150ms ease, padding 150ms ease;
+}
+
+.archiveRow:hover {
+  padding-inline: 7px;
+  color: var(--orange);
+}
+
+.archiveRow span {
+  overflow: hidden;
+  font-weight: 560;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.archiveRow time {
+  flex: 0 0 auto;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+@media (max-width: 720px) {
+  .content {
+    width: min(100% - 32px, 560px);
+    padding-top: 72px;
+    padding-bottom: 90px;
+  }
+
+  .artwork {
+    width: min(82%, 420px);
+    height: clamp(145px, 25dvh, 260px);
+    margin-top: 22px;
+    margin-bottom: 18px;
+  }
+
+  .featured h1 { font-size: clamp(28px, 8vw, 34px); }
+  .featured time { font-size: 12px; }
+
+  .featured > p {
+    margin-top: 16px;
+    font-size: 14px;
+  }
+
+  .continue {
+    min-height: 38px;
+    font-size: 13px;
+  }
+
+  .archive { margin-top: 40px; }
+  .archive h2 { font-size: 24px; }
+
+  .archiveRow {
+    min-height: 46px;
+    font-size: 13px;
+  }
+
+  .archiveRow time { font-size: 11px; }
+}
+
+@media (max-width: 430px) {
+  .archiveRow { gap: 12px; }
+  .archiveRow span { white-space: normal; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .artwork img,
+  .continue,
+  .archiveRow { transition: none; }
+}

@@ -1,13 +1,11 @@
 .page {
-  --paper: #f3f0e8;
+  --paper: var(--site-paper);
   --ink: #292722;
   --orange: #dc713d;
   position: relative;
   min-height: 100svh;
   overflow: hidden;
-  background:
-    radial-gradient(circle at 50% 15%, rgb(255 255 255 / 78%), transparent 34rem),
-    var(--paper);
+  background: var(--site-paper-background);
   color: var(--ink);
   font-family: var(--font-interface-sans), Arial, sans-serif;
 }

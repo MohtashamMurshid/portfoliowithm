@@ -22,12 +22,13 @@ export default function WorkEntrance({
   projects: ReactNode[];
 }) {
   const reduceMotion = Boolean(useReducedMotion());
+  const initial = reduceMotion ? false : "hidden";
 
   return (
     <section className={styles.featured} aria-labelledby="featured-title">
       <motion.h1
         id="featured-title"
-        initial={false}
+        initial={initial}
         animate="visible"
         variants={projectVariants}
       >
@@ -36,7 +37,7 @@ export default function WorkEntrance({
 
       <motion.div
         className={styles.featuredReveal}
-        initial={false}
+        initial={initial}
         animate="visible"
         variants={projectVariants}
         transition={{ delay: reduceMotion ? 0 : 0.22 }}
@@ -47,7 +48,7 @@ export default function WorkEntrance({
       <motion.div
         className={styles.grid}
         aria-label="Selected projects"
-        initial={false}
+        initial={initial}
         animate="visible"
         variants={{
           hidden: {},

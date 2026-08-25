@@ -1,5 +1,5 @@
 .books-page {
-  --books-paper: #faf9f7;
+  --books-paper: var(--site-paper);
   --books-ink: #44423e;
   --books-muted: #8c8982;
   --books-line: #d8d5cf;
@@ -81,7 +81,7 @@
   bottom: -30px;
   left: -80px;
   content: "";
-  background: linear-gradient(90deg, var(--books-paper) 45%, rgba(250, 249, 247, 0));
+  background: linear-gradient(90deg, var(--books-paper) 45%, rgb(243 240 232 / 0%));
 }
 
 .is-focused .browse-caption {
@@ -147,7 +147,7 @@
   inset: 0;
   content: "";
   background:
-    linear-gradient(90deg, rgba(250, 249, 247, 0), rgba(250, 249, 247, 0.96) 13%, var(--books-paper) 24%),
+    linear-gradient(90deg, rgb(243 240 232 / 0%), rgb(243 240 232 / 96%) 13%, var(--books-paper) 24%),
     var(--books-paper);
 }
 
@@ -281,7 +281,7 @@
     left: 0;
     width: auto;
     padding: 52px 20px 0;
-    background: linear-gradient(180deg, rgba(250, 249, 247, 0), var(--books-paper) 48px);
+    background: linear-gradient(180deg, rgb(243 240 232 / 0%), var(--books-paper) 48px);
   }
 
   .browse-caption::before {
@@ -312,7 +312,7 @@
   .book-details::before {
     top: -56px;
     background:
-      linear-gradient(180deg, rgba(250, 249, 247, 0), rgba(250, 249, 247, 0.96) 54px, var(--books-paper) 55px),
+      linear-gradient(180deg, rgb(243 240 232 / 0%), rgb(243 240 232 / 96%) 54px, var(--books-paper) 55px),
       var(--books-paper);
   }
 

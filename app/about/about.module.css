@@ -1,13 +1,11 @@
 .page {
-  --paper: #f5f3ed;
+  --paper: var(--site-paper);
   --ink: #2d2b27;
   --muted: #8a867d;
   --orange: #e8753f;
   min-height: 100svh;
   overflow: hidden;
-  background:
-    radial-gradient(circle at 50% 8%, rgb(255 255 255 / 90%), transparent 42rem),
-    var(--paper);
+  background: var(--site-paper-background);
   color: var(--ink);
   font-family: var(--font-interface-sans), Arial, sans-serif;
 }
@@ -25,10 +23,10 @@
 
 .desk {
   position: relative;
-  width: min(64rem, calc(100% - 48px));
-  height: clamp(500px, 52vw, 620px);
+  width: min(42rem, calc(100% - 48px));
+  height: clamp(350px, 40vw, 430px);
   margin: 0 auto;
-  padding-top: 100px;
+  padding-top: 88px;
 }
 
 .draggable {
@@ -73,8 +71,8 @@
   top: 26%;
   left: 64%;
   z-index: 5;
-  width: 48px;
-  height: 240px;
+  width: 38px;
+  height: 180px;
   filter: none;
 }
 
@@ -82,7 +80,7 @@
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 225px;
+  width: 170px;
   aspect-ratio: 1.5;
   filter: drop-shadow(0 16px 14px rgb(54 44 32 / 14%));
   pointer-events: none;
@@ -110,14 +108,14 @@
 
 .notebookNote p {
   margin: 0;
-  font-size: clamp(11px, 1.45vw, 22px);
+  font-size: clamp(9px, 1.15vw, 15px);
   line-height: 1.05;
 }
 
 .notebookNote span {
   display: block;
   margin-top: 8%;
-  font-size: clamp(9px, 1vw, 16px);
+  font-size: clamp(8px, .85vw, 12px);
   text-align: right;
 }
 
@@ -135,7 +133,7 @@
 .intro h1 {
   margin: 0;
   font-family: var(--font-interface-serif), Georgia, serif;
-  font-size: clamp(38px, 4vw, 50px);
+  font-size: clamp(28px, 3vw, 36px);
   font-weight: 400;
   line-height: 1;
   letter-spacing: -.03em;
@@ -150,10 +148,10 @@
 .intro blockquote {
   position: relative;
   width: min(42rem, calc(100vw - 48px));
-  margin: 72px 50% 96px;
+  margin: 56px 50% 72px;
   translate: -50% 0;
   font-family: var(--font-interface-serif), Georgia, serif;
-  font-size: clamp(28px, 3.2vw, 42px);
+  font-size: clamp(22px, 2.6vw, 30px);
   font-style: italic;
   line-height: 1.18;
   text-align: center;
@@ -162,19 +160,19 @@
 .intro blockquote > span {
   position: absolute;
   color: rgb(45 43 39 / 14%);
-  font-size: 92px;
+  font-size: 68px;
   font-style: normal;
   line-height: 1;
 }
 
 .intro blockquote > span:first-child {
-  top: -32px;
+  top: -24px;
   left: -10px;
 }
 
 .intro blockquote > span:last-child {
   right: 0;
-  bottom: -70px;
+  bottom: -52px;
 }
 
 .intro blockquote em {
@@ -186,8 +184,8 @@
 
 .intro blockquote em::after {
   position: absolute;
-  inset: -8px -15px -5px;
-  border: 3px solid var(--orange);
+  inset: -6px -11px -4px;
+  border: 2px solid var(--orange);
   border-radius: 48% 52% 46% 54%;
   content: "";
   rotate: -2deg;
@@ -195,8 +193,8 @@
 
 .prose {
   color: #5d5952;
-  font-size: 15px;
-  line-height: 1.85;
+  font-size: 14px;
+  line-height: 1.78;
 }
 
 .prose p {
@@ -204,7 +202,7 @@
 }
 
 .prose p + p {
-  margin-top: 30px;
+  margin-top: 24px;
 }
 
 .dropCap::first-letter {
@@ -212,30 +210,30 @@
   margin: 7px 4px 0 0;
   color: var(--ink);
   font-family: var(--font-interface-serif), Georgia, serif;
-  font-size: 48px;
+  font-size: 42px;
   line-height: .7;
 }
 
 .sketches {
   position: relative;
-  width: min(52rem, calc(100% - 32px));
-  height: clamp(280px, 40vw, 500px);
-  margin: 96px auto 110px;
+  width: min(42rem, calc(100% - 48px));
+  height: clamp(230px, 32vw, 350px);
+  margin: 76px auto 88px;
   rotate: -1deg;
 }
 
 .prose h2 {
-  margin: 76px 0 18px;
+  margin: 60px 0 16px;
   color: var(--ink);
   font-family: var(--font-interface-serif), Georgia, serif;
-  font-size: 30px;
+  font-size: 25px;
   font-weight: 400;
   line-height: 1;
 }
 
 .journey {
-  width: min(58rem, calc(100% - 32px));
-  margin: 120px auto 100px;
+  width: min(42rem, calc(100% - 48px));
+  margin: 88px auto 76px;
 }
 
 .journeyHeading {
@@ -255,7 +253,7 @@
 .journeyHeading p {
   color: var(--ink);
   font-family: var(--font-interface-serif), Georgia, serif;
-  font-size: 26px;
+  font-size: 23px;
 }
 
 .journeyHeading span {
@@ -287,7 +285,7 @@
 .nowMarker text {
   fill: #668b8b;
   font-family: var(--font-handwriting), cursive;
-  font-size: 19px;
+  font-size: 17px;
 }
 
 .nowMarker line,
@@ -316,16 +314,16 @@
   padding-bottom: 2px;
   border-bottom: 3px solid #ee8d63;
   color: var(--ink);
-  font-size: 17px;
+  font-size: 15px;
   font-weight: 650;
   rotate: -.4deg;
 }
 
 .signature {
-  margin-top: 58px !important;
+  margin-top: 48px !important;
   color: #45423d;
   font-family: var(--font-handwriting), cursive;
-  font-size: 58px;
+  font-size: 48px;
   line-height: .8;
 }
 
@@ -333,11 +331,11 @@
   margin-top: 12px !important;
   color: #a29d92;
   font-family: var(--font-handwriting), cursive;
-  font-size: 21px;
+  font-size: 18px;
 }
 
 .footer {
-  margin-top: 100px;
+  margin-top: 76px;
   padding-top: 22px;
   border-top: 1px dashed rgb(45 43 39 / 16%);
   color: var(--muted);
@@ -351,36 +349,36 @@
 
 @media (max-width: 720px) {
   .desk {
-    width: 100%;
-    height: 450px;
+    width: min(100% - 32px, 35rem);
+    height: 340px;
     padding-top: 72px;
   }
 
   .mat {
-    top: 18%;
+    top: 20%;
     left: 2%;
     width: 96%;
   }
 
   .notebook {
-    top: 28%;
+    top: 30%;
     left: 10%;
     width: 80%;
   }
 
   .pen {
-    top: 23%;
+    top: 25%;
     left: 67%;
-    width: 40px;
-    height: 190px;
+    width: 32px;
+    height: 150px;
   }
 
   .penArt {
-    width: 140px;
+    width: 115px;
   }
 
   .notebookNote {
-    top: 29%;
+    top: 31%;
     right: 12%;
   }
 
@@ -391,17 +389,17 @@
   }
 
   .intro h1 {
-    font-size: 38px;
+    font-size: 31px;
   }
 
   .intro blockquote {
-    margin-top: 60px;
-    margin-bottom: 82px;
-    font-size: clamp(28px, 7.5vw, 36px);
+    margin-top: 50px;
+    margin-bottom: 66px;
+    font-size: clamp(22px, 6vw, 28px);
   }
 
   .intro blockquote > span {
-    font-size: 64px;
+    font-size: 52px;
   }
 
   .intro blockquote > span:first-child {
@@ -415,20 +413,21 @@
   }
 
   .prose {
-    font-size: 14.5px;
-    line-height: 1.8;
+    font-size: 13.5px;
+    line-height: 1.75;
   }
 
   .sketches {
-    height: 300px;
-    margin-top: 75px;
-    margin-bottom: 85px;
+    width: min(100% - 32px, 35rem);
+    height: 230px;
+    margin-top: 64px;
+    margin-bottom: 70px;
   }
 
   .journey {
-    width: calc(100% - 18px);
-    margin-top: 100px;
-    margin-bottom: 80px;
+    width: min(100% - 32px, 35rem);
+    margin-top: 76px;
+    margin-bottom: 64px;
   }
 
   .journeyHeading {
@@ -446,11 +445,11 @@
 
   .milestone text,
   .nowMarker text {
-    font-size: 24px;
+    font-size: 20px;
   }
 
   .footer {
-    margin-top: 72px;
+    margin-top: 60px;
   }
 }
 

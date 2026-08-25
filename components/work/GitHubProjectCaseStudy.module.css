@@ -1,5 +1,5 @@
 .page {
-  --background: #faf9f7;
+  --background: var(--site-paper);
   --text: #44423e;
   --muted: #8c8982;
   --line: #b9b6af;

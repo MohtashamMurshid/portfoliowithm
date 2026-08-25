@@ -1,12 +1,10 @@
 .home {
-  --paper: #f3f0e8;
+  --paper: var(--site-paper);
   --ink: #24231f;
   --orange: #dc713d;
   min-height: 100vh;
   overflow: hidden;
-  background:
-    radial-gradient(circle at 50% 42%, rgb(255 255 255 / 74%), transparent 33rem),
-    var(--paper);
+  background: var(--site-paper-background);
   color: var(--ink);
   font-family: Arial, Helvetica, sans-serif;
 }
