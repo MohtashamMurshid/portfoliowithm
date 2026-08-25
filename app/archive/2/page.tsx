@@ -9,6 +9,7 @@ export const metadata: Metadata = {
   title: "The Office of Imaginary Infrastructure",
   description:
     "Field Report No. 01: software, artificial intelligence, design systems, open-source tools, writing, and visual work by Mohtasham Murshid Madani.",
+  robots: { index: false, follow: true },
 };
 
 async function getNpmDownloads(): Promise<string> {
@@ -50,7 +51,7 @@ export default async function ArchivedReportPage() {
             author: {
               "@type": "Person",
               name: "Mohtasham Murshid Madani",
-              url: "https://mohtasham.dev",
+              url: "https://www.mohtasham.dev",
             },
             datePublished: "2026",
             description:

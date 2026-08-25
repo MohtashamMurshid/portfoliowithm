@@ -69,7 +69,7 @@ export const projects: Project[] = [
   },
   {
     slug: "markdown-to-docx",
-    name: "Markdown to Docx",
+    name: "md-to-docx",
     register: "OI-04 / RELEASED",
     role: "Creator",
     category: "Open-source instrument",

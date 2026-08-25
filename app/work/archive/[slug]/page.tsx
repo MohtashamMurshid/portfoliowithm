@@ -22,9 +22,15 @@ export async function generateMetadata({ params }: ArchiveProjectPageProps): Pro
     description: project.summary,
     alternates: { canonical: `/work/archive/${project.slug}` },
     openGraph: {
-      title: `${project.name} | Work archive`,
+      title: project.name,
       description: project.summary,
       type: "article",
+      url: `/work/archive/${project.slug}`,
+    },
+    twitter: {
+      card: "summary",
+      title: project.name,
+      description: project.summary,
     },
   };
 }

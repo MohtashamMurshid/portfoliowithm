@@ -27,6 +27,7 @@ export const metadata: Metadata = {
 export default function BlogIndexPage() {
   const featured =
     blogPosts.find((post) => post.slug === "llm-disclosure-behavior") ?? blogPosts[0];
+  const sortedPosts = [...blogPosts].sort((a, b) => b.date.localeCompare(a.date));
 
   return (
     <main className={styles.page}>
@@ -57,7 +58,7 @@ export default function BlogIndexPage() {
             <h2 id="all-blogs">All Blogs</h2>
           </BlogRevealItem>
           <div className={styles.archiveList}>
-            {blogPosts.map((post, index) => (
+            {sortedPosts.map((post, index) => (
               <BlogRevealItem delay={1.08 + index * 0.16} key={post.slug}>
                 <Link className={styles.archiveRow} href={`/blog/${post.slug}`}>
                   <span>{post.shortTitle}</span>

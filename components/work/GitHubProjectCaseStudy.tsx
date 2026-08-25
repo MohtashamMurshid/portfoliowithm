@@ -134,6 +134,8 @@ export type GitHubProjectCaseStudyProps = {
   project: GitHubProjectCaseStudyData;
   slug: string;
   backHref?: string;
+  datePublished?: string;
+  dateModified?: string;
 };
 
 const codeKeywords = new Set([
@@ -193,25 +195,39 @@ export default function GitHubProjectCaseStudy({
   project,
   slug,
   backHref = "/work",
+  datePublished,
+  dateModified,
 }: GitHubProjectCaseStudyProps) {
   const author = project.author ?? {
     name: "Mohtasham Murshid Madani",
-    url: "https://mohtasham.dev",
+    url: "https://www.mohtasham.dev",
   };
 
   const structuredData = {
     "@context": "https://schema.org",
-    "@type": "SoftwareSourceCode",
-    name: project.name,
+    "@type": "Article",
+    headline: project.name,
     description: project.description,
     url: project.pageUrl,
-    ...(project.repositoryUrl ? { codeRepository: project.repositoryUrl } : {}),
-    programmingLanguage: project.programmingLanguage,
-    ...(project.dateCreated ? { dateCreated: project.dateCreated } : {}),
+    mainEntityOfPage: project.pageUrl,
+    image: new URL(project.image.src, project.pageUrl).toString(),
+    ...(datePublished ? { datePublished } : {}),
+    ...(dateModified ? { dateModified } : {}),
     author: {
       "@type": "Person",
       name: author.name,
       url: author.url,
+    },
+    publisher: {
+      "@type": "Person",
+      name: author.name,
+      url: author.url,
+    },
+    about: {
+      "@type": "SoftwareApplication",
+      name: project.name,
+      description: project.description,
+      ...(project.repositoryUrl ? { sameAs: project.repositoryUrl } : {}),
     },
   };
 

@@ -35,9 +35,9 @@
   letter-spacing: -.025em;
 }
 
-.header time {
-  display: block;
+.dates {
   margin-top: 7px;
+  margin-bottom: 0;
   color: var(--muted);
   font-family: var(--font-interface-sans), Arial, sans-serif;
   font-size: 13px;

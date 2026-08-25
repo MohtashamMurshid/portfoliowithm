@@ -35,8 +35,16 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
       description: post.description,
       type: "article",
       publishedTime: post.date,
+      modifiedTime: post.modifiedDate,
       authors: ["Mohtasham Murshid Madani"],
+      url: `/blog/${post.slug}`,
       images: [{ url: post.image, alt: post.imageAlt }],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: post.title,
+      description: post.description,
+      images: [post.image],
     },
   };
 }
@@ -53,10 +61,19 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
     headline: post.title,
     description: post.description,
     datePublished: post.date,
-    dateModified: post.date,
+    dateModified: post.modifiedDate,
     url: `https://www.mohtasham.dev/blog/${post.slug}`,
-    image: `https://www.mohtasham.dev${post.image}`,
+    mainEntityOfPage: `https://www.mohtasham.dev/blog/${post.slug}`,
+    image: {
+      "@type": "ImageObject",
+      url: `https://www.mohtasham.dev${post.image}`,
+    },
     author: {
+      "@type": "Person",
+      name: "Mohtasham Murshid Madani",
+      url: "https://www.mohtasham.dev",
+    },
+    publisher: {
       "@type": "Person",
       name: "Mohtasham Murshid Madani",
       url: "https://www.mohtasham.dev",
@@ -69,7 +86,12 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
         <article className={styles.article}>
           <header className={styles.header}>
             <h1>{post.title}</h1>
-            <time dateTime={post.date}>{formatBlogDate(post.date)}</time>
+            <p className={styles.dates}>
+              Published <time dateTime={post.date}>{formatBlogDate(post.date)}</time>
+              {post.modifiedDate !== post.date ? (
+                <> · Updated <time dateTime={post.modifiedDate}>{formatBlogDate(post.modifiedDate)}</time></>
+              ) : null}
+            </p>
           </header>
 
           <div className={styles.hero}>

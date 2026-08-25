@@ -383,6 +383,7 @@ export default async function MarkdownToDocxCaseStudy({ project }: MarkdownToDoc
         <footer className={styles.footer}>
           <p>I wrote this because I was tired of copying assignments into Word. Hundreds of thousands of downloads later, that is still the basic job.</p>
           <div>
+            <Link href="/blog/markdown-to-docx-guide">Read the usage guide</Link>
             <a href="https://github.com/MohtashamMurshid/md-to-docx" target="_blank" rel="noreferrer">View the source ↗</a>
             <a href={project.url} target="_blank" rel="noreferrer">Open on npm ↗</a>
             <Link href="/work">Back to work</Link>
@@ -395,18 +396,31 @@ export default async function MarkdownToDocxCaseStudy({ project }: MarkdownToDoc
         dangerouslySetInnerHTML={{
           __html: JSON.stringify({
             "@context": "https://schema.org",
-            "@type": "SoftwareSourceCode",
-            name: project.name,
+            "@type": "Article",
+            headline: "md-to-docx",
             description: project.description,
-            url: "https://mohtasham.dev/work/markdown-to-docx",
-            codeRepository: "https://github.com/MohtashamMurshid/md-to-docx",
-            programmingLanguage: "TypeScript",
+            url: "https://www.mohtasham.dev/work/markdown-to-docx",
+            mainEntityOfPage: "https://www.mohtasham.dev/work/markdown-to-docx",
+            image: "https://www.mohtasham.dev/projects/md-to-docx.png",
+            datePublished: project.datePublished,
+            dateModified: project.dateModified,
             author: {
               "@type": "Person",
               name: "Mohtasham Murshid Madani",
-              url: "https://mohtasham.dev",
+              url: "https://www.mohtasham.dev",
             },
-          }),
+            publisher: {
+              "@type": "Person",
+              name: "Mohtasham Murshid Madani",
+              url: "https://www.mohtasham.dev",
+            },
+            about: {
+              "@type": "SoftwareSourceCode",
+              name: "@mohtasham/md-to-docx",
+              codeRepository: "https://github.com/MohtashamMurshid/md-to-docx",
+              programmingLanguage: "TypeScript",
+            },
+          }).replace(/</g, "\\u003c"),
         }}
       />
     </main>

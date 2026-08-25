@@ -23,12 +23,22 @@ export async function generateMetadata({ params }: WorkPageProps): Promise<Metad
 
   return {
     title: project.name,
-    description: `${project.summary} ${project.description}`,
+    description: project.summary,
     alternates: { canonical: `/work/${project.slug}` },
     openGraph: {
-      title: `${project.name} — Office of Imaginary Infrastructure`,
+      title: project.name,
       description: project.summary,
       type: "article",
+      url: `/work/${project.slug}`,
+      publishedTime: project.datePublished,
+      modifiedTime: project.dateModified,
+      images: [{ url: project.image, alt: project.imageAlt }],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: project.name,
+      description: project.summary,
+      images: [project.image],
     },
   };
 }
@@ -44,7 +54,14 @@ export default async function WorkPage({ params }: WorkPageProps) {
 
   const githubCaseStudy = githubCaseStudies[project.slug];
   if (githubCaseStudy) {
-    return <GitHubProjectCaseStudy project={githubCaseStudy} slug={project.slug} />;
+    return (
+      <GitHubProjectCaseStudy
+        project={githubCaseStudy}
+        slug={project.slug}
+        datePublished={project.datePublished}
+        dateModified={project.dateModified}
+      />
+    );
   }
 
   return (
@@ -92,12 +109,15 @@ export default async function WorkPage({ params }: WorkPageProps) {
             "@type": "CreativeWork",
             name: project.name,
             description: project.description,
-            url: `https://mohtasham.dev/work/${project.slug}`,
+            url: `https://www.mohtasham.dev/work/${project.slug}`,
+            image: `https://www.mohtasham.dev${project.image}`,
+            dateCreated: project.datePublished,
+            dateModified: project.dateModified,
             sameAs: project.url,
             creator: {
               "@type": "Person",
               name: "Mohtasham Murshid Madani",
-              url: "https://mohtasham.dev",
+              url: "https://www.mohtasham.dev",
             },
           }),
         }}

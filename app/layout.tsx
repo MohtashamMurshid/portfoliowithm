@@ -204,12 +204,6 @@ export default function RootLayout({
                 "@type": "WebSite",
                 name: "Mohtasham's Portfolio",
                 url: homeUrl,
-                potentialAction: {
-                  "@type": "SearchAction",
-                  target:
-                    "https://www.google.com/search?q={search_term_string}",
-                  "query-input": "required name=search_term_string",
-                },
               }),
             }}
           />

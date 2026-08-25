@@ -364,7 +364,7 @@ export default function ReportExperience({ npmDownloadText }: ReportExperiencePr
                 Guiltlessly exploring passions and interests; imbuing quality. Remaining mindful that everything around us is someone’s life work.
               </p>
               <div className="report-note-links">
-                <a href="https://blog.mohtasham.dev">Technical writing <ArrowUpRight aria-hidden="true" /></a>
+                <Link href="/blog">Technical writing <ArrowUpRight aria-hidden="true" /></Link>
                 <Link href="/gallery">Visual archive <ArrowUpRight aria-hidden="true" /></Link>
                 <a href="https://www.researchgate.net/profile/Mohtasham-Madani">Research record <ArrowUpRight aria-hidden="true" /></a>
               </div>

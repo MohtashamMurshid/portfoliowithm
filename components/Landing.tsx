@@ -74,7 +74,7 @@ const Landing = ({ npmDownloadText }: LandingProps) => {
     {
       title: "Technical Blog",
       description: "Thoughts on software development and design.",
-      url: "https://blog.mohtasham.dev",
+      url: "/blog",
       isExternal: false,
     },
     {

@@ -574,6 +574,7 @@ The complete option types ship with the package. In TypeScript, import `Options`
 
 ## Source and package
 
+- [Read the md-to-docx case study](/work/markdown-to-docx)
 - [GitHub repository](https://github.com/MohtashamMurshid/md-to-docx)
 - [npm package](https://www.npmjs.com/package/@mohtasham/md-to-docx)
 - [Issue tracker](https://github.com/MohtashamMurshid/md-to-docx/issues)
