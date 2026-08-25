@@ -305,18 +305,6 @@ export class ShelfEngine {
     warmBounce.position.set(-3, 0.4, 3.2);
     this.scene.add(warmBounce);
 
-    const wall = new THREE.Mesh(
-      new THREE.PlaneGeometry(34, 18),
-      new THREE.MeshStandardMaterial({
-        color: "#faf9f7",
-        roughness: 1,
-        metalness: 0,
-      }),
-    );
-    wall.position.set(0, 5, -3.2);
-    wall.receiveShadow = true;
-    this.scene.add(wall);
-
     const ground = new THREE.Mesh(
       new THREE.PlaneGeometry(36, 18),
       new THREE.MeshStandardMaterial({
