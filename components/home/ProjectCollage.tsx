@@ -1,11 +1,12 @@
 import Image from "next/image";
+import Link from "next/link";
 import styles from "./ProjectCollage.module.css";
 
 const projects = [
   {
     name: "getdesign",
     note: "A design system from any URL.",
-    href: "https://getdesign.app",
+    href: "/work/getdesign",
     image: "/projects/getdesign.png",
     className: styles.getdesign,
     sizes: "(max-width: 760px) 86vw, 38vw",
@@ -13,7 +14,7 @@ const projects = [
   {
     name: "Oikina",
     note: "Small software, inside your cloud.",
-    href: "https://www.oikina.com/",
+    href: "/work/oikina",
     image: "/projects/oikina-pass.png",
     className: styles.oikina,
     sizes: "(max-width: 760px) 82vw, 34vw",
@@ -21,7 +22,7 @@ const projects = [
   {
     name: "md-to-docx",
     note: "Markdown to production-ready Word docs.",
-    href: "https://github.com/MohtashamMurshid/md-to-docx",
+    href: "/work/markdown-to-docx",
     image: "/projects/md-to-docx.png",
     className: styles.markdown,
     sizes: "(max-width: 760px) 88vw, 37vw",
@@ -29,7 +30,7 @@ const projects = [
   {
     name: "Eikon Studio",
     note: "A multi-model AI image studio.",
-    href: "https://eikonstudio.xyz",
+    href: "/work/eikon-studio",
     image: "/projects/eikon-studio.png",
     className: styles.eikon,
     sizes: "(max-width: 760px) 92vw, 42vw",
@@ -37,7 +38,7 @@ const projects = [
   {
     name: "Iris",
     note: "An open-source camera for iPhone.",
-    href: "https://github.com/MohtashamMurshid/iris",
+    href: "/work/iris",
     image: "/projects/iris-camera.png",
     className: styles.iris,
     sizes: "(max-width: 760px) 62vw, 23vw",
@@ -45,7 +46,7 @@ const projects = [
   {
     name: "Understanding Software",
     note: "A visual field guide to how software works.",
-    href: "https://understanding-software.vercel.app",
+    href: "/work/understanding-software",
     image: "/projects/understanding-software-zine.png",
     className: styles.understanding,
     sizes: "(max-width: 760px) 94vw, 42vw",
@@ -53,7 +54,7 @@ const projects = [
   {
     name: "Skills",
     note: "Reusable abilities for coding agents.",
-    href: "https://github.com/MohtashamMurshid/skills",
+    href: "/work/skills",
     image: "/projects/agent-skills.png",
     className: styles.skills,
     sizes: "(max-width: 760px) 88vw, 38vw",
@@ -71,12 +72,10 @@ export default function ProjectCollage() {
 
       <div className={styles.collage}>
         {projects.map((project) => (
-          <a
+          <Link
             key={project.name}
             className={`${styles.artifact} ${project.className}`}
             href={project.href}
-            target="_blank"
-            rel="noreferrer"
             aria-label={`Open ${project.name}`}
           >
             <span className={styles.artwork}>
@@ -91,7 +90,7 @@ export default function ProjectCollage() {
               <strong>{project.name}</strong>
               <small>{project.note}</small>
             </span>
-          </a>
+          </Link>
         ))}
       </div>
 

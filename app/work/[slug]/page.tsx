@@ -2,7 +2,9 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowLeft, ArrowUpRight } from "lucide-react";
 import { notFound } from "next/navigation";
+import GitHubProjectCaseStudy from "@/components/work/GitHubProjectCaseStudy";
 import MarkdownToDocxCaseStudy from "@/components/work/MarkdownToDocxCaseStudy";
+import { githubCaseStudies } from "@/lib/githubCaseStudies";
 import { getProject, projects } from "@/lib/projects";
 
 type WorkPageProps = {
@@ -38,6 +40,11 @@ export default async function WorkPage({ params }: WorkPageProps) {
 
   if (project.slug === "markdown-to-docx") {
     return <MarkdownToDocxCaseStudy project={project} />;
+  }
+
+  const githubCaseStudy = githubCaseStudies[project.slug];
+  if (githubCaseStudy) {
+    return <GitHubProjectCaseStudy project={githubCaseStudy} />;
   }
 
   return (

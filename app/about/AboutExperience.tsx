@@ -19,10 +19,10 @@ const milestones = [
 ];
 
 const entranceDelay = {
-  mat: 0.12,
-  notebook: 0.82,
-  pen: 1.52,
-  article: 2.65,
+  mat: 0.06,
+  notebook: 0.46,
+  pen: 0.85,
+  article: 1.49,
 } as const;
 
 function DraggableAsset({
@@ -85,7 +85,7 @@ function DraggableAsset({
       style={{ x, y }}
       transition={{
         delay: reduceMotion ? 0 : delay,
-        duration: reduceMotion ? 0 : 0.78,
+        duration: reduceMotion ? 0 : 0.44,
         ease: [0.22, 1, 0.36, 1],
       }}
     >
@@ -161,7 +161,7 @@ export default function AboutExperience() {
       initial={reduceMotion ? false : { opacity: 0, y: 18 }}
       animate={{ opacity: 1, y: 0 }}
       exit={reduceMotion ? undefined : { opacity: 0, y: -10 }}
-      transition={{ duration: reduceMotion ? 0 : 0.52, ease: [0.22, 1, 0.36, 1] }}
+      transition={{ duration: reduceMotion ? 0 : 0.29, ease: [0.22, 1, 0.36, 1] }}
     >
       <section className={styles.desk} aria-label="A draggable desk assembled from generated objects">
         <DraggableAsset className={styles.mat} delay={entranceDelay.mat} label="A worn green cutting mat">
@@ -169,7 +169,7 @@ export default function AboutExperience() {
         </DraggableAsset>
         <DraggableAsset className={styles.notebook} delay={entranceDelay.notebook} label="An open grid-paper notebook">
           <Image
-            src="/about/open-notebook-mohtasham.png"
+            src="/about/open-notebook-mohtasham-transparent.png"
             alt=""
             fill
             priority
@@ -194,7 +194,7 @@ export default function AboutExperience() {
         initial={reduceMotion ? false : { opacity: 0, y: 24 }}
         transition={{
           delay: reduceMotion ? 0 : entranceDelay.article,
-          duration: reduceMotion ? 0 : 0.85,
+          duration: reduceMotion ? 0 : 0.48,
           ease: [0.22, 1, 0.36, 1],
         }}
       >

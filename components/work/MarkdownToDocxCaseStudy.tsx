@@ -147,7 +147,7 @@ export default async function MarkdownToDocxCaseStudy({ project }: MarkdownToDoc
           </Link>
           <header className={styles.header}>
             <h1>md-to-docx</h1>
-            <p>February 2026 · Design, Development, Documentation</p>
+            <p>August 2026 · Design, Development, Documentation</p>
           </header>
         </div>
 
@@ -166,8 +166,9 @@ export default async function MarkdownToDocxCaseStudy({ project }: MarkdownToDoc
           <p>
             <code>@mohtasham/md-to-docx</code> converts Markdown into editable Word
             documents. Headings become document styles, lists remain lists, tables stay
-            editable, and links still work. The converter is available as a TypeScript
-            library, a command-line tool, and an agent skill.
+            editable, and links still work. It also handles multi-section templates,
+            captions, cross-references, diagrams, and editable Word math. The converter
+            is available as a TypeScript library, a command-line tool, and an agent skill.
           </p>
           <p>
             I built it for the last step in a familiar writing process. The draft is
@@ -196,6 +197,19 @@ export default async function MarkdownToDocxCaseStudy({ project }: MarkdownToDoc
         </section>
 
         <div className={styles.rule} />
+
+        <figure className={`${styles.wideFigure} ${styles.productFigure}`}>
+          <Image
+            src="/projects/case-studies/md-to-docx-npm.png"
+            alt="The published md-to-docx package page on npm"
+            width={1440}
+            height={900}
+            sizes="(max-width: 760px) calc(100vw - 36px), 1080px"
+          />
+          <figcaption>
+            The package is published on npm with the TypeScript API, CLI, and agent skill available from one codebase.
+          </figcaption>
+        </figure>
 
         <section className={styles.section}>
           <h2>Why I built it</h2>
@@ -289,6 +303,34 @@ export default async function MarkdownToDocxCaseStudy({ project }: MarkdownToDoc
             <pre><code>{highlightTypeScript(optionExample)}</code></pre>
             <figcaption>Formatting can change without rewriting the source document.</figcaption>
           </figure>
+        </section>
+
+        <section className={styles.section}>
+          <h2>What it is becoming</h2>
+          <p>
+            The larger idea is a document compiler for developer and agent workflows.
+            One Markdown source should become an editable Word file with real headings,
+            lists, tables, sections, references, captions, diagrams, math, and the styles
+            of an existing reference document. The result should still behave like a Word
+            document after it leaves the codebase.
+          </p>
+          <p>
+            Version {npmStats.version} already covers the TypeScript library, CLI, agent
+            skill, multi-section templates, captions and cross-references, syntax
+            highlighting, charts, Mermaid, editable math, custom renderers, and reference
+            DOCX style adoption and patching.
+          </p>
+        </section>
+
+        <section className={styles.section}>
+          <h2>What comes next</h2>
+          <p>
+            There is no published feature roadmap or open issue queue today. The next
+            work should keep the conversion boundary dependable: add regression files
+            from real documents, widen template compatibility, check accessibility, and
+            preserve API and CLI behavior as the package changes. New output features
+            should ship with a document fixture and a rendered comparison.
+          </p>
         </section>
 
         <footer className={styles.footer}>

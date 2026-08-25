@@ -17,7 +17,7 @@ const featured: WorkItem = {
   name: "Oikina",
   category: "Enterprise software",
   date: "Building now",
-  href: "https://www.oikina.com/",
+  href: "/work/oikina",
   image: "/projects/oikina-pass.png",
   status: "Building now",
 };
@@ -27,14 +27,14 @@ const work: WorkItem[] = [
     name: "Iris",
     category: "Open-source camera",
     date: "Aug 24, 2026",
-    href: "https://iris.mohtasham.dev",
+    href: "/work/iris",
     image: "/projects/iris-camera.png",
   },
   {
     name: "Skills",
     category: "Agent tooling",
     date: "Aug 22, 2026",
-    href: "https://github.com/MohtashamMurshid/skills",
+    href: "/work/skills",
     image: "/projects/agent-skills.png",
   },
   {
@@ -55,7 +55,7 @@ const work: WorkItem[] = [
     name: "Understanding Software",
     category: "Interactive field guide",
     date: "Jul 31, 2026",
-    href: "https://understanding-software.vercel.app",
+    href: "/work/understanding-software",
     image: "/projects/understanding-software-zine.png",
   },
   {

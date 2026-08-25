@@ -231,7 +231,7 @@ export default function ReportExperience({ npmDownloadText }: ReportExperiencePr
           </motion.div>
           <motion.div className="report-operation-list" {...reveal}>
             <ProjectRow index="01" name="getdesign" role="Founder" text="On-demand design systems from any URL, delivered through the web, API, CLI, and a portable agent." href="/work/getdesign" />
-            <ProjectRow index="02" name="Citysage" role="AI Engineer" text="Intelligent software considered at the scale and complexity of a city." href="/work/citysage" />
+            <ProjectRow index="02" name="Citysage" role="AI Engineer" text="Intelligent software considered at the scale and complexity of a city." href="https://citysage.my" />
           </motion.div>
           <motion.figure className="report-bird-flight" {...reveal}>
             <Image src="/report/courier-birds-cutout.png" alt="Engraved mechanical courier birds carrying small data capsules." fill sizes="(max-width: 899px) 100vw, 38vw" />
@@ -280,7 +280,7 @@ export default function ReportExperience({ npmDownloadText }: ReportExperiencePr
               <p className="report-body-copy">
                 The Office contributes AI engineering to Citysage: practical systems intended to make complex urban environments more legible, responsive, and useful.
               </p>
-              <Link className="report-text-link" href="/work/citysage">Open full dossier <ArrowUpRight aria-hidden="true" /></Link>
+              <a className="report-text-link" href="https://citysage.my" target="_blank" rel="noreferrer">Visit Citysage <ArrowUpRight aria-hidden="true" /></a>
               <figure className="report-city-proof">
                 <Image
                   src="/report/citysage-interface.png"
@@ -420,10 +420,16 @@ function Folio({ number, label }: { number: string; label: string }) {
 }
 
 function ProjectRow({ index, name, role, text, href }: { index: string; name: string; role: string; text: string; href: string }) {
-  return (
-    <Link href={href} className="report-operation-row">
+  const content = (
+    <>
       <span>{index}</span><span><strong>{name}</strong><small>{role}</small></span><p>{text}</p><ArrowUpRight aria-hidden="true" />
-    </Link>
+    </>
+  );
+
+  return href.startsWith("http") ? (
+    <a href={href} className="report-operation-row" target="_blank" rel="noreferrer">{content}</a>
+  ) : (
+    <Link href={href} className="report-operation-row">{content}</Link>
   );
 }
 

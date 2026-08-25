@@ -45,14 +45,12 @@ export default function SiteHeader() {
   const pathname = usePathname();
   const overlaysPage = pathname === "/" || pathname === "/work" || pathname === "/about";
   const toneClass = overlaysPage
-    ? ""
-    : pathname === "/archive/2"
+      ? ""
+      : pathname === "/archive/2"
         ? styles.report
-        : pathname === "/work/markdown-to-docx"
+        : pathname.startsWith("/work/")
           ? styles.document
-          : pathname.startsWith("/work/")
-            ? styles.dossier
-            : styles.plain;
+          : styles.plain;
 
   return (
     <>
