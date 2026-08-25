@@ -1,6 +1,6 @@
 "use client";
 
-import type { ReactNode } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 import { motion, useReducedMotion, type Variants } from "framer-motion";
 import styles from "@/app/work/work.module.css";
 
@@ -14,6 +14,8 @@ const projectVariants: Variants = {
   },
 };
 
+let hasPlayedWorkEntrance = false;
+
 export default function WorkEntrance({
   featured,
   projects,
@@ -22,7 +24,13 @@ export default function WorkEntrance({
   projects: ReactNode[];
 }) {
   const reduceMotion = Boolean(useReducedMotion());
-  const initial = reduceMotion ? false : "hidden";
+  const [playEntrance] = useState(() => !hasPlayedWorkEntrance);
+  const shouldAnimate = playEntrance && !reduceMotion;
+  const initial = shouldAnimate ? "hidden" : false;
+
+  useEffect(() => {
+    hasPlayedWorkEntrance = true;
+  }, []);
 
   return (
     <section className={styles.featured} aria-labelledby="featured-title">
@@ -40,7 +48,7 @@ export default function WorkEntrance({
         initial={initial}
         animate="visible"
         variants={projectVariants}
-        transition={{ delay: reduceMotion ? 0 : 0.22 }}
+        transition={{ delay: shouldAnimate ? 0.22 : 0 }}
       >
         {featured}
       </motion.div>
@@ -54,8 +62,8 @@ export default function WorkEntrance({
           hidden: {},
           visible: {
             transition: {
-              delayChildren: reduceMotion ? 0 : 0.68,
-              staggerChildren: reduceMotion ? 0 : 0.14,
+              delayChildren: shouldAnimate ? 0.68 : 0,
+              staggerChildren: shouldAnimate ? 0.14 : 0,
             },
           },
         }}

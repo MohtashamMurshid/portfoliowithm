@@ -5,9 +5,9 @@ const siteUrl = "https://www.mohtasham.dev";
 export const githubCaseStudies: Record<string, GitHubProjectCaseStudyData> = {
   oikina: {
     name: "Oikina",
-    dateLine: "Building now · Product, Infrastructure, Developer Experience",
+    dateLine: "Building now · Solo project · Product and infrastructure",
     description:
-      "Deployment and runtime infrastructure for static sites and constrained full-stack apps, with immutable releases, per-app SQLite, and rollback.",
+      "A small cloud for deploying apps built by people and coding agents.",
     image: {
       src: "/projects/oikina-pass.png",
       alt: "An Oikina deployment pass on a dark product card",
@@ -15,34 +15,34 @@ export const githubCaseStudies: Record<string, GitHubProjectCaseStudyData> = {
       height: 1024,
     },
     introduction: [
-      "Oikina is the enterprise small cloud for software made by agents and developers. It is the runtime and governance system underneath an internal app, not another prompt-to-app builder. The goal is to make small software as easy to share as a document while keeping identity, data, policy, versions, cost, and retirement visible to IT.",
-      "The product is larger than static hosting. An Oikina App is meant to carry its interface, server actions, database, files, identity rules, secret references, jobs, webhooks, releases, logs, and audit history through one narrow TypeScript contract.",
+      "Oikina is my startup. I started it because coding agents could build most of a small app, but they could not finish deploying it. I still had to open several dashboards, create a database, configure authentication, set up storage, and move credentials between services. A quick one-off app kept turning into an infrastructure job.",
+      "I wanted one opinionated place where an agent could deploy the app for me. Oikina works from a project folder. Its CLI builds the app, checks its configuration, uploads it, and publishes it to an Oikina subdomain. In my current beta tests, a normal deployment finishes in under ten seconds.",
     ],
     metadata: [
-      { title: "My contributions", items: ["Product design", "Full-stack development", "Infrastructure"] },
-      { title: "Current interfaces", items: ["CLI", "Hosted Runtime", "Operator Console"] },
-      { title: "Current status", items: ["Hosted beta", "Scoped credentials", "Rollback"] },
+      { title: "My work", items: ["Product design", "CLI", "Runtime and infrastructure"] },
+      { title: "Current beta", items: ["Built independently", "5+ testers", "Under 10-second deploys"] },
+      { title: "Working today", items: ["Full-stack apps", "Persistent SQLite", "Releases and rollback"] },
     ],
     sections: [
       {
-        title: "The product Oikina is becoming",
+        title: "Why I call it a small cloud",
         paragraphs: [
-          "An employee should be able to have Codex, Claude Code, Cursor, or another agent build a five-person operations tool, preview it, deploy it, and share it with named colleagues. Oikina supplies the application contract and becomes the deploy target. The agent remains the creation interface.",
-          "The complete product joins a cloud-neutral control plane to an Oikina Private Runtime inside a customer's AWS, Azure, or Google Cloud account. The control plane owns apps, versions, policy, approvals, audit, and deployment orchestration. The private runtime executes isolated app capsules beside approved identity systems, secret managers, databases, files, and internal APIs.",
+          "Small apps should not require a collection of accounts and credentials before anyone can use them. Most of the apps I build are tools for a handful of people. They need somewhere to run, a database, a little server code, and a safe way to update them. They do not need an open-ended cloud setup.",
+          "Oikina is deliberately narrow. It is not another tool that generates the app. The coding agent remains the place where the app is created. Oikina gives that agent a predictable way to develop, validate, and deploy it. The current beta does not replace every dashboard yet, but it proves that deployment can become one short command instead of a manual setup session.",
         ],
       },
       {
-        title: "What works now",
+        title: "What works in the beta",
         paragraphs: [
-          "The Hosted Runtime already serves static apps and constrained full-stack React apps. Every deployment declares its identity, build output, migrations, and allowed server routes in oikina.json. The CLI validates that file before upload, and the runtime sends only declared method and path pairs to private code running in a fresh networkless worker.",
-          "Each app has stable SQLite data, server-only secret sync, scoped deploy credentials, immutable release history, and rollback. The Operator Console can issue and revoke credentials, inspect releases, and move the active filesystem pointer back to an installed artifact. That is a real working slice of the larger small-cloud idea.",
+          "Oikina currently deploys static sites and constrained full-stack React apps. A full-stack app can include declared server actions, migrations, persistent SQLite data, reactive queries, and encrypted server secrets. Every release is kept as an immutable version, and an earlier release can be restored through rollback.",
+          "Server actions run inside fresh, networkless workers. The worker can disappear after the request without taking the app's data with it. SQLite belongs to the app rather than the release, so its data survives new deployments, rollbacks, and worker restarts. Five-plus friends and colleagues are testing the beta. App-user authentication, file storage, background jobs, arbitrary backend servers, and customer-hosted runtimes are not available yet.",
         ],
       },
       {
-        title: "What comes next",
+        title: "The part I had to learn",
         paragraphs: [
-          "The next product work fills the gap between the Hosted Runtime and the enterprise small cloud. That includes app-user identity, organization membership, Google and Microsoft sign-in, sharing roles, file storage, jobs, webhooks, secret-manager references, policy templates, approvals, cost limits, app ownership transfer, and retirement.",
-          "Private Runtime then moves the same Oikina App contract into a customer's cloud account, starting with enterprise identity, private Postgres and storage, one internal API, and a notification action. The public site describes this destination. The case study now keeps the current hosted slice and that longer plan separate.",
+          "I had deployed plenty of apps before Oikina. I had never built the system doing the deployment. This was my first time going this deeply into packaging applications, checking uploads, isolating private server code, preserving data, switching releases, and operating the infrastructure underneath it.",
+          "There was no single difficult piece. The whole path had to work together. An upload could not escape its project folder. Private server code could not become a public file. A failed release could not replace the working one. SQLite had to survive while workers and releases came and went. Rollback had to restore verified code without rolling back the user's data. Getting all of that working was the hardest part of the project, and the reason I learned so much from building it.",
         ],
       },
     ],
@@ -53,42 +53,113 @@ export const githubCaseStudies: Record<string, GitHubProjectCaseStudyData> = {
           {
             type: "image",
             src: "/projects/case-studies/oikina-landing.png",
-            alt: "The Oikina landing page introducing the enterprise small cloud",
+            alt: "The Oikina landing page introducing the small cloud",
             width: 1440,
             height: 900,
-            caption: "The public Oikina site frames the product as a home for small software inside a company's cloud.",
+            caption: "The public Oikina site introduces the small-cloud idea and its opinionated deployment model.",
           },
         ],
       },
     ],
-    mappingFigure: {
-      sourceLabel: "project input",
-      targetLabel: "runtime result",
-      rows: [
-        { source: "oikina.json", target: "Validated identity, build, and routes" },
-        { source: "dist/", target: "Immutable public artifact" },
-        { source: "server bundle", target: "Fresh one-shot worker" },
-        { source: "migration contract", target: "App-scoped SQLite schema" },
+    flowFigure: {
+      title: "From an idea to a running app",
+      steps: [
+        { title: "Describe the app", detail: "A person asks a coding agent to build a small tool." },
+        { title: "Build locally", detail: "The agent writes the interface, actions, and data model." },
+        { title: "Validate", detail: "The CLI checks the manifest, build, routes, and migrations." },
+        { title: "Deploy", detail: "Oikina uploads and publishes an immutable release." },
+        { title: "Share the URL", detail: "The running app receives its Oikina subdomain." },
       ],
-      caption: "The deployed app can do only what its manifest declares.",
+      caption: "The agent stays in the development loop and uses Oikina as the deploy target.",
+      afterSection: 0,
+    },
+    architectureFigure: {
+      title: "Current hosted architecture",
+      stages: [
+        {
+          label: "Build",
+          nodes: [
+            { title: "Person + coding agent", detail: "Create the app in a local project folder" },
+          ],
+        },
+        {
+          label: "Prepare",
+          nodes: [
+            { title: "Oikina CLI", detail: "Build, validate, bundle, and upload" },
+          ],
+        },
+        {
+          label: "Publish",
+          nodes: [
+            { title: "Hosted Runtime", detail: "Authenticate and install the release" },
+            { title: "Release registry", detail: "Keep immutable versions and the active pointer" },
+          ],
+        },
+        {
+          label: "Run",
+          nodes: [
+            { title: "Static gateway", detail: "Serve the active public files" },
+            { title: "Isolated action worker", detail: "Run one declared server action" },
+            { title: "Persistent SQLite", detail: "Keep app data across releases and workers" },
+          ],
+        },
+      ],
+      caption: "Public files and server actions resolve from the same active release. App data lives separately so deployment and rollback do not replace it.",
+      afterSection: 1,
+    },
+    mappingFigure: {
+      sourceLabel: "project folder",
+      targetLabel: "hosted result",
+      rows: [
+        {
+          source: "oikina.json",
+          target: "Validated app contract",
+          detail: "Identity, build output, action routes, and migrations",
+        },
+        {
+          source: "dist/",
+          target: "Immutable public artifact",
+          detail: "Bounded regular files with unsafe paths and symlinks rejected",
+        },
+        {
+          source: "server/actions.ts",
+          target: "Private server bundle",
+          detail: "Stored separately and run only for declared routes",
+        },
+        {
+          source: "migrations",
+          target: "Persistent app SQLite",
+          detail: "Ordered changes bound to one stable app identity",
+        },
+        {
+          source: ".env.production",
+          target: "Public and private values split",
+          detail: "Server values are encrypted and injected into workers",
+        },
+        {
+          source: "deployment",
+          target: "Release history and rollback",
+          detail: "A verified active pointer selects the version being served",
+        },
+      ],
+      caption: "The project folder becomes a release, while the app's data remains independent from that release.",
       afterSection: 1,
     },
     codeFigure: {
-      label: "Application contract",
-      fileName: "oikina.json",
-      code: `{
-  "name": "incident-tracker",
-  "build": { "output": "dist" },
-  "actions": [
-    { "method": "POST", "path": "/api/incidents" }
-  ]
-}`,
-      command: "npx oikina validate && npx oikina deploy",
-      caption: "Validate the contract before uploading an immutable release.",
+      label: "Deployment flow",
+      fileName: "terminal",
+      code: `$ npx oikina new incident-tracker
+$ cd incident-tracker
+$ npx oikina dev
+$ npx oikina validate
+$ npx oikina login <deploy-token>
+$ npx oikina deploy`,
+      command: "npx oikina deploy",
+      caption: "Develop locally, validate the project, and deploy it through the same CLI.",
       afterSection: 1,
     },
     footer: {
-      statement: "Agents can build the app. Oikina is where that app becomes deployable, shareable, and governable.",
+      statement: "I built Oikina so the agent can finish the job instead of handing me a list of dashboards to configure.",
       links: [{ label: "Visit Oikina ↗", href: "https://oikina.com" }],
     },
     pageUrl: `${siteUrl}/work/oikina`,
@@ -98,9 +169,9 @@ export const githubCaseStudies: Record<string, GitHubProjectCaseStudyData> = {
 
   iris: {
     name: "Iris",
-    dateLine: "August 2026 · Product, Interface Design, Development",
+    dateLine: "August 2026 · Solo project · Product, interface, and development",
     description:
-      "An open-source iPhone camera project currently represented by an interactive Expo interface prototype and an Astro product site.",
+      "A free, open-source iPhone camera for people who want control over their photographs.",
     compactImages: true,
     image: {
       src: "/projects/iris-camera.png",
@@ -109,34 +180,34 @@ export const githubCaseStudies: Record<string, GitHubProjectCaseStudyData> = {
       height: 1448,
     },
     introduction: [
-      "Iris is an open-source iPhone camera for photographers who want immediate automatic capture, understandable manual camera controls, and a small set of live photographic Looks in the same viewfinder. The product is designed for still photography, offline use, and direct control without requiring an account.",
-      "The aim is a camera that starts fast but grows with the photographer. Auto mode should be dependable. Manual mode should expose the shutter, ISO, focus, white balance, exposure compensation, and zoom ranges the active iPhone actually supports. A locked value stays locked.",
+      "I started Iris because the manual camera apps I found for iPhone were expensive. Paying for another app or subscription should not be the only way to control shutter speed, ISO, focus, white balance, exposure, and RAW capture.",
+      "Iris is my attempt to build a free alternative. The first release is planned as an iPhone still camera with automatic capture when you want it and full manual controls when you do not. I designed and built the current prototype alone. Its interface takes inspiration from Halide 3, but Iris uses its own branding, controls, icons, and visual system.",
     ],
     metadata: [
-      { title: "My contributions", items: ["Product design", "Interface design", "Development"] },
-      { title: "Current builds", items: ["Expo prototype", "Astro site", "Canvas demo"] },
-      { title: "Release status", items: ["In development", "No TestFlight", "No App Store build"] },
+      { title: "My work", items: ["Product design", "Interface design", "Development"] },
+      { title: "Current build", items: ["Expo SDK 57 prototype", "Browser demo", "No released camera app"] },
+      { title: "First release", items: ["Free and open source", "iPhone stills", "Offline without an account"] },
     ],
     sections: [
       {
-        title: "The camera Iris is becoming",
+        title: "Why I want it to be open source",
         paragraphs: [
-          "The first release is planned as an iPhone-only still camera. It combines HEIC or JPEG capture with DNG where the device supports RAW. Five original Looks appear in the live preview and should match the saved processed photograph. Video, Android, social feeds, cloud backup, and a desktop editor stay outside the first release.",
-          "The Photo Lab will let a photographer revisit the latest capture, change the Look and its intensity, inspect metadata, and export a new version without losing the original. Later research may explore simulated aperture, but only if subject edges, latency, and device coverage meet a separate quality bar.",
+          "Open-source software is how I learned much of what I know about building products. I could inspect real projects, understand how they worked, change things, break them, and try again. Iris should offer that same opportunity to someone else.",
+          "The app will be free and open source. It is for anyone who wants more control over an iPhone photograph without paying for a professional camera app. Someone should be able to use it as a simple automatic camera, then move into shutter speed, ISO, manual focus, white balance, exposure compensation, zoom, and DNG capture as they learn.",
         ],
       },
       {
-        title: "What works now",
+        title: "What works in the prototype",
         paragraphs: [
-          "The Expo app is an interactive interface prototype. It has the viewfinder shell, Auto and Manual modes, five Looks, composition guides, zoom controls, haptics, and Photo Lab editing panels. The screen captures below come from that prototype, not a finished App Store build.",
-          "The Astro site adds a browser camera simulation around a supplied image. Tapping the frame moves a focus point, lens controls change the crop, Looks apply a shared recipe, and the shutter renders a JPEG or PNG through canvas. The demo tests the interaction and processing model without claiming access to the iPhone sensor.",
+          "The mobile app is currently an interactive interface prototype. It has Auto and Manual modes, control dials, RAW and aspect-ratio controls, composition guides, zoom shortcuts, haptics, a Look selector, and Photo Lab editing screens. It does not yet connect those controls to a production iPhone camera pipeline, and it cannot take a real photograph today.",
+          "The public website has a browser demo built around a sample image. Visitors can move the focus point, change the crop, select a Look, adjust simulated exposure, and render a JPEG or PNG through canvas. I used AI to draft the current Look recipes. They are prototype starting points, not copied camera profiles, and they still need device testing so the live preview and saved photograph produce the same result.",
         ],
       },
       {
-        title: "What comes next",
+        title: "Turning the prototype into a camera",
         paragraphs: [
-          "The next milestone is the native camera foundation in a custom Expo development build on a physical iPhone. That work covers permissions, a stable live preview, tap focus and exposure, orientation, save recovery, recent-capture thumbnails, and a 100-shot reliability test.",
-          "After that come hardware-derived manual ranges, locked ISO and exposure duration, focus and white-balance control, DNG capture, GPU-rendered Looks, and preview-to-export color tests. TestFlight starts only after capture reliability, device compatibility, accessibility, and photo-loss safeguards pass. There is no public app, TestFlight build, or App Store listing today.",
+          "The hardest part is the iPhone camera API. Iris uses Expo SDK 57, but the App Store version of Expo Go available when I tested it did not accept the project during the SDK transition. Expo Go is useful for interface work, but the complete manual-control and image-processing stack needs a custom Expo development build and testing on a physical iPhone.",
+          "The next milestone is a signed build with camera permissions, a stable live preview, one reliable capture per shutter tap, camera switching, orientation handling, save recovery, and a recent-photo thumbnail. After a 100-shot reliability test, I can add hardware-derived manual ranges, locked controls, DNG capture, GPU-rendered Looks, and preview-to-export color checks. I plan to release Iris through TestFlight and eventually the App Store, but neither exists today.",
         ],
       },
     ],
@@ -150,7 +221,7 @@ export const githubCaseStudies: Record<string, GitHubProjectCaseStudyData> = {
             alt: "The Iris automatic camera viewfinder prototype with RAW, autofocus, zoom, Look, and shutter controls",
             width: 780,
             height: 1688,
-            caption: "The current Expo viewfinder prototype keeps capture controls around the frame.",
+            caption: "The Expo prototype tests how camera controls can stay close without covering the frame.",
           },
           {
             type: "image",
@@ -158,19 +229,93 @@ export const githubCaseStudies: Record<string, GitHubProjectCaseStudyData> = {
             alt: "The Iris Photo Lab prototype showing five Looks and an exposure dial",
             width: 780,
             height: 1688,
-            caption: "The Photo Lab prototype explores Looks and direct editing controls.",
+            caption: "The Photo Lab prototype explores Look selection, intensity, and direct editing controls.",
           },
         ],
       },
     ],
+    flowFigure: {
+      title: "Planned first-release flow",
+      steps: [
+        { title: "Open the camera", detail: "Grant camera access and enter the viewfinder without an account." },
+        { title: "Choose a mode", detail: "Shoot in Auto or open the manual control tray." },
+        { title: "Set the photograph", detail: "Adjust focus, exposure, white balance, format, zoom, and Look." },
+        { title: "Capture", detail: "Create one processed photo or supported DNG per shutter tap." },
+        { title: "Review and save", detail: "Keep the original, change the Look, share, or save to Photos." },
+      ],
+      caption: "This is the intended v1 path. The current app implements the interface, not the native capture pipeline.",
+      afterSection: 0,
+    },
+    architectureFigure: {
+      title: "Prototype today and the native path ahead",
+      stages: [
+        {
+          label: "Interface now",
+          nodes: [
+            { title: "Expo camera shell", detail: "Modes, dials, grids, zoom, haptics, and Looks" },
+            { title: "Photo Lab", detail: "Look and editing panels around a mock image" },
+          ],
+        },
+        {
+          label: "Simulation now",
+          nodes: [
+            { title: "Viewfinder mock", detail: "Supplied image behind the mobile controls" },
+            { title: "Browser canvas", detail: "CSS preview and JPEG or PNG rendering" },
+          ],
+        },
+        {
+          label: "Native foundation next",
+          nodes: [
+            { title: "Custom Expo build", detail: "Signed development client on a physical iPhone" },
+            { title: "Camera capability report", detail: "Device formats, lenses, ISO, focus, and RAW support" },
+          ],
+        },
+        {
+          label: "Capture pipeline later",
+          nodes: [
+            { title: "Live camera preview", detail: "Capability-aware Auto and Manual controls" },
+            { title: "Processed or RAW file", detail: "HEIC or JPEG plus DNG where supported" },
+            { title: "iOS Photos", detail: "Reliable save, retry, and recent-capture review" },
+          ],
+        },
+      ],
+      caption: "The first two columns exist as prototypes. The native foundation and capture pipeline remain development work.",
+      afterSection: 1,
+    },
     mappingFigure: {
       sourceLabel: "demo action",
       targetLabel: "current behavior",
       rows: [
-        { source: "tap viewfinder", target: "Move focus point and crop anchor" },
-        { source: "choose a lens", target: "Change CSS scale and canvas crop" },
-        { source: "select a Look", target: "Apply one preview and export recipe" },
-        { source: "press shutter", target: "Rasterize the sample image" },
+        {
+          source: "tap viewfinder",
+          target: "Move the focus marker",
+          detail: "The demo changes the visual focus point and crop anchor",
+        },
+        {
+          source: "choose a lens",
+          target: "Change the crop",
+          detail: "CSS scale and canvas coordinates simulate a focal-length change",
+        },
+        {
+          source: "select a Look",
+          target: "Apply a color recipe",
+          detail: "The same filter values feed the preview and canvas export",
+        },
+        {
+          source: "adjust exposure",
+          target: "Change brightness",
+          detail: "A browser filter simulates the visible exposure response",
+        },
+        {
+          source: "choose RAW",
+          target: "Render a PNG",
+          detail: "This is a demo stand-in and not real sensor DNG data",
+        },
+        {
+          source: "press shutter",
+          target: "Rasterize the sample image",
+          detail: "Canvas produces a downloadable JPEG or PNG",
+        },
       ],
       caption: "The browser demo tests the interaction model without claiming a phone capture pipeline.",
       afterSection: 1,
@@ -187,7 +332,7 @@ docs/       # Product and contributor documentation`,
       afterSection: 1,
     },
     footer: {
-      statement: "The interface already has a point of view. The next job is making the camera underneath it trustworthy.",
+      statement: "Iris will be free and open source because open-source projects taught me how to build. I want this camera to give someone else the same chance.",
       links: [
         { label: "Open the product site ↗", href: "https://iris.mohtasham.dev" },
         { label: "View the source ↗", href: "https://github.com/MohtashamMurshid/iris" },
@@ -201,9 +346,9 @@ docs/       # Product and contributor documentation`,
 
   skills: {
     name: "Skills",
-    dateLine: "August 2026 · Agent Design, Tooling, Documentation",
+    dateLine: "August 2026 · Solo project · Instruction design and developer tooling",
     description:
-      "Six reusable skill packages for coding agents, with the instructions, references, assets, scripts, and validation needed to complete the work.",
+      "Six reusable workflows that help coding agents repeat the way I approach specific kinds of work.",
     image: {
       src: "/projects/agent-skills.png",
       alt: "A set of labeled folders representing reusable agent skills",
@@ -211,34 +356,34 @@ docs/       # Product and contributor documentation`,
       height: 1024,
     },
     introduction: [
-      "Skills is a public library of reusable work packages for coding agents. It is meant to make a capable workflow portable across Codex, Claude Code, Cursor, and other agents that support the skills.sh format. Each package includes the instructions and, when the job needs them, references, scripts, assets, and starters.",
-      "The collection currently covers presentations, editorial reports, launch films, technical diagrams, reliable agent design, and ADHD-friendly communication. I built it because a reusable workflow needs more than a polished prompt. The package should carry the material and checks that make the result repeatable.",
+      "I started packaging my workflows so friends could use them without needing me to explain the same process each time. Some of them were running into problems I had already dealt with, so I turned my instructions, references, scripts, and design material into reusable skills.",
+      "A skill is closer to a specification than a prompt. It tells the agent when to use it, what process to follow, which material to load, and what a finished result should include. The same package can work across coding agents instead of living inside one conversation.",
     ],
     metadata: [
-      { title: "My contributions", items: ["Instruction design", "Developer tooling", "Documentation"] },
-      { title: "Package shape", items: ["SKILL.md", "References and assets", "Scripts"] },
-      { title: "Distribution", items: ["skills.sh", "npx installer", "MIT"] },
+      { title: "My work", items: ["Instruction design", "References and templates", "Scripts and validation"] },
+      { title: "Collection", items: ["Six public skills", "Built independently", "Published through skills.sh"] },
+      { title: "Used by friends", items: ["I Have ADHD", "Presentation", "Editorial Report"] },
     ],
     sections: [
       {
-        title: "What the collection is becoming",
+        title: "Why I packaged my workflows",
         paragraphs: [
-          "The long-term shape is a versioned library of narrow, tested workflows. A skill should name the requests that trigger it, define a sequence the agent can follow, carry the working material the job needs, and say what completion means. That turns a one-off method into something another agent can install and repeat.",
-          "The library is intentionally not a hosted agent or a bag of generic prompts. It is a place for jobs with enough craft and machinery to deserve a package, such as rendering a deck, validating a film encode, computing an isometric diagram, or writing a report with its source trail intact.",
+          "A long prompt can describe what you want, but it often leaves the process open to interpretation. The agent may skip an important check, use a different method each time, or produce something that looks finished without completing the actual work.",
+          "My skills narrow that space. Each one handles a specific job and carries the instructions and supporting files needed to do it repeatedly. I built them from workflows I use myself, while also studying and adapting useful ideas from other public skills.",
         ],
       },
       {
-        title: "What works now",
+        title: "The six skills",
         paragraphs: [
-          "Six installable skill directories live in the repository. Presentation has three HTML design starters. Editorial reports include a reference implementation and figure assets. Launch films include a deterministic timeline engine and renderer. Technical diagrams include an isometric geometry module, CSS vocabulary, and SVG scaffolds.",
-          "The collection installs through skills.sh and the npx skills CLI. Its validator checks YAML frontmatter, folder and skill-name agreement, lowercase hyphenated names, useful descriptions, and the skills.sh.json registry. GitHub Actions runs the same checks on pushes and pull requests.",
+          "The collection covers ADHD-friendly communication, presentations, editorial reports, launch films, technical diagrams, and reliable agent design. Friends use the ADHD, Presentation, and Editorial Report skills most often. I use the ADHD skill myself, especially in Codex with GPT models.",
+          "My I Have ADHD skill is adapted from Ayoub Ghriss's open-source project. It keeps responses short, leads with the action, replaces jargon with plain language, and breaks work into small steps. I removed the forced time estimates because I found them distracting. The other five packages turn my working methods into repeatable instructions with the files and checks each job needs.",
         ],
       },
       {
-        title: "What comes next",
+        title: "What makes a skill different",
         paragraphs: [
-          "There is no fixed promise to add skills on a schedule. The next package should appear only when its workflow has been used enough to separate durable instructions from one-project preferences. Existing packages also need to keep working as agent tools, document formats, and rendering dependencies change.",
-          "The next quality step is deeper cross-agent verification: install the same package into supported agents, run its reference task, inspect the artifact, and keep the evidence beside the skill. More packages are useful only if the collection remains readable and trustworthy.",
+          "Every skill begins with a SKILL.md file that defines its trigger and workflow. More involved skills also include references, reusable assets, starter files, scripts, and checks. The agent loads the detailed material only when the job needs it.",
+          "The packages use the shared agent-skills format, so they can move between compatible coding agents. I do not have a growth target for the collection. I want it to remain useful. If one of my workflows saves someone from solving the same problem again, the package has done its job.",
         ],
       },
     ],
@@ -257,16 +402,88 @@ docs/       # Product and contributor documentation`,
         ],
       },
     ],
-    mappingFigure: {
-      sourceLabel: "repository part",
-      targetLabel: "job",
-      rows: [
-        { source: "SKILL.md", target: "Trigger, workflow, completion contract" },
-        { source: "references/", target: "Detailed guidance loaded when needed" },
-        { source: "assets/", target: "Starters, design systems, and geometry" },
-        { source: "scripts/", target: "Validation and rendering automation" },
+    flowFigure: {
+      title: "From my workflow to an installable skill",
+      steps: [
+        { title: "Repeat the work", detail: "Use the same method often enough to know which parts matter." },
+        { title: "Write the contract", detail: "Define when the skill runs, what it does, and what finished means." },
+        { title: "Package the material", detail: "Add only the references, assets, scripts, and starters the job needs." },
+        { title: "Validate", detail: "Check the folder, frontmatter, name, description, and registry entry." },
+        { title: "Share", detail: "Publish through GitHub and install through the skills CLI." },
       ],
-      caption: "Each package carries the material needed to do the work, not only the prompt.",
+      caption: "The package begins with a workflow I already use, not an abstract prompt idea.",
+      afterSection: 0,
+    },
+    architectureFigure: {
+      title: "What lives inside a skill",
+      stages: [
+        {
+          label: "Trigger",
+          nodes: [
+            { title: "Name and description", detail: "Tell the agent when this skill applies" },
+          ],
+        },
+        {
+          label: "Method",
+          nodes: [
+            { title: "SKILL.md", detail: "Workflow, constraints, and completion rules" },
+          ],
+        },
+        {
+          label: "Working material",
+          nodes: [
+            { title: "references/", detail: "Detailed guidance loaded only when needed" },
+            { title: "assets/", detail: "Design systems, starters, and reusable files" },
+            { title: "scripts/", detail: "Rendering, automation, and repeatable checks" },
+          ],
+        },
+        {
+          label: "Result",
+          nodes: [
+            { title: "Finished artifact", detail: "The requested output, not only advice or an outline" },
+            { title: "Validation", detail: "Evidence that the package and its output still work" },
+          ],
+        },
+      ],
+      caption: "Simple skills may need only SKILL.md. Larger jobs carry the material required to produce and check the result.",
+      afterSection: 2,
+    },
+    mappingFigure: {
+      sourceLabel: "skill",
+      targetLabel: "what it helps an agent do",
+      rows: [
+        {
+          source: "i-have-adhd",
+          target: "Communicate clearly",
+          detail: "Short answers, plain language, small actions, and visible progress",
+        },
+        {
+          source: "presentation",
+          target: "Build complete decks",
+          detail: "Narrative, slide design, output files, and rendered-slide checks",
+        },
+        {
+          source: "generate-editorial-report",
+          target: "Create evidence-led reports",
+          detail: "Fact gathering, editorial structure, figures, web, and PDF output",
+        },
+        {
+          source: "render-launch-film",
+          target: "Render launch videos",
+          detail: "A deterministic web timeline, MP4 renderer, stills, and contact sheets",
+        },
+        {
+          source: "draw-technical-diagrams",
+          target: "Draw precise SVG figures",
+          detail: "Computed geometry, cutaways, callouts, hatching, and interaction",
+        },
+        {
+          source: "build-reliable-agents",
+          target: "Stop agent loops and stalls",
+          detail: "Smaller tool payloads, bounded retries, clear delegation, and probes",
+        },
+      ],
+      caption: "Each skill stays narrow enough to describe one job and the method for completing it.",
       afterSection: 1,
     },
     codeFigure: {
@@ -282,10 +499,11 @@ python3 scripts/validate-skills.py`,
       afterSection: 1,
     },
     footer: {
-      statement: "A useful skill combines instructions, working materials, and a check for broken packages.",
+      statement: "I made these skills so other people could reuse the workflows my friends kept asking me to share.",
       links: [
         { label: "Browse the collection ↗", href: "https://skills.sh/mohtashammurshid/skills" },
         { label: "View the source ↗", href: "https://github.com/MohtashamMurshid/skills" },
+        { label: "Original ADHD skill ↗", href: "https://github.com/ayghri/i-have-adhd" },
       ],
     },
     pageUrl: `${siteUrl}/work/skills`,

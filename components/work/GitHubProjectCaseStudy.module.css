@@ -220,6 +220,128 @@
   margin-inline: auto;
 }
 
+.diagramFigure {
+  padding: 32px;
+  border: 1px solid #d0cdc6;
+  border-radius: 6px;
+  background:
+    linear-gradient(rgb(110 105 96 / 6%) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(110 105 96 / 6%) 1px, transparent 1px),
+    #f3f1ec;
+  background-size: 24px 24px;
+}
+
+.diagramFigure > h3 {
+  margin: 0 0 28px;
+  color: #44413b;
+  font-family: var(--font-interface-serif), Georgia, serif;
+  font-size: 24px;
+  font-weight: 400;
+  line-height: 1.15;
+}
+
+.flowSteps {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 28px;
+}
+
+.flowStep {
+  position: relative;
+  min-width: 0;
+  padding-top: 14px;
+  border-top: 1px solid #8f8b82;
+}
+
+.flowStep:not(:last-child)::after {
+  position: absolute;
+  top: 34px;
+  right: -21px;
+  color: #8b867d;
+  content: "→";
+  font-family: var(--font-handwriting), cursive;
+  font-size: 24px;
+}
+
+.flowStep > span,
+.architectureLabel {
+  color: #918c83;
+  font: 500 10px/1 var(--font-registry), monospace;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.flowStep > strong {
+  display: block;
+  margin-top: 20px;
+  color: #48453f;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.25;
+}
+
+.flowStep > p {
+  margin: 7px 0 0;
+  color: #77736c;
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+.architectureStages {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 28px;
+}
+
+.architectureStage {
+  position: relative;
+  min-width: 0;
+}
+
+.architectureStage:not(:last-child)::after {
+  position: absolute;
+  top: 50%;
+  right: -21px;
+  color: #8b867d;
+  content: "→";
+  font-family: var(--font-handwriting), cursive;
+  font-size: 24px;
+  transform: translateY(-50%);
+}
+
+.architectureStage > div {
+  display: grid;
+  margin-top: 12px;
+  gap: 8px;
+}
+
+.architectureNode {
+  min-width: 0;
+  padding: 14px;
+  border: 1px solid #c4c0b8;
+  border-radius: 4px;
+  background: rgb(255 255 255 / 72%);
+}
+
+.architectureNode strong,
+.architectureNode span {
+  display: block;
+}
+
+.architectureNode strong {
+  color: #4b4842;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.architectureNode span {
+  margin-top: 5px;
+  color: #7d7971;
+  font-size: 11px;
+  line-height: 1.4;
+}
+
 .handLabel {
   font-family: var(--font-handwriting), cursive;
   font-size: 26px;
@@ -229,13 +351,15 @@
 
 .mappingFigure {
   display: grid;
+  width: min(820px, calc(100vw - 36px));
   grid-template-columns: 1fr;
   border-top: 1px solid #aaa69e;
 }
 
 .mappingFigure > .handLabel {
   position: absolute;
-  top: -42px;
+  top: -34px;
+  font-size: 21px;
   rotate: -3deg;
 }
 
@@ -244,62 +368,100 @@
 
 .mappingRow {
   display: grid;
-  min-height: 72px;
-  grid-template-columns: 1fr 64px 1fr;
+  min-height: 52px;
+  grid-template-columns: 1fr 42px 1fr;
   align-items: center;
   border-bottom: 1px solid #cbc8c1;
 }
 
 .mappingRow code {
-  padding-left: 28px;
+  padding-left: 18px;
   color: #55524d;
-  font: 400 13px/1.4 var(--font-registry), monospace;
+  font: 400 11px/1.35 var(--font-registry), monospace;
 }
 
 .mappingRow > span {
   color: #858078;
   font-family: var(--font-handwriting), cursive;
-  font-size: 28px;
+  font-size: 21px;
   text-align: center;
 }
 
-.mappingRow strong {
-  padding-right: 28px;
-  font-size: 15px;
-  font-weight: 600;
+.mappingRow > div {
+  padding-right: 18px;
   text-align: right;
 }
 
+.mappingRow strong,
+.mappingRow small {
+  display: block;
+}
+
+.mappingRow strong {
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.mappingRow small {
+  margin-top: 2px;
+  color: #858078;
+  font-size: 10px;
+  line-height: 1.3;
+}
+
 .codeFigure {
-  padding: 34px 38px 28px;
-  border: 1px solid #d8d6d1;
-  border-radius: 5px;
-  background: #f1f1ef;
+  width: min(820px, calc(100vw - 36px));
+  padding: 0;
+  border: 0;
+  background: transparent;
 }
 
 .codeWindow {
   overflow: hidden;
-  border: 1px solid #c9c6c0;
-  border-radius: 4px;
-  background: #fff;
+  border: 1px solid #c5c1b9;
+  border-radius: 7px;
+  background: #fbfaf7;
+  box-shadow: 0 16px 34px rgb(31 29 25 / 15%);
 }
 
-.codeWindow > div {
-  display: flex;
-  justify-content: space-between;
-  padding: 11px 15px;
-  border-bottom: 1px solid #dedcd7;
-  color: #918d85;
+.codeHeader {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  padding: 10px 13px;
+  border-bottom: 1px solid #d2cec6;
+  background: #ece9e2;
+  color: #77736c;
   font: 500 10px/1 var(--font-registry), monospace;
 }
 
+.codeHeader > span:nth-child(2) { text-align: center; }
+.codeHeader > span:last-child { text-align: right; }
+
+.windowControls {
+  display: flex;
+  gap: 6px;
+}
+
+.windowControls i {
+  display: block;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #6c6963;
+}
+
+.windowControls i:first-child { background: #d46a5f; }
+.windowControls i:nth-child(2) { background: #d9ae52; }
+.windowControls i:last-child { background: #69ad62; }
+
 .codeWindow pre {
-  min-height: 240px;
+  min-height: 210px;
   margin: 0;
   overflow-x: auto;
-  padding: 28px;
+  padding: 25px 26px;
   color: #403d38;
-  font: 400 12px/1.75 var(--font-registry), monospace;
+  font: 400 12px/1.8 var(--font-registry), monospace;
 }
 
 .tokenKeyword { color: #a45532; }
@@ -311,18 +473,19 @@
 
 .commandLine {
   display: flex;
-  margin: 18px 0 0;
-  padding: 17px 20px;
-  gap: 13px;
+  margin: 12px 0 0;
+  padding: 13px 15px;
+  gap: 10px;
   overflow-x: auto;
-  border: 1px solid #cbc8c2;
-  border-radius: 4px;
-  background: #fff;
+  border: 1px solid #c5c1b9;
+  border-radius: 6px;
+  background: #fbfaf7;
+  color: #403d38;
   font: 400 12px/1.4 var(--font-registry), monospace;
   white-space: nowrap;
 }
 
-.commandLine span { color: #959088; }
+.commandLine span { color: #667541; }
 
 .footer {
   width: min(600px, 100%);
@@ -369,6 +532,18 @@
   .commandLine { font-size: 10px; }
   .mediaPair { gap: 10px; }
   .compactImages .mediaGrid { width: calc(100vw - 40px); }
+  .diagramFigure { padding: 22px; }
+  .flowSteps,
+  .architectureStages { grid-template-columns: 1fr; gap: 22px; }
+  .flowStep:not(:last-child)::after,
+  .architectureStage:not(:last-child)::after {
+    top: auto;
+    right: 50%;
+    bottom: -22px;
+    content: "↓";
+    transform: translateX(50%);
+  }
+  .flowStep > strong { margin-top: 10px; }
 }
 
 @media (max-width: 480px) {
@@ -377,7 +552,9 @@
   .mappingFigure > .handLabel { font-size: 20px; }
   .mappingRow { grid-template-columns: 1fr 32px 1fr; }
   .mappingRow code { padding-left: 8px; font-size: 10px; }
-  .mappingRow strong { padding-right: 8px; font-size: 12px; }
+  .mappingRow > div { padding-right: 8px; }
+  .mappingRow strong { font-size: 12px; }
+  .mappingRow small { font-size: 9px; }
   .footer > div { flex-direction: column; align-items: flex-start; gap: 14px; }
 }
 

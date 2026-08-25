@@ -147,7 +147,7 @@ export default async function MarkdownToDocxCaseStudy({ project }: MarkdownToDoc
           </Link>
           <header className={styles.header}>
             <h1>md-to-docx</h1>
-            <p>August 2026 · Design, Development, Documentation</p>
+            <p>August 2026 · Solo project · Design, development, and documentation</p>
           </header>
         </div>
 
@@ -166,25 +166,25 @@ export default async function MarkdownToDocxCaseStudy({ project }: MarkdownToDoc
 
         <section className={styles.introduction} aria-label="Project introduction">
           <p>
-            <code>@mohtasham/md-to-docx</code> converts Markdown into editable Word
-            documents. Headings become document styles, lists remain lists, tables stay
-            editable, and links still work. It also handles multi-section templates,
-            captions, cross-references, diagrams, and editable Word math. The converter
-            is available as a TypeScript library, a command-line tool, and an agent skill.
+            I did not start this as a public developer tool. I was building an
+            AI-assisted school writing workflow. The agent could produce a properly
+            structured assignment in Markdown, but I still had to copy it into Word and
+            repair the formatting by hand.
           </p>
           <p>
-            I built it for the last step in a familiar writing process. The draft is
-            clean in Markdown, but the person receiving it needs a <code>.docx</code>
-            file they can review and change.
+            So I wrote a small internal package to do that last step. The first version
+            only understood titles and a few heading levels. It now turns Markdown into
+            editable <code>.docx</code> files through a TypeScript API, a CLI, or an
+            agent skill.
           </p>
 
           <div className={styles.metadata}>
             <div>
-              <h2>My contributions</h2>
-              <p><span>Design</span><span>Development</span><span>Docs</span></p>
+              <h2>My work</h2>
+              <p><span>Built alone</span><span>Maintained alone</span></p>
             </div>
             <div>
-              <h2>The interfaces</h2>
+              <h2>Available as</h2>
               <p><span>TypeScript</span><span>CLI</span><span>Agent skill</span></p>
             </div>
             <div>
@@ -216,16 +216,15 @@ export default async function MarkdownToDocxCaseStudy({ project }: MarkdownToDoc
         <section className={styles.section}>
           <h2>Why I built it</h2>
           <p>
-            Engineering notes, reports, proposals, and generated content often begin in
-            Markdown. It is fast to write, easy to diff, and simple for software to
-            produce. Word is still the required delivery format in many teams and
-            institutions.
+            The original problem was very specific. My agent could write the assignment,
+            but the submission still had to be an editable Word document. Markdown was
+            easy for the agent to produce. Word let me make final changes before handing
+            it in. I was stuck between the two.
           </p>
           <p>
-            Copying a finished draft into Word creates a second formatting job. Heading
-            levels flatten, table structure breaks, list indentation drifts, and the
-            cleanup returns with every revision. The package moves that work into one
-            repeatable conversion.
+            Exporting a PDF would not solve it. The output had to keep real headings,
+            lists, tables, images, and page breaks so I could keep editing it in Word.
+            The package automates the copying and cleanup I used to do myself.
           </p>
 
           <figure className={`${styles.wideFigure} ${styles.beforeAfter}`}>
@@ -251,39 +250,81 @@ export default async function MarkdownToDocxCaseStudy({ project }: MarkdownToDoc
         </section>
 
         <section className={styles.section}>
-          <h2>One converter, two entry points</h2>
+          <h2>I did not expect 600,000 downloads</h2>
           <p>
-            The library fits applications and automated report pipelines. The CLI covers
-            the quick conversion at the end of a writing session. Both paths use the same
-            parser, document builder, and styling options.
+            I published the internal package, and it turned out to be useful beyond my
+            own assignment workflow. It now has about {compactNumber.format(npmStats.total)}
+            downloads in total and {compactNumber.format(npmStats.weekly)} in the last
+            week. That is still slightly ridiculous to me. This began as a shortcut for
+            one app.
+          </p>
+          <p>
+            Real usage also brought real maintenance. At one point I had more than 20
+            open issues to work through. I built and maintained the package alone,
+            including fixes, pull-request reviews, and the less exciting work of keeping
+            old behavior intact.
+          </p>
+        </section>
+
+        <section className={styles.section}>
+          <h2>The two features I care about most</h2>
+          <p>
+            Images were the first hard feature I felt proud of. In Node, the package can
+            download a remote image, validate it, and place it into the document. The
+            browser path has tighter limits because it cannot fetch every remote source
+            safely.
+          </p>
+          <p>
+            The table of contents matters for a different reason. It only works properly
+            when the converter creates real Word heading styles. That same structure is
+            what makes the document outline, cross-references, and later edits work.
+          </p>
+        </section>
+
+        <section className={styles.section}>
+          <h2>Three ways to use the same converter</h2>
+          <p>
+            Apps can call the TypeScript API. The CLI handles a quick file conversion.
+            The agent skill gives coding agents the package rules and examples. All three
+            use the same parser, document builder, and styling options.
           </p>
 
           <figure className={`${styles.wideFigure} ${styles.codeFigure}`}>
             <div className={styles.codeWindow}>
-              <div><span>TypeScript API</span><span>convert.ts</span></div>
+              <div className={styles.terminalBar}>
+                <span className={styles.terminalControls} aria-hidden="true"><i /><i /><i /></span>
+                <span>convert.ts</span>
+                <span>TypeScript API</span>
+              </div>
               <pre><code>{highlightTypeScript(apiExample)}</code></pre>
             </div>
             <p className={styles.commandLine}><span>$</span><code>{commandExample}</code></p>
-            <figcaption>Use the package in code or run it directly with npx.</figcaption>
+            <div className={styles.entryPoints}>
+              <span><strong>API</strong>Use it inside an app</span>
+              <span><strong>CLI</strong>Convert one file with npx</span>
+              <span><strong>Agent skill</strong>Give an agent the package workflow</span>
+            </div>
+            <figcaption>One converter, exposed in the form that fits the job.</figcaption>
           </figure>
         </section>
 
         <section className={styles.section}>
           <h2>Document structure survives conversion</h2>
           <p>
-            The output uses Word’s real document parts. A table has rows and cells. A
+            The output uses real Word document parts. A table has rows and cells. A
             heading appears in the document outline. A page break begins a new page. This
-            is what makes the result useful after it leaves the codebase.
+            is why the file remains useful after the conversion finishes.
           </p>
 
           <figure className={`${styles.wideFigure} ${styles.mappingFigure}`}>
             <span className={styles.handLabel}>markdown</span>
             <span className={styles.handLabel}>word document</span>
-            <div className={styles.mappingRow}><code># Heading</code><span>→</span><strong>Heading 1 style</strong></div>
-            <div className={styles.mappingRow}><code>- List item</code><span>→</span><strong>Editable bullet list</strong></div>
-            <div className={styles.mappingRow}><code>| Table |</code><span>→</span><strong>Rows and cells</strong></div>
-            <div className={styles.mappingRow}><code>[TOC]</code><span>→</span><strong>Table of contents</strong></div>
-            <div className={styles.mappingRow}><code>\pagebreak</code><span>→</span><strong>New document page</strong></div>
+            <div className={styles.mappingRow}><code># Heading</code><span>→</span><div><strong>Heading 1 style</strong><small>Appears in the document outline</small></div></div>
+            <div className={styles.mappingRow}><code>- List item</code><span>→</span><div><strong>Editable bullet list</strong><small>Keeps nesting and indentation</small></div></div>
+            <div className={styles.mappingRow}><code>| Table |</code><span>→</span><div><strong>Rows and cells</strong><small>Can still be edited in Word</small></div></div>
+            <div className={styles.mappingRow}><code>![Image](url)</code><span>→</span><div><strong>Embedded image</strong><small>Downloaded and placed in the file</small></div></div>
+            <div className={styles.mappingRow}><code>[TOC]</code><span>→</span><div><strong>Table of contents</strong><small>Built from real heading styles</small></div></div>
+            <div className={styles.mappingRow}><code>\pagebreak</code><span>→</span><div><strong>New document page</strong><small>Creates a real page break</small></div></div>
             <figcaption>Markdown syntax maps to document structure, not flattened pixels.</figcaption>
           </figure>
         </section>
@@ -308,35 +349,39 @@ export default async function MarkdownToDocxCaseStudy({ project }: MarkdownToDoc
         </section>
 
         <section className={styles.section}>
-          <h2>What it is becoming</h2>
+          <h2>What the package handles now</h2>
           <p>
-            The larger idea is a document compiler for developer and agent workflows.
-            One Markdown source should become an editable Word file with real headings,
-            lists, tables, sections, references, captions, diagrams, math, and the styles
-            of an existing reference document. The result should still behave like a Word
-            document after it leaves the codebase.
+            The first version handled titles and a few heading levels. Version
+            {` ${npmStats.version}`} handles lists, tables, footnotes, images, code blocks,
+            page breaks, tables of contents, and multi-section documents with headers and
+            footers. It also supports captions, cross-references, charts, Mermaid
+            diagrams, and editable Word math.
           </p>
           <p>
-            Version {npmStats.version} already covers the TypeScript library, CLI, agent
-            skill, multi-section templates, captions and cross-references, syntax
-            highlighting, charts, Mermaid, editable math, custom renderers, and reference
-            DOCX style adoption and patching.
+            Reference DOCX workflows go further. The converter can read styles from an
+            existing Word file or patch content into placeholders, which lets a generated
+            document follow a supplied school or company template instead of starting
+            from a blank page.
           </p>
         </section>
 
         <section className={styles.section}>
-          <h2>What comes next</h2>
+          <h2>What I am still improving</h2>
           <p>
-            There is no published feature roadmap or open issue queue today. The next
-            work should keep the conversion boundary dependable: add regression files
-            from real documents, widen template compatibility, check accessibility, and
-            preserve API and CLI behavior as the package changes. New output features
-            should ship with a document fixture and a rendered comparison.
+            Tables caused some of the messiest bug reports. I fixed the cases people sent
+            me, and I have not seen the same reports return, but Word formatting always
+            has another edge case hiding somewhere. Issues and pull requests are how I
+            find most of them.
+          </p>
+          <p>
+            New output features need more than code. I keep regression Markdown files and
+            compare the rendered documents so a fix for one format does not quietly break
+            another.
           </p>
         </section>
 
         <footer className={styles.footer}>
-          <p>Markdown is good for writing. Word is often required for delivery.</p>
+          <p>I wrote this because I was tired of copying assignments into Word. Hundreds of thousands of downloads later, that is still the basic job.</p>
           <div>
             <a href="https://github.com/MohtashamMurshid/md-to-docx" target="_blank" rel="noreferrer">View the source ↗</a>
             <a href={project.url} target="_blank" rel="noreferrer">Open on npm ↗</a>

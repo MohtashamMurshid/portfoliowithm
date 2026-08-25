@@ -12,18 +12,28 @@ export default function FutureLetter() {
         <span className={styles.tape} aria-hidden="true" />
 
         <header className={styles.heading}>
-          <p>Written August 24, 2026 · Open August 24, 2036</p>
+          <p>Written August 23, 2026 · Open August 23, 2036</p>
           <h2 id="future-letter-title">Dear Mohtasham, ten years from now.</h2>
         </header>
 
         <div className={styles.letter}>
-          <p>It&apos;s 2026. You&apos;re in Kuala Lumpur, working on CitySage, building Oikina, and trying to understand where AI is taking us.</p>
+          <p>It&apos;s 2026. You&apos;re in Kuala Lumpur, working at CitySage and building Oikina. You want to build a successful startup. Maybe by the time you open this, you&apos;re even getting close to an IPO. That would be incredible.</p>
 
-          <p>Ten years from now, I don&apos;t need every plan to have worked. I hope you kept building with care. I hope ambition didn&apos;t turn every quiet hour into work, and that the people you love still know how much they matter.</p>
+          <p>But I hope you didn&apos;t mistake the company for your whole life. I hope the people close to you now are still beside you, and that success, or the lack of it, didn&apos;t change how you treated them. If the company grew but those relationships disappeared, I don&apos;t think we could call that a successful life.</p>
 
-          <p>Did we make something useful? Did we keep skiing? Are we still curious? If any answer is no, start again. You&apos;ve done that before.</p>
+          <p>I hope you kept time for yourself. Skiing, playing games, going out with friends, and being around the people you care about. Work should never have taken all of that from you.</p>
 
-          <p>Remember, the goal was never to look successful. It was to live awake, make work worth caring about, and leave a few doors open for other people.</p>
+          <p>I don&apos;t know whether Oikina will succeed. Right now, I want to build it, learn from it, and see people actually use it. Whatever happens to this version of the idea, it doesn&apos;t decide where we end up.</p>
+
+          <p>I only want to ask you three things.</p>
+
+          <p>Did you try your best?</p>
+
+          <p>Did you make the people around you happy?</p>
+
+          <p>Are you still kind-hearted?</p>
+
+          <p>I hope the answer is yes.</p>
 
           <footer>
             <span>See you in 2036,</span>

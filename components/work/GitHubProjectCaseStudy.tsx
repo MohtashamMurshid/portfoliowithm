@@ -23,17 +23,13 @@ export type GitHubProjectNarrativeSection = {
 export type GitHubProjectMappingRow = {
   source: string;
   target: string;
+  detail?: string;
 };
 
 export type GitHubProjectMappingFigure = {
   sourceLabel: string;
   targetLabel: string;
-  rows: readonly [
-    GitHubProjectMappingRow,
-    GitHubProjectMappingRow,
-    GitHubProjectMappingRow,
-    GitHubProjectMappingRow,
-  ];
+  rows: readonly GitHubProjectMappingRow[];
   caption: string;
   afterSection?: 0 | 1 | 2;
 };
@@ -45,6 +41,29 @@ export type GitHubProjectCodeFigure = {
   command: string;
   caption: string;
   afterSection?: 0 | 1 | 2;
+};
+
+export type GitHubProjectFlowFigure = {
+  title: string;
+  steps: readonly {
+    title: string;
+    detail: string;
+  }[];
+  caption: string;
+  afterSection: 0 | 1 | 2;
+};
+
+export type GitHubProjectArchitectureFigure = {
+  title: string;
+  stages: readonly {
+    label: string;
+    nodes: readonly {
+      title: string;
+      detail: string;
+    }[];
+  }[];
+  caption: string;
+  afterSection: 0 | 1 | 2;
 };
 
 export type GitHubProjectFooterLink = {
@@ -94,6 +113,8 @@ export type GitHubProjectCaseStudyData = {
   ];
   mappingFigure: GitHubProjectMappingFigure;
   codeFigure: GitHubProjectCodeFigure;
+  flowFigure?: GitHubProjectFlowFigure;
+  architectureFigure?: GitHubProjectArchitectureFigure;
   mediaBlocks?: readonly GitHubProjectMediaBlock[];
   footer: {
     statement: string;
@@ -289,6 +310,44 @@ export default function GitHubProjectCaseStudy({
                 </div>
               ))}
 
+            {project.flowFigure?.afterSection === sectionIndex && (
+              <figure className={`${styles.wideFigure} ${styles.diagramFigure}`}>
+                <h3>{project.flowFigure.title}</h3>
+                <div className={styles.flowSteps}>
+                  {project.flowFigure.steps.map((step, stepIndex) => (
+                    <div className={styles.flowStep} key={step.title}>
+                      <span>{String(stepIndex + 1).padStart(2, "0")}</span>
+                      <strong>{step.title}</strong>
+                      <p>{step.detail}</p>
+                    </div>
+                  ))}
+                </div>
+                <figcaption>{project.flowFigure.caption}</figcaption>
+              </figure>
+            )}
+
+            {project.architectureFigure?.afterSection === sectionIndex && (
+              <figure className={`${styles.wideFigure} ${styles.diagramFigure}`}>
+                <h3>{project.architectureFigure.title}</h3>
+                <div className={styles.architectureStages}>
+                  {project.architectureFigure.stages.map((stage) => (
+                    <div className={styles.architectureStage} key={stage.label}>
+                      <span className={styles.architectureLabel}>{stage.label}</span>
+                      <div>
+                        {stage.nodes.map((node) => (
+                          <div className={styles.architectureNode} key={node.title}>
+                            <strong>{node.title}</strong>
+                            <span>{node.detail}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+                <figcaption>{project.architectureFigure.caption}</figcaption>
+              </figure>
+            )}
+
             {(project.mappingFigure.afterSection ?? 0) === sectionIndex && (
               <figure className={`${styles.wideFigure} ${styles.mappingFigure}`}>
                 <span className={styles.handLabel}>{project.mappingFigure.sourceLabel}</span>
@@ -297,7 +356,10 @@ export default function GitHubProjectCaseStudy({
                   <div className={styles.mappingRow} key={`${row.source}-${row.target}`}>
                     <code>{row.source}</code>
                     <span aria-hidden="true">→</span>
-                    <strong>{row.target}</strong>
+                    <div>
+                      <strong>{row.target}</strong>
+                      {row.detail ? <small>{row.detail}</small> : null}
+                    </div>
                   </div>
                 ))}
                 <figcaption>{project.mappingFigure.caption}</figcaption>
@@ -307,7 +369,12 @@ export default function GitHubProjectCaseStudy({
             {(project.codeFigure.afterSection ?? 1) === sectionIndex && (
               <figure className={`${styles.wideFigure} ${styles.codeFigure}`}>
                 <div className={styles.codeWindow}>
-                  <div>
+                  <div className={styles.codeHeader}>
+                    <span className={styles.windowControls} aria-hidden="true">
+                      <i />
+                      <i />
+                      <i />
+                    </span>
                     <span>{project.codeFigure.label}</span>
                     <span>{project.codeFigure.fileName}</span>
                   </div>
