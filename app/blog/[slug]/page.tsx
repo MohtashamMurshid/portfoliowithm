@@ -10,6 +10,7 @@ import {
   getBlogPost,
   getBlogPostBody,
 } from "@/lib/blogPosts";
+import { getOgImage } from "@/lib/ogImage";
 import styles from "./article.module.css";
 
 type BlogPostPageProps = {
@@ -26,6 +27,8 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
 
   if (!post) return {};
 
+  const ogImage = getOgImage("blog", post.imageAlt, post.slug);
+
   return {
     title: post.title,
     description: post.description,
@@ -38,13 +41,13 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
       modifiedTime: post.modifiedDate,
       authors: ["Mohtasham Murshid Madani"],
       url: `/blog/${post.slug}`,
-      images: [{ url: post.image, alt: post.imageAlt }],
+      images: [ogImage],
     },
     twitter: {
       card: "summary_large_image",
       title: post.title,
       description: post.description,
-      images: [post.image],
+      images: [ogImage],
     },
   };
 }
@@ -71,7 +74,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
     author: {
       "@type": "Person",
       name: "Mohtasham Murshid Madani",
-      url: "https://www.mohtasham.dev",
+      url: "https://www.mohtasham.dev/about",
     },
     publisher: {
       "@type": "Person",
@@ -86,6 +89,12 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
         <article className={styles.article}>
           <header className={styles.header}>
             <h1>{post.title}</h1>
+            <p className={styles.byline}>
+              By{" "}
+              <Link href="/about" rel="author">
+                Mohtasham Murshid Madani
+              </Link>
+            </p>
             <p className={styles.dates}>
               Published <time dateTime={post.date}>{formatBlogDate(post.date)}</time>
               {post.modifiedDate !== post.date ? (
@@ -105,6 +114,22 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
           </div>
 
           <MarkdownArticle body={body} />
+
+          <aside className={styles.authorBlock} aria-labelledby="blog-author-name">
+            <p className={styles.authorLabel}>About the author</p>
+            <h2 id="blog-author-name">
+              <Link href="/about" rel="author">
+                Mohtasham Murshid Madani
+              </Link>
+            </h2>
+            <p>
+              I build AI products, open-source tools, and research projects. Right now,
+              most of my time goes into Oikina.
+            </p>
+            <Link className={styles.authorLink} href="/about" rel="author">
+              More about me →
+            </Link>
+          </aside>
 
           <footer className={styles.footer}>
             <Link href="/blog">← All blogs</Link>

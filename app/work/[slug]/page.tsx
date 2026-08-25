@@ -5,6 +5,7 @@ import { notFound } from "next/navigation";
 import GitHubProjectCaseStudy from "@/components/work/GitHubProjectCaseStudy";
 import MarkdownToDocxCaseStudy from "@/components/work/MarkdownToDocxCaseStudy";
 import { githubCaseStudies } from "@/lib/githubCaseStudies";
+import { getOgImage } from "@/lib/ogImage";
 import { getProject, projects } from "@/lib/projects";
 
 type WorkPageProps = {
@@ -21,6 +22,8 @@ export async function generateMetadata({ params }: WorkPageProps): Promise<Metad
 
   if (!project) return {};
 
+  const ogImage = getOgImage("project", project.imageAlt, project.slug);
+
   return {
     title: project.name,
     description: project.summary,
@@ -32,13 +35,13 @@ export async function generateMetadata({ params }: WorkPageProps): Promise<Metad
       url: `/work/${project.slug}`,
       publishedTime: project.datePublished,
       modifiedTime: project.dateModified,
-      images: [{ url: project.image, alt: project.imageAlt }],
+      images: [ogImage],
     },
     twitter: {
       card: "summary_large_image",
       title: project.name,
       description: project.summary,
-      images: [project.image],
+      images: [ogImage],
     },
   };
 }

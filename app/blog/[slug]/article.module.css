@@ -36,12 +36,28 @@
 }
 
 .dates {
-  margin-top: 7px;
+  margin-top: 3px;
   margin-bottom: 0;
   color: var(--muted);
   font-family: var(--font-interface-sans), Arial, sans-serif;
   font-size: 13px;
 }
+
+.byline {
+  margin: 12px 0 0;
+  color: #65615a;
+  font-family: var(--font-interface-sans), Arial, sans-serif;
+  font-size: 13px;
+}
+
+.byline a {
+  color: var(--ink);
+  font-weight: 650;
+  text-decoration-color: rgb(55 53 47 / 28%);
+  text-underline-offset: 3px;
+}
+
+.byline a:hover { text-decoration-color: currentcolor; }
 
 .hero {
   position: relative;
@@ -297,8 +313,58 @@
   border-top: 1px dashed rgb(55 53 47 / 18%);
 }
 
+.authorBlock {
+  margin-top: 56px;
+  padding: 24px 26px;
+  border: 1px solid rgb(55 53 47 / 14%);
+  border-radius: 6px;
+  background: rgb(255 255 255 / 34%);
+  color: #5c5851;
+  font-family: var(--font-interface-sans), Arial, sans-serif;
+}
+
+.authorLabel {
+  margin: 0 0 8px;
+  color: var(--orange);
+  font-family: var(--font-registry), monospace;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.authorBlock h2 {
+  margin: 0;
+  font-family: var(--font-interface-serif), Georgia, serif;
+  font-size: 24px;
+  font-weight: 400;
+  line-height: 1.15;
+}
+
+.authorBlock h2 a {
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.authorBlock > p:not(.authorLabel) {
+  max-width: 34rem;
+  margin: 11px 0 14px;
+  font-size: 13.5px;
+  line-height: 1.65;
+}
+
+.authorLink {
+  color: #d65f30;
+  font-size: 12px;
+  font-weight: 650;
+  text-decoration-color: rgb(214 95 48 / 35%);
+  text-underline-offset: 3px;
+}
+
+.authorLink:hover { text-decoration-color: currentcolor; }
+
 .footer {
-  margin-top: 60px;
+  margin-top: 32px;
   padding-top: 20px;
   border-top: 1px dashed rgb(55 53 47 / 16%);
   font-family: var(--font-interface-sans), Arial, sans-serif;
@@ -319,6 +385,11 @@
 
   .header h1 { font-size: clamp(29px, 8vw, 36px); }
   .header time { font-size: 12px; }
+
+  .authorBlock {
+    margin-top: 46px;
+    padding: 21px 20px;
+  }
 
   .hero {
     width: calc(100vw - 20px);

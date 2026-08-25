@@ -4,6 +4,7 @@ import Link from "next/link";
 import { ViewTransition } from "react";
 import WorkEntrance from "@/components/work/WorkEntrance";
 import { archiveProjects } from "@/lib/archiveProjects";
+import { getOgImage } from "@/lib/ogImage";
 import styles from "./work.module.css";
 
 type WorkItem = {
@@ -94,21 +95,24 @@ const portfolioEditions = [
   },
 ];
 
+const description = "Selected projects and experiments by Mohtasham Murshid Madani.";
+const workOgImage = getOgImage("page", "Selected work by Mohtasham Murshid Madani", "work");
+
 export const metadata: Metadata = {
   title: "Work",
-  description: "Selected projects and experiments by Mohtasham Murshid Madani.",
+  description,
   alternates: { canonical: "/work" },
   openGraph: {
     title: "Work",
-    description: "Selected projects and experiments by Mohtasham Murshid Madani.",
+    description,
     url: "/work",
-    images: [{ url: "/projects/oikina-pass.png", alt: "Selected work by Mohtasham Murshid Madani" }],
+    images: [workOgImage],
   },
   twitter: {
     card: "summary_large_image",
     title: "Work",
-    description: "Selected projects and experiments by Mohtasham Murshid Madani.",
-    images: ["/projects/oikina-pass.png"],
+    description,
+    images: [workOgImage],
   },
 };
 

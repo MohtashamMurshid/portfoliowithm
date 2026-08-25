@@ -2,17 +2,32 @@ import type { Metadata } from "next";
 import Landing from "@/components/Landing";
 import Skills from "@/components/Skills";
 import GithubInfo from "@/components/GithubInfo";
+import { getOgImage } from "@/lib/ogImage";
 
 export const revalidate = 86400;
 
 const NPM_PACKAGE = "@mohtasham/md-to-docx";
+const description =
+  "The conventional portfolio of Mohtasham Murshid Madani: current work, projects, skills, writing, and public repositories.";
+const boringOgImage = getOgImage("page", "The plain portfolio of Mohtasham Murshid Madani", "boring");
 
 export const metadata: Metadata = {
   title: "Plain Portfolio",
-  description:
-    "The conventional portfolio of Mohtasham Murshid Madani: current work, projects, skills, writing, and public repositories.",
+  description,
   alternates: {
     canonical: "/boring",
+  },
+  openGraph: {
+    title: "Plain Portfolio",
+    description,
+    url: "/boring",
+    images: [boringOgImage],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Plain Portfolio",
+    description,
+    images: [boringOgImage],
   },
 };
 

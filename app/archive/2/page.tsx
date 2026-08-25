@@ -1,15 +1,29 @@
 import type { Metadata } from "next";
 import ReportExperience from "@/components/report/ReportExperience";
+import { getOgImage } from "@/lib/ogImage";
 
 export const revalidate = 86400;
 
 const NPM_PACKAGE = "@mohtasham/md-to-docx";
+const description =
+  "Field Report No. 01: software, artificial intelligence, design systems, open-source tools, writing, and visual work by Mohtasham Murshid Madani.";
+const archiveOgImage = getOgImage("page", "The Office of Imaginary Infrastructure", "archive-2");
 
 export const metadata: Metadata = {
   title: "The Office of Imaginary Infrastructure",
-  description:
-    "Field Report No. 01: software, artificial intelligence, design systems, open-source tools, writing, and visual work by Mohtasham Murshid Madani.",
+  description,
   robots: { index: false, follow: true },
+  openGraph: {
+    title: "The Office of Imaginary Infrastructure",
+    description,
+    images: [archiveOgImage],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "The Office of Imaginary Infrastructure",
+    description,
+    images: [archiveOgImage],
+  },
 };
 
 async function getNpmDownloads(): Promise<string> {

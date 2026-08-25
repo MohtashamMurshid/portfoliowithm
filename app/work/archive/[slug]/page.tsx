@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import ArchiveProjectCaseStudy from "@/components/work/ArchiveProjectCaseStudy";
 import { archiveProjects, getArchiveProject } from "@/lib/archiveProjects";
+import { getOgImage } from "@/lib/ogImage";
 
 type ArchiveProjectPageProps = {
   params: Promise<{ slug: string }>;
@@ -17,6 +18,12 @@ export async function generateMetadata({ params }: ArchiveProjectPageProps): Pro
 
   if (!project) return {};
 
+  const ogImage = getOgImage(
+    "archive",
+    `${project.name}, an archived project by Mohtasham Murshid Madani`,
+    project.slug,
+  );
+
   return {
     title: project.name,
     description: project.summary,
@@ -26,11 +33,13 @@ export async function generateMetadata({ params }: ArchiveProjectPageProps): Pro
       description: project.summary,
       type: "article",
       url: `/work/archive/${project.slug}`,
+      images: [ogImage],
     },
     twitter: {
-      card: "summary",
+      card: "summary_large_image",
       title: project.name,
       description: project.summary,
+      images: [ogImage],
     },
   };
 }

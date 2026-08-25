@@ -4,23 +4,27 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import BlogReveal, { BlogRevealItem } from "@/components/blog/BlogReveal";
 import { blogPosts, formatBlogDate } from "@/lib/blogPosts";
+import { getOgImage } from "@/lib/ogImage";
 import styles from "./blog.module.css";
+
+const description = "Notes on software, developer tools, and cognitive computing by Mohtasham Murshid Madani.";
+const blogOgImage = getOgImage("page", "Writing by Mohtasham Murshid Madani", "blog");
 
 export const metadata: Metadata = {
   title: "Blog",
-  description: "Notes on software, developer tools, and cognitive computing by Mohtasham Murshid Madani.",
+  description,
   alternates: { canonical: "/blog" },
   openGraph: {
     title: "Blog",
-    description: "Notes on software, developer tools, and cognitive computing by Mohtasham Murshid Madani.",
+    description,
     url: "/blog",
-    images: [{ url: "/blog/llm-disclosure-behavior.png", alt: "Writing by Mohtasham Murshid Madani" }],
+    images: [blogOgImage],
   },
   twitter: {
     card: "summary_large_image",
     title: "Blog",
-    description: "Notes on software, developer tools, and cognitive computing by Mohtasham Murshid Madani.",
-    images: ["/blog/llm-disclosure-behavior.png"],
+    description,
+    images: [blogOgImage],
   },
 };
 

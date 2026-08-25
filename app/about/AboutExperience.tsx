@@ -11,7 +11,7 @@ const journeyPath =
   "M70 110 C170 70 250 150 335 160 C430 172 430 55 545 75 C660 92 790 135 760 220 C730 295 620 315 535 270 C440 220 360 170 270 225 C185 275 210 340 315 315 C390 295 390 365 485 350 C580 335 640 350 720 350";
 
 const milestones = [
-  { label: "2023 Computer science", x: 145, y: 103 },
+  { label: "Mar 2023 Computer science", x: 145, y: 103 },
   { label: "2024 AI research", x: 335, y: 160 },
   { label: "2025 CitySage internship", x: 545, y: 75 },
   { label: "2025 Open source", x: 760, y: 220 },
@@ -280,15 +280,33 @@ export default function AboutExperience() {
           <h2>About me</h2>
           <p className={styles.dropCap}>
             I&apos;m Mohtasham Murshid Madani, an engineer from Kashmir now based in Kuala
-            Lumpur. I tend to describe myself in four parts: founder of Oikina, AI
-            engineer, open-source builder, and researcher.
+            Lumpur. I tend to describe myself in four parts: founder of{" "}
+            <a href="https://oikina.com" target="_blank" rel="noreferrer">
+              Oikina
+            </a>
+            , AI engineer, open-source builder, and{" "}
+            <a
+              href="https://www.researchgate.net/profile/Mohtasham-Madani"
+              target="_blank"
+              rel="noreferrer"
+            >
+              researcher
+            </a>
+            .
           </p>
           <p>
-            Day to day, I&apos;m an engineer. Outside work, I&apos;m usually building Oikina or
-            one of my open-source projects. I&apos;ve always been nerdy about computers and
-            AI. My first Python program added two numbers. I later made a simple HTML
-            website. Neither did much, but writing something that controlled the computer
-            was enough to pull me into programming.
+            Day to day, I&apos;m an engineer. Outside work, I&apos;m usually building{" "}
+            <a href="https://oikina.com" target="_blank" rel="noreferrer">
+              Oikina
+            </a>{" "}
+            or one of my{" "}
+            <a href="https://github.com/MohtashamMurshid" target="_blank" rel="noreferrer">
+              open-source projects
+            </a>
+            . I&apos;ve always been nerdy about computers and AI. My first Python program
+            added two numbers. I later made a simple HTML website. Neither did much, but
+            writing something that controlled the computer was enough to pull me into
+            programming.
           </p>
         </section>
 
@@ -305,30 +323,85 @@ export default function AboutExperience() {
           <h2>From Kashmir to Kuala Lumpur</h2>
           <p>
             I was born in 2004 and grew up in Kashmir. I moved to Kuala Lumpur in
-            February to study computer science at Taylor&apos;s University. AI was booming,
-            and I wanted to do something technical, so I specialised in artificial
-            intelligence. I graduated in 2026 with first-class honours.
+            February 2023. I studied computer science at{" "}
+            <a
+              href="https://university.taylors.edu.my/en/study/discover-taylors/india.html"
+              target="_blank"
+              rel="noreferrer"
+            >
+              Taylor&apos;s University
+            </a>{" "}
+            from March 2023 to March 2026, specialising in artificial intelligence, and
+            graduated with first-class honours.
           </p>
           <p>
-            I started doing research in my second year, including an early piece about
-            security. In my third year, I joined CitySage as an intern. I returned after
-            graduating and started working there as an AI engineer in March 2026.
+            I started doing{" "}
+            <a
+              href="https://www.researchgate.net/profile/Mohtasham-Madani"
+              target="_blank"
+              rel="noreferrer"
+            >
+              research
+            </a>{" "}
+            in my second year, including an early piece about security. In my third year,
+            I joined{" "}
+            <a href="https://citysage.my" target="_blank" rel="noreferrer">
+              CitySage
+            </a>{" "}
+            as an intern. I returned after graduating and started working there as an AI
+            engineer in March 2026.
           </p>
           <p>
             <Link href="/work/archive/bounty">Bounty</Link>, my final-year project, was
             the first time I felt like a real engineer. It was an Expo and Convex mobile
             prototype for posting small paid errands and finding nearby people willing
-            to do them. My open-source work became serious soon after. I started
-            md-to-docx on 29 March 2025 because I needed editable Word files for my own
-            workflow. I began getdesign shortly before graduating, then started Oikina
+            to do them. My open-source work became serious soon after. I started{" "}
+            <a
+              href="https://www.npmjs.com/package/@mohtasham/md-to-docx"
+              target="_blank"
+              rel="noreferrer"
+            >
+              md-to-docx
+            </a>{" "}
+            on 29 March 2025 because I needed editable Word files for my own workflow. I
+            began{" "}
+            <a href="https://getdesign.app" target="_blank" rel="noreferrer">
+              getdesign
+            </a>{" "}
+            shortly before graduating, then started{" "}
+            <a href="https://oikina.com" target="_blank" rel="noreferrer">
+              Oikina
+            </a>{" "}
             in July 2026.
           </p>
           <h2>What I&apos;m doing now</h2>
           <p>
-            At CitySage, I build AI agents for government and city councils, along with
-            geospatial AI software. Most of my own time goes into Oikina, my startup. I
-            also maintain open-source projects, work on getdesign, and research language
-            models and AI systems.
+            At{" "}
+            <a href="https://citysage.my" target="_blank" rel="noreferrer">
+              CitySage
+            </a>
+            , I build AI agents for government and city councils, along with geospatial AI
+            software. Most of my own time goes into{" "}
+            <a href="https://oikina.com" target="_blank" rel="noreferrer">
+              Oikina
+            </a>
+            , my startup. I also maintain projects on{" "}
+            <a href="https://github.com/MohtashamMurshid" target="_blank" rel="noreferrer">
+              GitHub
+            </a>
+            , work on{" "}
+            <a href="https://getdesign.app" target="_blank" rel="noreferrer">
+              getdesign
+            </a>
+            , and{" "}
+            <a
+              href="https://www.researchgate.net/profile/Mohtasham-Madani"
+              target="_blank"
+              rel="noreferrer"
+            >
+              research
+            </a>{" "}
+            language models and AI systems.
           </p>
           <h2>Looking ahead</h2>
           <p>
@@ -374,8 +447,9 @@ export default function AboutExperience() {
           <p>
             You can <a href="mailto:mohtashammurshid@gmail.com">email me</a>, find me on{" "}
             <a href="https://x.com/mohtashamdotdev">X</a> and{" "}
-            <a href="https://www.linkedin.com/in/mohtashammurshid/">LinkedIn</a>, or look
-            through <Link href="/work">my work</Link>.
+            <a href="https://www.linkedin.com/in/mohtashammurshid/">LinkedIn</a>, browse my{" "}
+            <a href="https://github.com/MohtashamMurshid">GitHub</a>, or look through{" "}
+            <Link href="/work">my work</Link>.
           </p>
         </footer>
       </article>
