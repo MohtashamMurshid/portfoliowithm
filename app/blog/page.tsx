@@ -10,6 +10,18 @@ export const metadata: Metadata = {
   title: "Blog",
   description: "Notes on software, developer tools, and cognitive computing by Mohtasham Murshid Madani.",
   alternates: { canonical: "/blog" },
+  openGraph: {
+    title: "Blog",
+    description: "Notes on software, developer tools, and cognitive computing by Mohtasham Murshid Madani.",
+    url: "/blog",
+    images: [{ url: "/blog/llm-disclosure-behavior.png", alt: "Writing by Mohtasham Murshid Madani" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Blog",
+    description: "Notes on software, developer tools, and cognitive computing by Mohtasham Murshid Madani.",
+    images: ["/blog/llm-disclosure-behavior.png"],
+  },
 };
 
 export default function BlogIndexPage() {

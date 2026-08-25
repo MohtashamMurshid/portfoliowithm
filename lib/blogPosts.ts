@@ -8,6 +8,7 @@ export type BlogPost = {
   description: string;
   category: string;
   date: string;
+  modifiedDate: string;
   source: string;
   image: string;
   imageAlt: string;
@@ -22,6 +23,7 @@ export const blogPosts: BlogPost[] = [
       "How I built MY-Instruct-Plus for Malaysian Malay, Manglish, tool use, and English retention, and what comes next.",
     category: "Machine learning",
     date: "2026-07-10",
+    modifiedDate: "2026-08-26",
     source: "my-instruct-plus.md",
     image: "/blog/my-instruct-plus.png",
     imageAlt:
@@ -35,6 +37,7 @@ export const blogPosts: BlogPost[] = [
       "A practical account of comparing ResNet50, VGG16, and a custom CNN on a multi-region fracture X-ray dataset.",
     category: "Computer vision",
     date: "2025-03-03",
+    modifiedDate: "2026-08-26",
     source: "comparing-cnns-for-fracture-x-rays.md",
     image: "/blog/fracture-cnn-comparison.png",
     imageAlt:
@@ -48,6 +51,7 @@ export const blogPosts: BlogPost[] = [
       "A 1,120-trial study of how prompt tone and tool type shaped disclosure attempts across 14 language models.",
     category: "AI safety",
     date: "2026-05-08",
+    modifiedDate: "2026-08-26",
     source: "llm-disclosure-behavior.md",
     image: "/blog/llm-disclosure-behavior.png",
     imageAlt:
@@ -61,6 +65,7 @@ export const blogPosts: BlogPost[] = [
       "Use md-to-docx from the CLI, Node.js, React, a Word template, or an AI agent.",
     category: "Developer tools",
     date: "2026-08-26",
+    modifiedDate: "2026-08-26",
     source: "markdown-to-docx-guide.md",
     image: "/blog/markdown-to-docx.png",
     imageAlt: "A hand-drawn sequence of Markdown pages becoming a formatted document.",
@@ -73,6 +78,7 @@ export const blogPosts: BlogPost[] = [
       "A practical guide to the data, models, evidence, confidence, and human feedback inside a cognitive system.",
     category: "Cognitive computing",
     date: "2025-08-15",
+    modifiedDate: "2026-08-26",
     source: "cognitive-systems-design.md",
     image: "/blog/cognitive-systems.png",
     imageAlt: "A hand-drawn cognitive-system map connecting data, models, and people.",
@@ -85,6 +91,7 @@ export const blogPosts: BlogPost[] = [
       "A practical guide to the event loop, async I/O, worker threads, streams, modules, and performance checks.",
     category: "Backend engineering",
     date: "2025-08-14",
+    modifiedDate: "2026-08-26",
     source: "node-js-deep-dive.md",
     image: "/blog/node-js-event-loop.png",
     imageAlt: "A hand-drawn Node.js event loop with timers, queued work, and worker threads.",

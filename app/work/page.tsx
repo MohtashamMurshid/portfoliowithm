@@ -98,6 +98,18 @@ export const metadata: Metadata = {
   title: "Work",
   description: "Selected projects and experiments by Mohtasham Murshid Madani.",
   alternates: { canonical: "/work" },
+  openGraph: {
+    title: "Work",
+    description: "Selected projects and experiments by Mohtasham Murshid Madani.",
+    url: "/work",
+    images: [{ url: "/projects/oikina-pass.png", alt: "Selected work by Mohtasham Murshid Madani" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Work",
+    description: "Selected projects and experiments by Mohtasham Murshid Madani.",
+    images: ["/projects/oikina-pass.png"],
+  },
 };
 
 function ProjectLink({ item, featuredCard = false }: { item: WorkItem; featuredCard?: boolean }) {
@@ -117,7 +129,7 @@ function ProjectLink({ item, featuredCard = false }: { item: WorkItem; featuredC
             alt=""
             fill
             priority={featuredCard}
-            loading={featuredCard ? undefined : "eager"}
+            loading={featuredCard ? undefined : "lazy"}
             sizes={featuredCard ? "(max-width: 720px) 92vw, 660px" : "(max-width: 720px) 88vw, 280px"}
           />
         </ViewTransition>
