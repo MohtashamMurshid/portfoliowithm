@@ -4,7 +4,7 @@ layout: ../../layouts/MarkdownPostLayout.astro
 title: "What happened when we compared three CNNs on fracture X-rays"
 author: Mohtasham Murshid Madani
 description: "A practical account of comparing ResNet50, VGG16, and a custom CNN on a multi-region fracture X-ray dataset."
-pubDate: "2026-08-26"
+pubDate: "2025-03-03"
 tags: ["computer vision", "CNN", "medical imaging", "transfer learning"]
 department: School of Computer Science
 university: Taylor's University Lakeside Campus

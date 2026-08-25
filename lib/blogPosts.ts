@@ -15,13 +15,26 @@ export type BlogPost = {
 
 export const blogPosts: BlogPost[] = [
   {
+    slug: "my-instruct-plus",
+    title: "Building a 250,000-record instruction dataset for Malaysian AI",
+    shortTitle: "Building MY-Instruct-Plus",
+    description:
+      "How I built MY-Instruct-Plus for Malaysian Malay, Manglish, tool use, and English retention, and what comes next.",
+    category: "Machine learning",
+    date: "2026-07-10",
+    source: "my-instruct-plus.md",
+    image: "/blog/my-instruct-plus.png",
+    imageAlt:
+      "A hand-drawn Malaysian instruction-data pipeline connecting local conversations to a language model.",
+  },
+  {
     slug: "comparing-cnns-for-fracture-x-rays",
     title: "What happened when we compared three CNNs on fracture X-rays",
     shortTitle: "Comparing CNNs on fracture X-rays",
     description:
       "A practical account of comparing ResNet50, VGG16, and a custom CNN on a multi-region fracture X-ray dataset.",
     category: "Computer vision",
-    date: "2026-08-26",
+    date: "2025-03-03",
     source: "comparing-cnns-for-fracture-x-rays.md",
     image: "/blog/fracture-cnn-comparison.png",
     imageAlt:
@@ -34,7 +47,7 @@ export const blogPosts: BlogPost[] = [
     description:
       "A 1,120-trial study of how prompt tone and tool type shaped disclosure attempts across 14 language models.",
     category: "AI safety",
-    date: "2026-08-26",
+    date: "2026-05-08",
     source: "llm-disclosure-behavior.md",
     image: "/blog/llm-disclosure-behavior.png",
     imageAlt:

@@ -13,7 +13,8 @@ export const metadata: Metadata = {
 };
 
 export default function BlogIndexPage() {
-  const [featured] = blogPosts;
+  const featured =
+    blogPosts.find((post) => post.slug === "llm-disclosure-behavior") ?? blogPosts[0];
 
   return (
     <main className={styles.page}>

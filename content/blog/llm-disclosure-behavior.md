@@ -4,7 +4,7 @@ layout: ../../layouts/MarkdownPostLayout.astro
 title: "What makes an AI agent disclose sensitive information?"
 author: Mohtasham Murshid Madani
 description: "A 1,120-trial study of how prompt tone and tool type shaped disclosure attempts across 14 language models."
-pubDate: "2026-08-26"
+pubDate: "2026-05-08"
 tags: ["AI safety", "agents", "LLM evaluation", "tool use", "privacy"]
 department: School of Computer Science
 university: Taylor's University Lakeside Campus
