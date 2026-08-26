@@ -1,9 +1,10 @@
 "use client";
 
 import { useState, type ReactNode } from "react";
-import { motion, useReducedMotion, type Variants } from "framer-motion";
+import { motion, type Variants } from "framer-motion";
 import styles from "@/app/work/work.module.css";
 import { getLastCommittedPathname } from "@/components/navigation/clientRouteHistory";
+import { usePrefersReducedMotion } from "@/lib/usePrefersReducedMotion";
 
 const projectVariants: Variants = {
   hidden: { opacity: 0, scale: 0.94, y: 28 },
@@ -22,7 +23,7 @@ export default function WorkEntrance({
   featured: ReactNode;
   projects: ReactNode[];
 }) {
-  const reduceMotion = Boolean(useReducedMotion());
+  const reduceMotion = usePrefersReducedMotion();
   const [playEntrance] = useState(() => {
     const previousPathname = getLastCommittedPathname();
     return !previousPathname?.startsWith("/work/");

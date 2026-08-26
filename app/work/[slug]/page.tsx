@@ -6,6 +6,7 @@ import GitHubProjectCaseStudy from "@/components/work/GitHubProjectCaseStudy";
 import MarkdownToDocxCaseStudy from "@/components/work/MarkdownToDocxCaseStudy";
 import { githubCaseStudies } from "@/lib/githubCaseStudies";
 import { getOgImage } from "@/lib/ogImage";
+import { pageAlternates } from "@/lib/site";
 import { getProject, projects } from "@/lib/projects";
 
 type WorkPageProps = {
@@ -27,7 +28,7 @@ export async function generateMetadata({ params }: WorkPageProps): Promise<Metad
   return {
     title: project.name,
     description: project.summary,
-    alternates: { canonical: `/work/${project.slug}` },
+    alternates: pageAlternates(`/work/${project.slug}`),
     openGraph: {
       title: project.name,
       description: project.summary,

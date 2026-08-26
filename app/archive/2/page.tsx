@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import ReportExperience from "@/components/report/ReportExperience";
 import { getOgImage } from "@/lib/ogImage";
+import { pageAlternates } from "@/lib/site";
 
 export const revalidate = 86400;
 
@@ -13,9 +14,11 @@ export const metadata: Metadata = {
   title: "The Office of Imaginary Infrastructure",
   description,
   robots: { index: false, follow: true },
+  alternates: pageAlternates("/archive/2"),
   openGraph: {
     title: "The Office of Imaginary Infrastructure",
     description,
+    url: "/archive/2",
     images: [archiveOgImage],
   },
   twitter: {

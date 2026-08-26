@@ -47,7 +47,6 @@
 
 .copy h1 > span {
   display: block;
-  white-space: nowrap;
 }
 
 .copy h1 em {

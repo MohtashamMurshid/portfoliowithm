@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { getOgImage } from "@/lib/ogImage";
+import { pageAlternates } from "@/lib/site";
 import AboutExperience from "./AboutExperience";
 
 const siteUrl = "https://www.mohtasham.dev";
@@ -22,7 +23,7 @@ const profilePageSchema = {
 export const metadata: Metadata = {
   title: "About Mohtasham",
   description,
-  alternates: { canonical: "/about" },
+  alternates: pageAlternates("/about"),
   openGraph: {
     title: "About Mohtasham",
     description,

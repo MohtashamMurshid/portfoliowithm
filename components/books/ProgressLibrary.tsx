@@ -92,7 +92,7 @@ export function ProgressLibrary() {
         data-testid="browse-caption"
       >
         <p className="eyebrow">Favorite books</p>
-        <h1>{activeBook.shortTitle}</h1>
+        <p className="browse-caption__title">{activeBook.shortTitle}</p>
         <p className="browse-caption__author">{activeBook.author}</p>
         <p className="shelf-instruction">Click a book to read my notes.</p>
       </section>

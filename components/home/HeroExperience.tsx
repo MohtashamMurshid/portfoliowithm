@@ -1,7 +1,12 @@
 "use client";
 
 import Image from "@/components/PortfolioImage";
-import { motion, useReducedMotion, type MotionProps } from "framer-motion";
+import { motion, type MotionProps } from "framer-motion";
+import { useEffect, useRef } from "react";
+import {
+  reducedMotionMediaQuery,
+  usePrefersReducedMotion,
+} from "@/lib/usePrefersReducedMotion";
 import ContactCta from "./ContactCta";
 import FutureLetter from "./FutureLetter";
 import ProjectCollage from "./ProjectCollage";
@@ -15,6 +20,46 @@ type DraggableObjectProps = {
   label: string;
   reducedMotion: boolean;
 };
+
+function MonitorVideo() {
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia(reducedMotionMediaQuery);
+
+    function syncPlayback() {
+      const video = videoRef.current;
+      if (!video) return;
+
+      if (mediaQuery.matches) {
+        video.pause();
+        video.preload = "none";
+        return;
+      }
+
+      video.preload = "metadata";
+      void video.play().catch(() => {
+        // The poster remains visible when the browser blocks autoplay.
+      });
+    }
+
+    syncPlayback();
+    mediaQuery.addEventListener("change", syncPlayback);
+    return () => mediaQuery.removeEventListener("change", syncPlayback);
+  }, []);
+
+  return (
+    <video
+      ref={videoRef}
+      loop
+      muted
+      playsInline
+      poster="/hero/valorant-icebox-poster.jpg"
+      preload="none"
+      src="/hero/valorant-icebox.mp4"
+    />
+  );
+}
 
 function DraggableObject({
   children,
@@ -86,7 +131,7 @@ function DraggableObject({
 }
 
 export default function HeroExperience() {
-  const reduceMotion = Boolean(useReducedMotion());
+  const reduceMotion = usePrefersReducedMotion();
 
   return (
     <main className={styles.home} id="top">
@@ -101,15 +146,7 @@ export default function HeroExperience() {
 
         <DraggableObject className={styles.monitor} entrance={{ x: "48vw", y: "32vh", delay: 0.22 }} label="A monitor playing Valorant" reducedMotion={reduceMotion}>
           <div className={styles.monitorScreen} aria-hidden="true">
-            <video
-              autoPlay
-              loop
-              muted
-              playsInline
-              poster="/hero/valorant-icebox-poster.jpg"
-              preload="auto"
-              src="/hero/valorant-icebox.mp4"
-            />
+            <MonitorVideo />
             <span>VALORANT</span>
           </div>
           <Image src="/hero/monitor.png" alt="" fill priority sizes="(max-width: 720px) 52vw, 30vw" />
@@ -142,7 +179,7 @@ export default function HeroExperience() {
           transition={{ duration: reduceMotion ? 0 : 0.68, delay: reduceMotion ? 0 : 0.38, ease: [0.22, 1, 0.36, 1] }}
         >
           <h1 id="hero-title">
-            <span>I&apos;m a <em>founder</em> and AI engineer,</span>
+            <span>I&apos;m Mohtasham, a <em>founder</em> and AI engineer,</span>
             <span>exploring how AI can change the way we live.</span>
           </h1>
           <p className={styles.status}>

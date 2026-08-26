@@ -1,15 +1,16 @@
 "use client";
 
 import { useEffect, type ReactNode } from "react";
-import { motion, useReducedMotion } from "framer-motion";
+import { motion } from "framer-motion";
 import { usePathname } from "next/navigation";
+import { usePrefersReducedMotion } from "@/lib/usePrefersReducedMotion";
 import { commitPathname } from "./navigation/clientRouteHistory";
 import SiteHeader from "./SiteHeader";
 import styles from "./PageTransition.module.css";
 
 export default function PageTransition({ children }: { children: ReactNode }) {
   const pathname = usePathname();
-  const reduceMotion = Boolean(useReducedMotion());
+  const reduceMotion = usePrefersReducedMotion();
 
   useEffect(() => {
     commitPathname(pathname);

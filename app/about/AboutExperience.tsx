@@ -2,9 +2,10 @@
 
 import Image from "@/components/PortfolioImage";
 import Link from "next/link";
-import { motion, useMotionValue, useReducedMotion } from "framer-motion";
+import { motion, useMotionValue } from "framer-motion";
 import { useEffect, useRef, useState, type PointerEvent, type ReactNode } from "react";
 import { createPortal } from "react-dom";
+import { usePrefersReducedMotion } from "@/lib/usePrefersReducedMotion";
 import styles from "./about.module.css";
 
 const journeyPath =
@@ -51,7 +52,7 @@ function DraggableAsset({
   delay?: number;
   label: string;
 }) {
-  const reduceMotion = Boolean(useReducedMotion());
+  const reduceMotion = usePrefersReducedMotion();
   const x = useMotionValue(0);
   const y = useMotionValue(0);
   const cleanupDrag = useRef<(() => void) | null>(null);
@@ -236,7 +237,7 @@ function PersonalPhotoStack() {
 }
 
 export default function AboutExperience() {
-  const reduceMotion = Boolean(useReducedMotion());
+  const reduceMotion = usePrefersReducedMotion();
 
   return (
     <main className={styles.page}>

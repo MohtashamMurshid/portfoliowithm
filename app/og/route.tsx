@@ -2,12 +2,30 @@
 
 import { ImageResponse } from "next/og";
 import type { NextRequest } from "next/server";
+import sharp from "sharp";
 import { getArchiveProject } from "@/lib/archiveProjects";
 import { formatBlogDate, getBlogPost } from "@/lib/blogPosts";
 import { ogImageSize, type OgImageType } from "@/lib/ogImage";
 import { getProject } from "@/lib/projects";
 
 export const runtime = "nodejs";
+
+const maxJpegBytes = 100 * 1024;
+const jpegQualities = [78, 70, 62, 54, 46, 38, 30, 22, 14, 6, 1] as const;
+
+async function encodeJpegUnderLimit(png: ArrayBuffer) {
+  const input = Buffer.from(png);
+
+  for (const quality of jpegQualities) {
+    const jpeg = await sharp(input)
+      .jpeg({ quality, mozjpeg: true })
+      .toBuffer();
+
+    if (jpeg.byteLength < maxJpegBytes) return jpeg;
+  }
+
+  throw new Error(`Open Graph image exceeds ${maxJpegBytes} bytes at minimum quality.`);
+}
 
 const caveatFont = fetch(
   "https://fonts.gstatic.com/s/caveat/v23/WnznHAc5bAfYB2QRah7pcpNvOx-pjSx6SII.ttf",
@@ -158,7 +176,7 @@ export async function GET(request: NextRequest) {
   const template = `${origin}/og/field-card-template.png`;
   const contentImage = card.image ? `${origin}${card.image}` : null;
 
-  return new ImageResponse(
+  const pngResponse = new ImageResponse(
     (
       <div
         style={{
@@ -310,4 +328,14 @@ export async function GET(request: NextRequest) {
       },
     },
   );
+
+  const jpeg = await encodeJpegUnderLimit(await pngResponse.arrayBuffer());
+
+  return new Response(new Uint8Array(jpeg), {
+    headers: {
+      "Content-Type": "image/jpeg",
+      "Content-Length": String(jpeg.byteLength),
+      "Cache-Control": "public, max-age=3600, s-maxage=86400, stale-while-revalidate=604800",
+    },
+  });
 }
