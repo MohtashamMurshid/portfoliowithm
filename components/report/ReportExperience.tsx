@@ -2,9 +2,10 @@
 
 import Image from "@/components/PortfolioImage";
 import Link from "next/link";
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { ArrowLeft, ArrowRight, ArrowUpRight, Mail, Volume2, VolumeX } from "lucide-react";
 import { useCallback, useEffect, useRef, useState } from "react";
+import { usePrefersReducedMotion } from "@/lib/usePrefersReducedMotion";
 
 const spreadLabels = [
   "Cover",
@@ -34,7 +35,7 @@ export default function ReportExperience({ npmDownloadText }: ReportExperiencePr
   const railRef = useRef<HTMLElement>(null);
   const [activeSpread, setActiveSpread] = useState(0);
   const [soundEnabled, setSoundEnabled] = useState(false);
-  const reduceMotion = useReducedMotion();
+  const reduceMotion = usePrefersReducedMotion();
 
   const playPageSound = useCallback(() => {
     if (!soundEnabled || typeof window === "undefined") return;

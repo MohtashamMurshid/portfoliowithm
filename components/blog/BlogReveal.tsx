@@ -1,7 +1,8 @@
 "use client";
 
 import type { ReactNode } from "react";
-import { motion, useReducedMotion } from "framer-motion";
+import { motion } from "framer-motion";
+import { usePrefersReducedMotion } from "@/lib/usePrefersReducedMotion";
 
 export default function BlogReveal({
   children,
@@ -20,7 +21,7 @@ export function BlogRevealItem({
   children: ReactNode;
   delay: number;
 }) {
-  const reduceMotion = Boolean(useReducedMotion());
+  const reduceMotion = usePrefersReducedMotion();
 
   return (
     <motion.div
