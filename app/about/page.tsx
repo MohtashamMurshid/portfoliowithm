@@ -21,7 +21,7 @@ const profilePageSchema = {
 };
 
 export const metadata: Metadata = {
-  title: "About Mohtasham",
+  title: { absolute: "About Mohtasham Murshid Madani" },
   description,
   alternates: pageAlternates("/about"),
   openGraph: {

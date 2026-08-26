@@ -4,6 +4,7 @@
   --muted: #8c8982;
   --line: #b9b6af;
   --orange: #df6b39;
+
   min-height: 100svh;
   overflow: hidden;
   background: var(--background);

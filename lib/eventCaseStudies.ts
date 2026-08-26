@@ -64,7 +64,7 @@ export const eventCaseStudies: readonly EventCaseStudy[] = [
     endDate: "2026-08-11T20:00:00+08:00",
     datePublished: "2026-08-27",
     dateModified: "2026-08-27",
-    place: "500 Social House, Kuala Lumpur",
+    place: "500 Global, Southeast Asia",
     summary:
       "Paul Copplestone was already coming to Malaysia for AIMTO. We had less than two weeks to turn that visit into a Supabase conversation and a proper Malaysian.AI show-and-tell.",
     seoDescription:

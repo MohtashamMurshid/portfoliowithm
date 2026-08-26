@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import EventCollage from "@/components/events/EventCollage";
+import { eventCaseStudies } from "@/lib/eventCaseStudies";
 import { getOgImage } from "@/lib/ogImage";
 import { pageAlternates } from "@/lib/site";
 import styles from "./events.module.css";
@@ -38,34 +39,16 @@ const hostedEvents = [
     image: "/events/grok-bot-meetup.webp",
     imageAlt: "Poster for the Grok Bot Kuala Lumpur Meetup.",
   },
-  {
-    id: "supabase-first-move",
-    title: "Supabase's First Move: Malaysian AI Show & Tell",
-    date: "11 August 2026",
-    place: "500 Global, Southeast Asia",
-    href: "/events/supabase-first-move",
-    image: "/events/supabase-first-move.webp",
-    imageAlt: "A full room at Supabase's Malaysian AI Show and Tell event.",
-  },
-  {
-    id: "cursor-kashmir",
-    title: "Cursor Hackathon Kashmir",
-    date: "28 March 2026",
-    place: "NIT Srinagar",
-    href: "/events/cursor-hackathon-kashmir",
-    image: "/events/cursor-hackathon-kashmir.webp",
-    imageAlt: "Builders gathered for Cursor Hackathon Kashmir at NIT Srinagar.",
-  },
-  {
-    id: "hackerdorm-summit",
-    title: "AI Hackerdorm Student Builder Summit",
-    date: "22 November 2025",
-    place: "Taylor's University Lakeside Campus",
-    href: "/events/ai-hackerdorm-builder-summit",
-    image: "/events/ai-hackerdorm-builder-summit.webp",
-    imageAlt: "Organizers and builders at the AI Hackerdorm Student Builder Summit.",
-  },
-] as const;
+  ...eventCaseStudies.map((event) => ({
+    id: event.slug,
+    title: event.title,
+    date: event.dateDisplay,
+    place: event.place,
+    href: `/events/${event.slug}`,
+    image: event.image,
+    imageAlt: event.imageAlt,
+  })),
+];
 
 const participationEvents = [
   {

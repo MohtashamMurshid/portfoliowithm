@@ -269,7 +269,7 @@ export default function AboutExperience() {
       <article className={styles.article}>
         <header className={styles.intro}>
           <h1>Hi, I&apos;m Mohtasham.</h1>
-          <p className={styles.updated}>Updated Aug 26, 2026</p>
+          <p className={styles.updated}>Updated Aug 27, 2026</p>
           <blockquote>
             <span aria-hidden="true">&quot;</span>
             My first memory of computers is <em>Microsoft Paint</em> on my dad&apos;s PC.
