@@ -269,7 +269,7 @@ export default function AboutExperience() {
       <article className={styles.article}>
         <header className={styles.intro}>
           <h1>Hi, I&apos;m Mohtasham.</h1>
-          <p className={styles.updated}>Updated Aug 26, 2026</p>
+          <p className={styles.updated}>Updated Aug 27, 2026</p>
           <blockquote>
             <span aria-hidden="true">&quot;</span>
             My first memory of computers is <em>Microsoft Paint</em> on my dad&apos;s PC.
@@ -403,6 +403,30 @@ export default function AboutExperience() {
               research
             </a>{" "}
             language models and AI systems.
+          </p>
+          <h2>Events</h2>
+          <p>
+            I am part of the{" "}
+            <a href="https://www.malaysian.ai/residency" target="_blank" rel="noreferrer">
+              Malaysian AI Residency
+            </a>{" "}
+            and I am a{" "}
+            <a href="https://cursor.com/ambassadors" target="_blank" rel="noreferrer">
+              Cursor Ambassador
+            </a>
+            . Through Cursor, I helped run Cursor x Anthropic Hackathon Malaysia in Kuala
+            Lumpur. I later organized Cursor Hackathon Kashmir back home. I am now
+            hosting Grok Bot Meetup Kuala Lumpur.
+          </p>
+          <p>
+            I also host student builder sessions and help at larger community events. At
+            AI Malaysia Takeover 2026, I volunteered on the Learn-a-thon floor while
+            people built their first AI projects.
+          </p>
+          <p>
+            <Link className={styles.eventsLink} href="/events">
+              Events
+            </Link>
           </p>
           <h2>Looking ahead</h2>
           <p>

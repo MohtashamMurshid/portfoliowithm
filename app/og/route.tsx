@@ -72,6 +72,11 @@ const pageCards: Record<string, Omit<OgCard, "type">> = {
     description: "Books I have read, kept, and occasionally argued with.",
     image: "/books/percy-jackson-1/cover.jpg",
   },
+  events: {
+    title: "Events with Mohtasham",
+    eyebrow: "Meetups / hackathons / builder rooms",
+    description: "Cursor Ambassador, Malaysian AI resident, and community event organizer.",
+  },
   boring: {
     title: "The plain portfolio",
     eyebrow: "No ceremony this time",

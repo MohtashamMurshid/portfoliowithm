@@ -31,7 +31,7 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
   const ogImage = getOgImage("blog", post.imageAlt, post.slug);
 
   return {
-    title: post.title,
+    title: { absolute: post.title },
     description: post.description,
     alternates: pageAlternates(`/blog/${post.slug}`),
     openGraph: {
@@ -74,13 +74,15 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
     },
     author: {
       "@type": "Person",
+      "@id": "https://www.mohtasham.dev/#person",
       name: "Mohtasham Murshid Madani",
       url: "https://www.mohtasham.dev/about",
     },
     publisher: {
       "@type": "Person",
+      "@id": "https://www.mohtasham.dev/#person",
       name: "Mohtasham Murshid Madani",
-      url: "https://www.mohtasham.dev",
+      url: "https://www.mohtasham.dev/about",
     },
   }).replace(/</g, "\\u003c");
 

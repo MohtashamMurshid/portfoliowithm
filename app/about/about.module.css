@@ -24,7 +24,7 @@
 .desk {
   position: relative;
   width: min(42rem, calc(100% - 48px));
-  height: clamp(440px, 48vw, 520px);
+  height: clamp(530px, 58vw, 580px);
   margin: 0 auto;
   padding-top: 88px;
 }
@@ -213,6 +213,27 @@
   text-decoration-color: rgb(232 117 63 / 72%);
   text-decoration-thickness: 2px;
   text-underline-offset: 3px;
+}
+
+.prose .eventsLink {
+  display: inline-flex;
+  min-height: 38px;
+  align-items: center;
+  padding: 0 16px;
+  border: 1px solid var(--orange);
+  border-radius: 999px;
+  background: var(--orange);
+  color: #fffaf4;
+  font-size: 12px;
+  font-weight: 700;
+  text-decoration: none;
+  transition: background-color 160ms ease, color 160ms ease, translate 160ms ease;
+}
+
+.prose .eventsLink:hover {
+  background: transparent;
+  color: var(--orange);
+  translate: 0 -2px;
 }
 
 .dropCap::first-letter {
@@ -500,7 +521,7 @@
 @media (max-width: 720px) {
   .desk {
     width: min(100% - 32px, 35rem);
-    height: 340px;
+    height: clamp(330px, 78vw, 460px);
     padding-top: 72px;
   }
 
@@ -643,7 +664,6 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .draggable {
-    cursor: default;
-  }
+  .draggable { cursor: default; }
+  .prose .eventsLink { transition: none; }
 }

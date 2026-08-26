@@ -41,7 +41,7 @@ export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
     default: defaultTitle,
-    template: `%s | ${siteName}`,
+    template: "%s | Mohtasham",
   },
   description: defaultDescription,
   authors: [{ name: siteName, url: siteUrl }],
@@ -131,6 +131,18 @@ export default function RootLayout({
                   name: "Taylor's University",
                   url: "https://university.taylors.edu.my/en.html",
                 },
+                memberOf: [
+                  {
+                    "@type": "Organization",
+                    name: "Malaysian AI Residency",
+                    url: "https://www.malaysian.ai/residency",
+                  },
+                  {
+                    "@type": "Organization",
+                    name: "Cursor Ambassadors",
+                    url: "https://cursor.com/ambassadors",
+                  },
+                ],
                 knowsAbout: [
                   "Artificial intelligence",
                   "Software engineering",

@@ -200,7 +200,7 @@ export default function GitHubProjectCaseStudy({
 }: GitHubProjectCaseStudyProps) {
   const author = project.author ?? {
     name: "Mohtasham Murshid Madani",
-    url: "https://www.mohtasham.dev",
+    url: "https://www.mohtasham.dev/about",
   };
 
   const structuredData = {

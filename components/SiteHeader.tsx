@@ -43,7 +43,12 @@ const logoBlobs: Array<{ cx: number; cy: number; r: number; style: BlobStyle }> 
 
 export default function SiteHeader() {
   const pathname = usePathname();
-  const overlaysPage = pathname === "/" || pathname === "/work" || pathname === "/about" || pathname === "/blog";
+  const overlaysPage =
+    pathname === "/" ||
+    pathname === "/work" ||
+    pathname === "/about" ||
+    pathname === "/blog" ||
+    pathname === "/events";
   const keepsHeaderVisible = pathname === "/books";
 
   return (

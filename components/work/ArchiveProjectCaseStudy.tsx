@@ -27,21 +27,17 @@ export default function ArchiveProjectCaseStudy({
 
   const structuredData = {
     "@context": "https://schema.org",
-    "@type": "Article",
-    headline: project.name,
+    "@type": "SoftwareSourceCode",
+    name: project.name,
     description: project.summary,
     url: `https://www.mohtasham.dev/work/archive/${project.slug}`,
-    mainEntityOfPage: `https://www.mohtasham.dev/work/archive/${project.slug}`,
-    author: {
+    ...(project.repositoryUrl ? { codeRepository: project.repositoryUrl } : {}),
+    programmingLanguage: project.languages.map((language) => language.name),
+    creator: {
       "@type": "Person",
+      "@id": "https://www.mohtasham.dev/#person",
       name: "Mohtasham Murshid Madani",
-      url: "https://www.mohtasham.dev",
-    },
-    about: {
-      "@type": "SoftwareSourceCode",
-      name: project.name,
-      ...(project.repositoryUrl ? { codeRepository: project.repositoryUrl } : {}),
-      programmingLanguage: project.languages.map((language) => language.name),
+      url: "https://www.mohtasham.dev/about",
     },
   };
 
