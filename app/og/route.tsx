@@ -2,6 +2,7 @@
 
 import { ImageResponse } from "next/og";
 import type { NextRequest } from "next/server";
+import sharp from "sharp";
 import { getArchiveProject } from "@/lib/archiveProjects";
 import { formatBlogDate, getBlogPost } from "@/lib/blogPosts";
 import { ogImageSize, type OgImageType } from "@/lib/ogImage";
@@ -158,7 +159,7 @@ export async function GET(request: NextRequest) {
   const template = `${origin}/og/field-card-template.png`;
   const contentImage = card.image ? `${origin}${card.image}` : null;
 
-  return new ImageResponse(
+  const pngResponse = new ImageResponse(
     (
       <div
         style={{
@@ -310,4 +311,15 @@ export async function GET(request: NextRequest) {
       },
     },
   );
+
+  const jpeg = await sharp(Buffer.from(await pngResponse.arrayBuffer()))
+    .jpeg({ quality: 78, mozjpeg: true })
+    .toBuffer();
+
+  return new Response(new Uint8Array(jpeg), {
+    headers: {
+      "Content-Type": "image/jpeg",
+      "Cache-Control": "public, max-age=3600, s-maxage=86400, stale-while-revalidate=604800",
+    },
+  });
 }

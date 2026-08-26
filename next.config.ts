@@ -42,8 +42,35 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  async rewrites() {
+    return [
+      {
+        source: "/apple-touch-icon.png",
+        destination: "/apple-icon",
+      },
+    ];
+  },
   async redirects() {
-    return contactRedirects;
+    return [
+      {
+        source: "/",
+        has: [{ type: "host", value: "mohtasham.dev" }],
+        destination: "https://www.mohtasham.dev/",
+        permanent: true,
+      },
+      {
+        source: "/:path*",
+        has: [{ type: "host", value: "mohtasham.dev" }],
+        destination: "https://www.mohtasham.dev/:path*",
+        permanent: true,
+      },
+      {
+        source: "/archive",
+        destination: "/work#archive",
+        permanent: true,
+      },
+      ...contactRedirects,
+    ];
   },
 };
 

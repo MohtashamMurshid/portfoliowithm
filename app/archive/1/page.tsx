@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { getOgImage } from "@/lib/ogImage";
+import { pageAlternates } from "@/lib/site";
 import BoringPage from "../../boring/page";
 
 export const revalidate = 86400;
@@ -12,9 +13,11 @@ export const metadata: Metadata = {
   title: "Archive 01 | The plain portfolio",
   description,
   robots: { index: false, follow: true },
+  alternates: pageAlternates("/archive/1"),
   openGraph: {
     title: "Archive 01 | The plain portfolio",
     description,
+    url: "/archive/1",
     images: [archiveOgImage],
   },
   twitter: {

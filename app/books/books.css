@@ -172,7 +172,7 @@
   line-height: 1.4;
 }
 
-.browse-caption h1,
+.browse-caption__title,
 .book-details h2 {
   margin: 0;
   color: #3e3c38;
@@ -181,7 +181,7 @@
   letter-spacing: -0.025em;
 }
 
-.browse-caption h1 {
+.browse-caption__title {
   max-width: 360px;
   font-size: clamp(38px, 4.2vw, 64px);
   line-height: 0.98;
@@ -362,7 +362,7 @@
     display: none;
   }
 
-  .browse-caption h1 {
+  .browse-caption__title {
     max-width: 78vw;
     font-size: clamp(38px, 12vw, 54px);
   }

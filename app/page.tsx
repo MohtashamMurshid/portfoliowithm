@@ -1,10 +1,9 @@
 import type { Metadata } from "next";
 import HeroExperience from "@/components/home/HeroExperience";
+import { pageAlternates, siteUrl } from "@/lib/site";
 
 export const metadata: Metadata = {
-  title: "Mohtasham Murshid Madani | Founder and AI Engineer",
-  description:
-    "Mohtasham Murshid Madani is a founder and AI engineer in Kuala Lumpur exploring how artificial intelligence can change the way we live.",
+  alternates: pageAlternates(siteUrl),
 };
 
 export default function Home() {

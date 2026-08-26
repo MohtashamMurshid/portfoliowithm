@@ -11,6 +11,7 @@ import {
   getBlogPostBody,
 } from "@/lib/blogPosts";
 import { getOgImage } from "@/lib/ogImage";
+import { pageAlternates } from "@/lib/site";
 import styles from "./article.module.css";
 
 type BlogPostPageProps = {
@@ -32,7 +33,7 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
   return {
     title: post.title,
     description: post.description,
-    alternates: { canonical: `/blog/${post.slug}` },
+    alternates: pageAlternates(`/blog/${post.slug}`),
     openGraph: {
       title: post.title,
       description: post.description,

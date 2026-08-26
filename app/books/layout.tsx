@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { siteConfig } from "@/components/books/site-config";
 import { getOgImage } from "@/lib/ogImage";
+import { pageAlternates } from "@/lib/site";
 import "./books.css";
 
 const booksOgImage = getOgImage("page", "Books read by Mohtasham Murshid Madani", "books");
@@ -8,6 +9,7 @@ const booksOgImage = getOgImage("page", "Books read by Mohtasham Murshid Madani"
 export const metadata: Metadata = {
   title: "Books",
   description: siteConfig.description,
+  alternates: pageAlternates("/books"),
   openGraph: {
     title: "Books | Mohtasham Murshid Madani",
     description: siteConfig.description,

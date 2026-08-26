@@ -5,15 +5,17 @@ import { ArrowRight } from "lucide-react";
 import BlogReveal, { BlogRevealItem } from "@/components/blog/BlogReveal";
 import { blogPosts, formatBlogDate } from "@/lib/blogPosts";
 import { getOgImage } from "@/lib/ogImage";
+import { pageAlternates } from "@/lib/site";
 import styles from "./blog.module.css";
 
-const description = "Notes on software, developer tools, and cognitive computing by Mohtasham Murshid Madani.";
+const description =
+  "Notes on software, developer tools, artificial intelligence, and cognitive computing by Mohtasham Murshid Madani.";
 const blogOgImage = getOgImage("page", "Writing by Mohtasham Murshid Madani", "blog");
 
 export const metadata: Metadata = {
   title: "Blog",
   description,
-  alternates: { canonical: "/blog" },
+  alternates: pageAlternates("/blog"),
   openGraph: {
     title: "Blog",
     description,
@@ -36,6 +38,9 @@ export default function BlogIndexPage() {
   return (
     <main className={styles.page}>
       <BlogReveal className={styles.content}>
+        <BlogRevealItem delay={0.08}>
+          <h1 className={styles.pageTitle}>Writing</h1>
+        </BlogRevealItem>
         <BlogRevealItem delay={0.14}>
           <article className={styles.featured}>
             <Link className={styles.artwork} href={`/blog/${featured.slug}`} aria-label={`Read ${featured.title}`}>
@@ -48,7 +53,7 @@ export default function BlogIndexPage() {
               />
             </Link>
 
-            <h1>{featured.shortTitle}</h1>
+            <h2>{featured.shortTitle}</h2>
             <time dateTime={featured.date}>{formatBlogDate(featured.date)}</time>
             <p>{featured.description}</p>
             <Link className={styles.continue} href={`/blog/${featured.slug}`}>

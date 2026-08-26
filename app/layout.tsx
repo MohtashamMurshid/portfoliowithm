@@ -3,12 +3,7 @@ import "./globals.css";
 import "./report.css";
 import { Caveat, EB_Garamond, IBM_Plex_Mono, Instrument_Serif, Manrope } from "next/font/google";
 import PageTransition from "@/components/PageTransition";
-
-const siteUrl = "https://www.mohtasham.dev";
-const homeUrl = `${siteUrl}/`;
-const siteName = "Mohtasham Murshid Madani";
-const siteDescription =
-  "Mohtasham Murshid Madani is the founder of Oikina, an AI engineer at CitySage, an open-source builder, and a researcher based in Kuala Lumpur.";
+import { defaultDescription, defaultTitle, pageAlternates, siteName, siteUrl } from "@/lib/site";
 
 const editorial = EB_Garamond({
   subsets: ["latin"],
@@ -45,49 +40,26 @@ const handwriting = Caveat({
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default:
-      "Mohtasham Murshid Madani | Founder of Oikina and AI Engineer",
+    default: defaultTitle,
     template: `%s | ${siteName}`,
   },
-  description: siteDescription,
-  keywords: [
-    "Mohtasham Murshid Madani",
-    "AI Engineer at CitySage",
-    "Oikina founder",
-    "open-source builder",
-    "Software Engineer",
-    "AI Researcher",
-    "Entrepreneur",
-    "Portfolio",
-    "Developer",
-  ],
-  authors: [{ name: siteName, url: homeUrl }],
+  description: defaultDescription,
+  authors: [{ name: siteName, url: siteUrl }],
   creator: siteName,
   publisher: siteName,
-  alternates: {
-    canonical: homeUrl,
-  },
+  alternates: pageAlternates(siteUrl),
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: homeUrl,
+    url: siteUrl,
     siteName: "Mohtasham's Portfolio",
-    title: "Mohtasham Murshid Madani | Founder of Oikina and AI Engineer",
-    description: siteDescription,
-    images: [
-      {
-        url: "/opengraph-image.png",
-        width: 1200,
-        height: 630,
-        alt: siteName,
-      },
-    ],
+    title: defaultTitle,
+    description: defaultDescription,
   },
   twitter: {
     card: "summary_large_image",
-    title: "Mohtasham Murshid Madani | Founder of Oikina and AI Engineer",
-    description: siteDescription,
-    images: ["/twitter-image.png"],
+    title: defaultTitle,
+    description: defaultDescription,
     creator: "@mohtashamdotdev",
   },
   robots: {
@@ -104,6 +76,7 @@ export const metadata: Metadata = {
   },
   icons: {
     icon: "/favicon.ico",
+    apple: [{ url: "/apple-icon", sizes: "180x180", type: "image/png" }],
   },
   category: "technology",
 };
@@ -137,7 +110,7 @@ export default function RootLayout({
                   "Mohtasham Madani",
                   "\u0645\u062D\u062A\u0634\u0645 \u0645\u0631\u0634\u062F \u0645\u062F\u0646\u064A",
                 ],
-                url: homeUrl,
+                url: siteUrl,
                 sameAs: [
                   "https://github.com/MohtashamMurshid",
                   "https://www.linkedin.com/in/mohtashammurshid/",
@@ -146,13 +119,17 @@ export default function RootLayout({
                   "https://peerlist.io/mohtasham",
                   "https://luma.com/user/mohtasham",
                   "https://www.researchgate.net/profile/Mohtasham-Madani",
-                  "https://university.taylors.edu.my/en/study/discover-taylors/india.html#discover-more",
                 ],
                 jobTitle: "AI Engineer",
                 worksFor: {
                   "@type": "Organization",
                   name: "CitySage",
                   url: "https://citysage.my",
+                },
+                owns: {
+                  "@type": "Organization",
+                  name: "Oikina",
+                  url: "https://oikina.com",
                 },
                 alumniOf: {
                   "@type": "CollegeOrUniversity",
@@ -195,22 +172,11 @@ export default function RootLayout({
             dangerouslySetInnerHTML={{
               __html: JSON.stringify({
                 "@context": "https://schema.org",
-                "@type": "Organization",
-                "@id": "https://getdesign.app/#organization",
-                name: "getdesign",
-                url: "https://getdesign.app",
-                founder: { "@id": `${siteUrl}/#person` },
-              }),
-            }}
-          />
-          <script
-            type="application/ld+json"
-            dangerouslySetInnerHTML={{
-              __html: JSON.stringify({
-                "@context": "https://schema.org",
                 "@type": "WebSite",
                 name: "Mohtasham's Portfolio",
-                url: homeUrl,
+                url: siteUrl,
+                inLanguage: "en",
+                publisher: { "@id": `${siteUrl}/#person` },
               }),
             }}
           />

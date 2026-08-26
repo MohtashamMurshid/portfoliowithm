@@ -20,5 +20,6 @@ export function getOgImage(type: OgImageType, alt: string, slug?: string) {
     url: getOgImageUrl(type, slug),
     ...ogImageSize,
     alt,
+    type: "image/jpeg",
   };
 }

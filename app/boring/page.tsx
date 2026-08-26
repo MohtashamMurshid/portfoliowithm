@@ -3,6 +3,7 @@ import Landing from "@/components/Landing";
 import Skills from "@/components/Skills";
 import GithubInfo from "@/components/GithubInfo";
 import { getOgImage } from "@/lib/ogImage";
+import { pageAlternates } from "@/lib/site";
 
 export const revalidate = 86400;
 
@@ -14,9 +15,8 @@ const boringOgImage = getOgImage("page", "The plain portfolio of Mohtasham Mursh
 export const metadata: Metadata = {
   title: "Plain Portfolio",
   description,
-  alternates: {
-    canonical: "/boring",
-  },
+  robots: { index: false, follow: true },
+  alternates: pageAlternates("/boring"),
   openGraph: {
     title: "Plain Portfolio",
     description,

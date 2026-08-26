@@ -5,6 +5,7 @@ import { ViewTransition } from "react";
 import WorkEntrance from "@/components/work/WorkEntrance";
 import { archiveProjects } from "@/lib/archiveProjects";
 import { getOgImage } from "@/lib/ogImage";
+import { pageAlternates } from "@/lib/site";
 import styles from "./work.module.css";
 
 type WorkItem = {
@@ -95,13 +96,14 @@ const portfolioEditions = [
   },
 ];
 
-const description = "Selected projects and experiments by Mohtasham Murshid Madani.";
+const description =
+  "Selected work by Mohtasham Murshid Madani: Oikina, getdesign, md-to-docx, and other AI products, developer tools, and experiments.";
 const workOgImage = getOgImage("page", "Selected work by Mohtasham Murshid Madani", "work");
 
 export const metadata: Metadata = {
   title: "Work",
   description,
-  alternates: { canonical: "/work" },
+  alternates: pageAlternates("/work"),
   openGraph: {
     title: "Work",
     description,

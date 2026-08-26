@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import ArchiveProjectCaseStudy from "@/components/work/ArchiveProjectCaseStudy";
 import { archiveProjects, getArchiveProject } from "@/lib/archiveProjects";
 import { getOgImage } from "@/lib/ogImage";
+import { pageAlternates } from "@/lib/site";
 
 type ArchiveProjectPageProps = {
   params: Promise<{ slug: string }>;
@@ -27,7 +28,7 @@ export async function generateMetadata({ params }: ArchiveProjectPageProps): Pro
   return {
     title: project.name,
     description: project.summary,
-    alternates: { canonical: `/work/archive/${project.slug}` },
+    alternates: pageAlternates(`/work/archive/${project.slug}`),
     openGraph: {
       title: project.name,
       description: project.summary,

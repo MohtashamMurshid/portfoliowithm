@@ -102,12 +102,12 @@ export default function HeroExperience() {
         <DraggableObject className={styles.monitor} entrance={{ x: "48vw", y: "32vh", delay: 0.22 }} label="A monitor playing Valorant" reducedMotion={reduceMotion}>
           <div className={styles.monitorScreen} aria-hidden="true">
             <video
-              autoPlay
+              autoPlay={!reduceMotion}
               loop
               muted
               playsInline
               poster="/hero/valorant-icebox-poster.jpg"
-              preload="auto"
+              preload={reduceMotion ? "none" : "metadata"}
               src="/hero/valorant-icebox.mp4"
             />
             <span>VALORANT</span>
@@ -142,7 +142,7 @@ export default function HeroExperience() {
           transition={{ duration: reduceMotion ? 0 : 0.68, delay: reduceMotion ? 0 : 0.38, ease: [0.22, 1, 0.36, 1] }}
         >
           <h1 id="hero-title">
-            <span>I&apos;m a <em>founder</em> and AI engineer,</span>
+            <span>I&apos;m Mohtasham, a <em>founder</em> and AI engineer,</span>
             <span>exploring how AI can change the way we live.</span>
           </h1>
           <p className={styles.status}>
