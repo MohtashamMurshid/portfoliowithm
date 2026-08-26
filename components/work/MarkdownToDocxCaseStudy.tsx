@@ -406,13 +406,15 @@ export default async function MarkdownToDocxCaseStudy({ project }: MarkdownToDoc
             dateModified: project.dateModified,
             author: {
               "@type": "Person",
+              "@id": "https://www.mohtasham.dev/#person",
               name: "Mohtasham Murshid Madani",
-              url: "https://www.mohtasham.dev",
+              url: "https://www.mohtasham.dev/about",
             },
             publisher: {
               "@type": "Person",
+              "@id": "https://www.mohtasham.dev/#person",
               name: "Mohtasham Murshid Madani",
-              url: "https://www.mohtasham.dev",
+              url: "https://www.mohtasham.dev/about",
             },
             about: {
               "@type": "SoftwareSourceCode",

@@ -404,6 +404,30 @@ export default function AboutExperience() {
             </a>{" "}
             language models and AI systems.
           </p>
+          <h2>Events</h2>
+          <p>
+            I am part of the{" "}
+            <a href="https://www.malaysian.ai/residency" target="_blank" rel="noreferrer">
+              Malaysian AI Residency
+            </a>{" "}
+            and I am a{" "}
+            <a href="https://cursor.com/ambassadors" target="_blank" rel="noreferrer">
+              Cursor Ambassador
+            </a>
+            . Through Cursor, I helped run Cursor x Anthropic Hackathon Malaysia in Kuala
+            Lumpur. I later organized Cursor Hackathon Kashmir back home. I am now
+            hosting Grok Bot Meetup Kuala Lumpur.
+          </p>
+          <p>
+            I also host student builder sessions and help at larger community events. At
+            AI Malaysia Takeover 2026, I volunteered on the Learn-a-thon floor while
+            people built their first AI projects.
+          </p>
+          <p>
+            <Link className={styles.eventsLink} href="/events">
+              Events
+            </Link>
+          </p>
           <h2>Looking ahead</h2>
           <p>
             Right now I&apos;m obsessed with learning how language models work. I do not

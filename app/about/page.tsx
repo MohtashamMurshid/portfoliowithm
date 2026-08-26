@@ -14,7 +14,7 @@ const profilePageSchema = {
   "@id": `${siteUrl}/about#profile-page`,
   url: `${siteUrl}/about`,
   name: "About Mohtasham Murshid Madani",
-  dateModified: "2026-08-26",
+  dateModified: "2026-08-27",
   mainEntity: {
     "@id": `${siteUrl}/#person`,
   },

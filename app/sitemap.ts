@@ -1,11 +1,12 @@
 import type { MetadataRoute } from "next";
 import { archiveProjects } from "@/lib/archiveProjects";
 import { blogPosts } from "@/lib/blogPosts";
+import { eventCaseStudies } from "@/lib/eventCaseStudies";
 import { projects } from "@/lib/projects";
 import { siteUrl } from "@/lib/site";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const siteUpdated = new Date("2026-08-26T00:00:00Z");
+  const siteUpdated = new Date("2026-08-27T00:00:00Z");
   return [
     {
       url: siteUrl,
@@ -26,6 +27,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.8,
     },
     {
+      url: `${siteUrl}/events`,
+      lastModified: siteUpdated,
+      changeFrequency: "monthly",
+      priority: 0.75,
+    },
+    {
       url: `${siteUrl}/blog`,
       lastModified: siteUpdated,
       changeFrequency: "weekly",
@@ -42,6 +49,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified: new Date(`${post.modifiedDate}T00:00:00Z`),
       changeFrequency: "monthly" as const,
       priority: 0.7,
+    })),
+    ...eventCaseStudies.map((event) => ({
+      url: `${siteUrl}/events/${event.slug}`,
+      lastModified: new Date(`${event.dateModified}T00:00:00Z`),
+      changeFrequency: "yearly" as const,
+      priority: 0.65,
     })),
     ...projects.map((project) => ({
       url: `${siteUrl}/work/${project.slug}`,
