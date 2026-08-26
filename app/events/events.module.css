@@ -5,7 +5,7 @@
 
   min-height: 100svh;
   overflow: hidden;
-  padding: 68px 24px 110px;
+  padding: 88px 24px 110px;
   background: var(--site-paper-background);
   color: var(--ink);
   font-family: var(--font-interface-sans), Arial, sans-serif;
@@ -217,7 +217,7 @@
 }
 
 @media (max-width: 760px) {
-  .page { padding: 58px 16px 80px; }
+  .page { padding: 72px 16px 80px; }
 
   .featuredHeading {
     align-items: flex-start;
