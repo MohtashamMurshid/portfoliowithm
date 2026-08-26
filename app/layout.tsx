@@ -126,11 +126,6 @@ export default function RootLayout({
                   name: "CitySage",
                   url: "https://citysage.my",
                 },
-                owns: {
-                  "@type": "Organization",
-                  name: "Oikina",
-                  url: "https://oikina.com",
-                },
                 alumniOf: {
                   "@type": "CollegeOrUniversity",
                   name: "Taylor's University",
@@ -164,6 +159,19 @@ export default function RootLayout({
                     },
                   },
                 ],
+              }),
+            }}
+          />
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{
+              __html: JSON.stringify({
+                "@context": "https://schema.org",
+                "@type": "Organization",
+                "@id": "https://oikina.com/#organization",
+                name: "Oikina",
+                url: "https://oikina.com",
+                founder: { "@id": `${siteUrl}/#person` },
               }),
             }}
           />

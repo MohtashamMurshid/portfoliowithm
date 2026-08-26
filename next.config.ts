@@ -56,13 +56,13 @@ const nextConfig: NextConfig = {
         source: "/",
         has: [{ type: "host", value: "mohtasham.dev" }],
         destination: "https://www.mohtasham.dev/",
-        permanent: true,
+        statusCode: 301,
       },
       {
         source: "/:path*",
         has: [{ type: "host", value: "mohtasham.dev" }],
         destination: "https://www.mohtasham.dev/:path*",
-        permanent: true,
+        statusCode: 301,
       },
       {
         source: "/archive",
