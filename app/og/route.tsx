@@ -1,5 +1,8 @@
 /* eslint-disable @next/next/no-img-element */
 
+import { readFile } from "node:fs/promises";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
 import { ImageResponse } from "next/og";
 import type { NextRequest } from "next/server";
 import sharp from "sharp";
@@ -9,35 +12,79 @@ import { ogImageSize, type OgImageType } from "@/lib/ogImage";
 import { getProject } from "@/lib/projects";
 
 export const runtime = "nodejs";
+export const dynamic = "force-dynamic";
 
 const maxJpegBytes = 100 * 1024;
 const jpegQualities = [78, 70, 62, 54, 46, 38, 30, 22, 14, 6, 1] as const;
+const publicRoot = path.join(process.cwd(), "public");
+const fontsDir = path.join(path.dirname(fileURLToPath(import.meta.url)), "fonts");
 
-async function encodeJpegUnderLimit(png: ArrayBuffer) {
+async function encodeJpeg(png: ArrayBuffer) {
   const input = Buffer.from(png);
+  let smallest: Buffer | undefined;
 
   for (const quality of jpegQualities) {
     const jpeg = await sharp(input)
       .jpeg({ quality, mozjpeg: true })
       .toBuffer();
 
+    if (!smallest || jpeg.byteLength < smallest.byteLength) smallest = jpeg;
     if (jpeg.byteLength < maxJpegBytes) return jpeg;
   }
 
-  throw new Error(`Open Graph image exceeds ${maxJpegBytes} bytes at minimum quality.`);
+  return smallest ?? Buffer.from(png);
 }
 
-const caveatFont = fetch(
-  "https://fonts.gstatic.com/s/caveat/v23/WnznHAc5bAfYB2QRah7pcpNvOx-pjSx6SII.ttf",
-).then((response) => response.arrayBuffer());
+function mimeFor(filePath: string) {
+  const ext = path.extname(filePath).toLowerCase();
+  if (ext === ".png") return "image/png";
+  if (ext === ".webp") return "image/webp";
+  if (ext === ".gif") return "image/gif";
+  return "image/jpeg";
+}
 
-const manropeFont = fetch(
-  "https://fonts.gstatic.com/s/manrope/v20/xn7_YHE41ni1AdIRqAuZuw1Bx9mbZk7PFO_F.ttf",
-).then((response) => response.arrayBuffer());
+function publicFilePath(urlPath: string) {
+  const relative = urlPath.replace(/^\/+/, "");
+  const absolute = path.resolve(publicRoot, relative);
+  if (!absolute.startsWith(publicRoot + path.sep) && absolute !== publicRoot) return null;
+  return absolute;
+}
 
-const monoFont = fetch(
-  "https://fonts.gstatic.com/s/ibmplexmono/v20/-F6qfjptAgt5VM-kVkqdyU8n3twJ8lc.ttf",
-).then((response) => response.arrayBuffer());
+async function readPublicImage(urlPath: string) {
+  const filePath = publicFilePath(urlPath);
+  if (!filePath) return null;
+
+  try {
+    const bytes = await readFile(filePath);
+    return `data:${mimeFor(filePath)};base64,${bytes.toString("base64")}`;
+  } catch {
+    return null;
+  }
+}
+
+async function readTemplate() {
+  const filePath = path.join(publicRoot, "og", "field-card-template.png");
+  const bytes = await readFile(filePath);
+  const fitted = await sharp(bytes)
+    .resize(ogImageSize.width, ogImageSize.height, { fit: "cover" })
+    .png()
+    .toBuffer();
+  return `data:image/png;base64,${fitted.toString("base64")}`;
+}
+
+async function readFont(fileName: string, fallbackUrl: string) {
+  try {
+    return await readFile(path.join(fontsDir, fileName));
+  } catch {
+    try {
+      const response = await fetch(fallbackUrl);
+      if (!response.ok) return null;
+      return await response.arrayBuffer();
+    } catch {
+      return null;
+    }
+  }
+}
 
 type OgCard = {
   type: OgImageType;
@@ -172,175 +219,195 @@ function accentFor(type: OgImageType) {
   return "#d85b28";
 }
 
+async function fallbackJpeg() {
+  return readFile(path.join(publicRoot, "og", "default.jpg"));
+}
+
 export async function GET(request: NextRequest) {
-  const card = resolveCard(request);
-  const origin = request.nextUrl.origin;
-  const accent = accentFor(card.type);
-  const serial = String((hash(card.title) % 89) + 10).padStart(2, "0");
-  const [caveat, manrope, mono] = await Promise.all([caveatFont, manropeFont, monoFont]);
-  const template = `${origin}/og/field-card-template.png`;
-  const contentImage = card.image ? `${origin}${card.image}` : null;
+  try {
+    const card = resolveCard(request);
+    const accent = accentFor(card.type);
+    const serial = String((hash(card.title) % 89) + 10).padStart(2, "0");
+    const [caveat, manrope, mono, template] = await Promise.all([
+      readFont("caveat.ttf", "https://fonts.gstatic.com/s/caveat/v23/WnznHAc5bAfYB2QRah7pcpNvOx-pjSx6SII.ttf"),
+      readFont("manrope.ttf", "https://fonts.gstatic.com/s/manrope/v20/xn7_YHE41ni1AdIRqAuZuw1Bx9mbZk7PFO_F.ttf"),
+      readFont("ibm-plex-mono.ttf", "https://fonts.gstatic.com/s/ibmplexmono/v20/-F6qfjptAgt5VM-kVkqdyU8n3twJ8lc.ttf"),
+      readTemplate(),
+    ]);
+    const contentImage = card.image ? await readPublicImage(card.image) : null;
 
-  const pngResponse = new ImageResponse(
-    (
-      <div
-        style={{
-          width: "100%",
-          height: "100%",
-          display: "flex",
-          position: "relative",
-          overflow: "hidden",
-          color: "#292a24",
-          background: "#123f35",
-        }}
-      >
-        <img
-          alt=""
-          src={template}
-          width="1200"
-          height="630"
-          style={{ position: "absolute", inset: 0, width: 1200, height: 630, objectFit: "cover" }}
-        />
+    const fonts = [
+      caveat ? { name: "Caveat", data: caveat, weight: 600 as const, style: "normal" as const } : null,
+      manrope ? { name: "Manrope", data: manrope, weight: 500 as const, style: "normal" as const } : null,
+      mono ? { name: "IBM Plex Mono", data: mono, weight: 500 as const, style: "normal" as const } : null,
+    ].filter((font) => font !== null);
 
+    const pngResponse = new ImageResponse(
+      (
         <div
           style={{
-            position: "absolute",
-            left: 151,
-            top: 112,
-            width: 594,
-            height: 410,
+            width: "100%",
+            height: "100%",
             display: "flex",
-            flexDirection: "column",
+            position: "relative",
+            overflow: "hidden",
+            color: "#292a24",
+            background: "#123f35",
           }}
         >
+          <img
+            alt=""
+            src={template}
+            width="1200"
+            height="630"
+            style={{ position: "absolute", inset: 0, width: 1200, height: 630, objectFit: "cover" }}
+          />
+
           <div
             style={{
+              position: "absolute",
+              left: 151,
+              top: 112,
+              width: 594,
+              height: 410,
+              display: "flex",
+              flexDirection: "column",
+            }}
+          >
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: 11,
+                color: accent,
+                fontFamily: "IBM Plex Mono",
+                fontSize: 14,
+                fontWeight: 500,
+                letterSpacing: "0.08em",
+                textTransform: "uppercase",
+              }}
+            >
+              <span style={{ width: 28, height: 3, display: "flex", background: accent }} />
+              {card.eyebrow}
+            </div>
+
+            <div
+              style={{
+                display: "flex",
+                marginTop: 22,
+                maxWidth: 594,
+                color: "#24251f",
+                fontFamily: "Caveat",
+                fontSize: titleSize(card.title),
+                fontWeight: 600,
+                lineHeight: 0.92,
+                letterSpacing: "-0.025em",
+              }}
+            >
+              {card.title}
+            </div>
+
+            <div
+              style={{
+                display: "flex",
+                marginTop: 20,
+                maxWidth: 540,
+                color: "#504d43",
+                fontFamily: "Manrope",
+                fontSize: 18,
+                fontWeight: 500,
+                lineHeight: 1.42,
+              }}
+            >
+              {card.description}
+            </div>
+          </div>
+
+          <div
+            style={{
+              position: "absolute",
+              left: 151,
+              top: 516,
               display: "flex",
               alignItems: "center",
               gap: 11,
-              color: accent,
+              color: "#6e685b",
               fontFamily: "IBM Plex Mono",
-              fontSize: 14,
+              fontSize: 12,
               fontWeight: 500,
-              letterSpacing: "0.08em",
+              letterSpacing: "0.055em",
               textTransform: "uppercase",
             }}
           >
-            <span style={{ width: 28, height: 3, display: "flex", background: accent }} />
-            {card.eyebrow}
+            <span style={{ width: 7, height: 7, display: "flex", borderRadius: 99, background: accent }} />
+            Mohtasham.dev / {card.type} record / {serial}
           </div>
 
-          <div
-            style={{
-              display: "flex",
-              marginTop: 22,
-              maxWidth: 594,
-              color: "#24251f",
-              fontFamily: "Caveat",
-              fontSize: titleSize(card.title),
-              fontWeight: 600,
-              lineHeight: 0.92,
-              letterSpacing: "-0.025em",
-            }}
-          >
-            {card.title}
-          </div>
-
-          <div
-            style={{
-              display: "flex",
-              marginTop: 20,
-              maxWidth: 540,
-              color: "#504d43",
-              fontFamily: "Manrope",
-              fontSize: 18,
-              fontWeight: 500,
-              lineHeight: 1.42,
-            }}
-          >
-            {card.description}
-          </div>
+          {contentImage ? (
+            <img
+              alt=""
+              src={contentImage}
+              width="254"
+              height="270"
+              style={{
+                position: "absolute",
+                left: 791,
+                top: 167,
+                width: 254,
+                height: 270,
+                objectFit: "cover",
+                transform: "rotate(1.6deg)",
+              }}
+            />
+          ) : (
+            <div
+              style={{
+                position: "absolute",
+                left: 791,
+                top: 167,
+                width: 254,
+                height: 270,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                color: accent,
+                fontFamily: "Caveat",
+                fontSize: 92,
+                fontWeight: 600,
+                transform: "rotate(1.6deg)",
+              }}
+            >
+              {card.title.slice(0, 1)}
+            </div>
+          )}
         </div>
+      ),
+      {
+        ...ogImageSize,
+        fonts,
+        headers: {
+          "Cache-Control": "public, max-age=3600, s-maxage=86400, stale-while-revalidate=604800",
+        },
+      },
+    );
 
-        <div
-          style={{
-            position: "absolute",
-            left: 151,
-            top: 516,
-            display: "flex",
-            alignItems: "center",
-            gap: 11,
-            color: "#6e685b",
-            fontFamily: "IBM Plex Mono",
-            fontSize: 12,
-            fontWeight: 500,
-            letterSpacing: "0.055em",
-            textTransform: "uppercase",
-          }}
-        >
-          <span style={{ width: 7, height: 7, display: "flex", borderRadius: 99, background: accent }} />
-          Mohtasham.dev / {card.type} record / {serial}
-        </div>
+    const jpeg = await encodeJpeg(await pngResponse.arrayBuffer());
 
-        {contentImage ? (
-          <img
-            alt=""
-            src={contentImage}
-            width="254"
-            height="270"
-            style={{
-              position: "absolute",
-              left: 791,
-              top: 167,
-              width: 254,
-              height: 270,
-              objectFit: "cover",
-              transform: "rotate(1.6deg)",
-            }}
-          />
-        ) : (
-          <div
-            style={{
-              position: "absolute",
-              left: 791,
-              top: 167,
-              width: 254,
-              height: 270,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              color: accent,
-              fontFamily: "Caveat",
-              fontSize: 92,
-              fontWeight: 600,
-              transform: "rotate(1.6deg)",
-            }}
-          >
-            {card.title.slice(0, 1)}
-          </div>
-        )}
-      </div>
-    ),
-    {
-      ...ogImageSize,
-      fonts: [
-        { name: "Caveat", data: caveat, weight: 600, style: "normal" },
-        { name: "Manrope", data: manrope, weight: 500, style: "normal" },
-        { name: "IBM Plex Mono", data: mono, weight: 500, style: "normal" },
-      ],
+    return new Response(new Uint8Array(jpeg), {
       headers: {
+        "Content-Type": "image/jpeg",
+        "Content-Length": String(jpeg.byteLength),
         "Cache-Control": "public, max-age=3600, s-maxage=86400, stale-while-revalidate=604800",
       },
-    },
-  );
-
-  const jpeg = await encodeJpegUnderLimit(await pngResponse.arrayBuffer());
-
-  return new Response(new Uint8Array(jpeg), {
-    headers: {
-      "Content-Type": "image/jpeg",
-      "Content-Length": String(jpeg.byteLength),
-      "Cache-Control": "public, max-age=3600, s-maxage=86400, stale-while-revalidate=604800",
-    },
-  });
+    });
+  } catch {
+    const jpeg = await fallbackJpeg();
+    return new Response(new Uint8Array(jpeg), {
+      headers: {
+        "Content-Type": "image/jpeg",
+        "Content-Length": String(jpeg.byteLength),
+        "Cache-Control": "public, max-age=60",
+      },
+    });
+  }
 }
