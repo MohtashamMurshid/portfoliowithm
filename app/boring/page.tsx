@@ -10,7 +10,7 @@ export const revalidate = 86400;
 const NPM_PACKAGE = "@mohtasham/md-to-docx";
 const description =
   "The conventional portfolio of Mohtasham Murshid Madani: current work, projects, skills, writing, and public repositories.";
-const boringOgImage = getOgImage("The plain portfolio of Mohtasham Murshid Madani");
+const boringOgImage = getOgImage("page", "The plain portfolio of Mohtasham Murshid Madani", "boring");
 
 export const metadata: Metadata = {
   title: "Plain Portfolio",

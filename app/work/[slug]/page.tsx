@@ -23,7 +23,7 @@ export async function generateMetadata({ params }: WorkPageProps): Promise<Metad
 
   if (!project) return {};
 
-  const ogImage = getOgImage(project.imageAlt);
+  const ogImage = getOgImage("project", project.imageAlt, project.slug);
 
   return {
     title: project.name,

@@ -20,7 +20,9 @@ export async function generateMetadata({ params }: ArchiveProjectPageProps): Pro
   if (!project) return {};
 
   const ogImage = getOgImage(
+    "archive",
     `${project.name}, an archived project by Mohtasham Murshid Madani`,
+    project.slug,
   );
 
   return {

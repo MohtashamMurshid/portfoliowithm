@@ -7,7 +7,7 @@ export const revalidate = 86400;
 
 const description =
   "The conventional portfolio of Mohtasham Murshid Madani: current work, projects, skills, writing, and public repositories.";
-const archiveOgImage = getOgImage("Portfolio archive 01 by Mohtasham Murshid Madani");
+const archiveOgImage = getOgImage("page", "Portfolio archive 01 by Mohtasham Murshid Madani", "archive-1");
 
 export const metadata: Metadata = {
   title: "Archive 01 | The plain portfolio",

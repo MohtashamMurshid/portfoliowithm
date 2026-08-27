@@ -8,7 +8,7 @@ export const revalidate = 86400;
 const NPM_PACKAGE = "@mohtasham/md-to-docx";
 const description =
   "Field Report No. 01: software, artificial intelligence, design systems, open-source tools, writing, and visual work by Mohtasham Murshid Madani.";
-const archiveOgImage = getOgImage("The Office of Imaginary Infrastructure");
+const archiveOgImage = getOgImage("page", "The Office of Imaginary Infrastructure", "archive-2");
 
 export const metadata: Metadata = {
   title: "The Office of Imaginary Infrastructure",

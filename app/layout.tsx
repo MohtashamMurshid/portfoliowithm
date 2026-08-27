@@ -3,10 +3,7 @@ import "./globals.css";
 import "./report.css";
 import { Caveat, EB_Garamond, IBM_Plex_Mono, Instrument_Serif, Manrope } from "next/font/google";
 import PageTransition from "@/components/PageTransition";
-import { getOgImage } from "@/lib/ogImage";
 import { defaultDescription, defaultTitle, pageAlternates, siteName, siteUrl } from "@/lib/site";
-
-const defaultSocialImage = getOgImage("Mohtasham Murshid Madani, founder and AI engineer");
 
 const editorial = EB_Garamond({
   subsets: ["latin"],
@@ -58,14 +55,12 @@ export const metadata: Metadata = {
     siteName: "Mohtasham's Portfolio",
     title: defaultTitle,
     description: defaultDescription,
-    images: [defaultSocialImage],
   },
   twitter: {
     card: "summary_large_image",
     title: defaultTitle,
     description: defaultDescription,
     creator: "@mohtashamdotdev",
-    images: [defaultSocialImage],
   },
   robots: {
     index: true,

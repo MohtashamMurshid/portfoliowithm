@@ -30,6 +30,9 @@ const contactRedirects = [
 
 const nextConfig: NextConfig = {
   trailingSlash: false,
+  outputFileTracingIncludes: {
+    "/og": ["./public/**/*", "./app/og/fonts/**/*"],
+  },
   experimental: {
     viewTransition: true,
   },

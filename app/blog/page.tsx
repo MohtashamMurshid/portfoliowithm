@@ -10,7 +10,7 @@ import styles from "./blog.module.css";
 
 const description =
   "Notes on software, developer tools, artificial intelligence, and cognitive computing by Mohtasham Murshid Madani.";
-const blogOgImage = getOgImage("Writing by Mohtasham Murshid Madani");
+const blogOgImage = getOgImage("page", "Writing by Mohtasham Murshid Madani", "blog");
 
 export const metadata: Metadata = {
   title: "Blog",
