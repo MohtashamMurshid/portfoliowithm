@@ -6,7 +6,7 @@ import AboutExperience from "./AboutExperience";
 const siteUrl = "https://www.mohtasham.dev";
 const description =
   "Mohtasham Murshid Madani is the founder of Oikina, an AI engineer, open-source builder, and researcher based in Kuala Lumpur.";
-const aboutOgImage = getOgImage("page", "About Mohtasham Murshid Madani", "about");
+const aboutOgImage = getOgImage("About Mohtasham Murshid Madani");
 
 const profilePageSchema = {
   "@context": "https://schema.org",

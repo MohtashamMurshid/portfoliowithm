@@ -4,7 +4,7 @@ import { getOgImage } from "@/lib/ogImage";
 import { pageAlternates } from "@/lib/site";
 import "./books.css";
 
-const booksOgImage = getOgImage("page", "Books read by Mohtasham Murshid Madani", "books");
+const booksOgImage = getOgImage("Books read by Mohtasham Murshid Madani");
 
 export const metadata: Metadata = {
   title: "Books",

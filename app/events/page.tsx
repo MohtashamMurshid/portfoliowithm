@@ -8,7 +8,7 @@ import styles from "./events.module.css";
 
 const description =
   "Events hosted and supported by Mohtasham Murshid Madani, a Cursor Ambassador and member of the Malaysian AI Residency.";
-const eventsOgImage = getOgImage("page", "Events with Mohtasham Murshid Madani", "events");
+const eventsOgImage = getOgImage("Events with Mohtasham Murshid Madani");
 
 export const metadata: Metadata = {
   title: "Events",

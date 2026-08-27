@@ -98,7 +98,7 @@ const portfolioEditions = [
 
 const description =
   "Selected work by Mohtasham Murshid Madani: Oikina, getdesign, md-to-docx, and other AI products, developer tools, and experiments.";
-const workOgImage = getOgImage("page", "Selected work by Mohtasham Murshid Madani", "work");
+const workOgImage = getOgImage("Selected work by Mohtasham Murshid Madani");
 
 export const metadata: Metadata = {
   title: "Work",

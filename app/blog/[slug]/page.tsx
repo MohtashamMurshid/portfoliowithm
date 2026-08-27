@@ -28,7 +28,7 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
 
   if (!post) return {};
 
-  const ogImage = getOgImage("blog", post.imageAlt, post.slug);
+  const ogImage = getOgImage(post.imageAlt);
 
   return {
     title: { absolute: post.title },
