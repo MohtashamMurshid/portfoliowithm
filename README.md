@@ -31,7 +31,7 @@ npm run build
 
 1. Write the article in `content/blog/<slug>.md` and add its cover image to `public/blog/`.
 2. Add an entry to `lib/blogPosts.ts` with the slug, source filename, title, short title, description, category, image, image alt text, and dates. The site uses this registry for metadata; it ignores Markdown frontmatter.
-3. Set `date` and `modifiedDate` to the publication date in `YYYY-MM-DD` format. For a later substantive edit, keep `date` unchanged and update `modifiedDate`. Do not change dates just because you redeploy.
+3. Set `date` and `modifiedDate` to the UTC publication date in `YYYY-MM-DD` format. For a later substantive edit, keep `date` unchanged and update `modifiedDate` using UTC. Do not change dates just because you redeploy.
 4. Run `npm run lint` and `npm run build`, then commit, push, and deploy the portfolio.
 5. Check the new article, `/blog`, `/sitemap.xml`, and `/rss.xml` on the live site.
 

@@ -22,8 +22,8 @@ export const blogPosts: BlogPost[] = [
     description:
       "How I use Grok Bot to turn saved references into a design library, build apps from links, and organise a meetup, with separate bots and clear approval rules.",
     category: "AI workflows",
-    date: "2026-08-31",
-    modifiedDate: "2026-08-31",
+    date: "2026-08-30",
+    modifiedDate: "2026-08-30",
     source: "how-i-use-grok-bot.md",
     image: "/blog/grok-bot/cover.jpg",
     imageAlt:

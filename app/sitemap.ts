@@ -8,7 +8,7 @@ import { siteUrl } from "@/lib/site";
 export default function sitemap(): MetadataRoute.Sitemap {
   const siteUpdated = new Date("2026-08-27T00:00:00Z");
   // Update this baseline for changes to the blog index itself, not on every build.
-  const blogIndexUpdated = new Date("2026-08-31T00:00:00Z");
+  const blogIndexUpdated = new Date("2026-08-30T00:00:00Z");
   const blogUpdated = new Date(
     Math.max(
       blogIndexUpdated.getTime(),
