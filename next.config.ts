@@ -31,7 +31,12 @@ const contactRedirects = [
 const nextConfig: NextConfig = {
   trailingSlash: false,
   outputFileTracingIncludes: {
-    "/og": ["./public/**/*", "./app/og/fonts/**/*"],
+    "/og": [
+      "./public/**/*",
+      "./app/og/fonts/**/*",
+      // Sharp loads libvips at runtime; file tracing can miss the shared library.
+      "./node_modules/@img/sharp-libvips-*/lib/**/*",
+    ],
   },
   experimental: {
     viewTransition: true,
