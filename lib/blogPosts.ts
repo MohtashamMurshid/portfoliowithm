@@ -16,6 +16,20 @@ export type BlogPost = {
 
 export const blogPosts: BlogPost[] = [
   {
+    slug: "how-i-use-grok-bot",
+    title: "I used Grok Bot before it went public. Here's how I use it.",
+    shortTitle: "I used Grok Bot before it went public. Here's how I use it.",
+    description:
+      "How I use Grok Bot to turn saved references into a design library, build apps from links, and organise a meetup, with separate bots and clear approval rules.",
+    category: "AI workflows",
+    date: "2026-08-31",
+    modifiedDate: "2026-08-31",
+    source: "how-i-use-grok-bot.md",
+    image: "/blog/grok-bot/cover.jpg",
+    imageAlt:
+      "A paper-and-pencil illustration of the Grok Bot app icon connecting design references, a camera app, and a meetup ticket.",
+  },
+  {
     slug: "my-instruct-plus",
     title: "Building a 250,000-record instruction dataset for Malaysian AI",
     shortTitle: "Building MY-Instruct-Plus",

@@ -31,9 +31,8 @@ export const metadata: Metadata = {
 };
 
 export default function BlogIndexPage() {
-  const featured =
-    blogPosts.find((post) => post.slug === "llm-disclosure-behavior") ?? blogPosts[0];
   const sortedPosts = [...blogPosts].sort((a, b) => b.date.localeCompare(a.date));
+  const featured = sortedPosts[0];
 
   return (
     <main className={styles.page}>
