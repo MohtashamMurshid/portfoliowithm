@@ -7,6 +7,17 @@ import { siteUrl } from "@/lib/site";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const siteUpdated = new Date("2026-08-27T00:00:00Z");
+  // Update this baseline for changes to the blog index itself, not on every build.
+  const blogIndexUpdated = new Date("2026-08-30T00:00:00Z");
+  const blogUpdated = new Date(
+    Math.max(
+      blogIndexUpdated.getTime(),
+      ...blogPosts.flatMap((post) => [
+        new Date(`${post.date}T00:00:00Z`).getTime(),
+        new Date(`${post.modifiedDate}T00:00:00Z`).getTime(),
+      ]),
+    ),
+  );
   return [
     {
       url: siteUrl,
@@ -34,7 +45,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
     {
       url: `${siteUrl}/blog`,
-      lastModified: siteUpdated,
+      lastModified: blogUpdated,
       changeFrequency: "weekly",
       priority: 0.8,
     },
