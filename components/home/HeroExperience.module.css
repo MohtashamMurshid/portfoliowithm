@@ -198,12 +198,12 @@
   rotate: 56deg;
 }
 
-.pen {
+.sunflower {
   bottom: 13%;
   left: 28%;
   width: clamp(90px, 8vw, 130px);
   aspect-ratio: 0.67;
-  rotate: 72deg;
+  rotate: -24deg;
 }
 
 .camera {
@@ -341,11 +341,11 @@
     width: 34vw;
   }
 
-  .pen {
+  .sunflower {
     bottom: 12%;
     left: 25%;
     width: 18vw;
-    rotate: 70deg;
+    rotate: -24deg;
   }
 
   .camera {
