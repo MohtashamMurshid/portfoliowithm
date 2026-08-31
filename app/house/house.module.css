@@ -2,6 +2,7 @@
   --house-ink: #38372e;
   --house-muted: #777366;
   --house-line: #dcd7c9;
+
   color: var(--house-ink);
   background: var(--site-paper);
   padding: 24px 40px 22px;

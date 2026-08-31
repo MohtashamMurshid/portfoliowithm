@@ -47,6 +47,7 @@ export class HouseEngine {
       sun.castShadow = true;
       sun.shadow.mapSize.set(2048, 2048);
       Object.assign(sun.shadow.camera, { left: -17, right: 17, top: 18, bottom: -17, near: 0.5, far: 65 });
+      sun.shadow.camera.updateProjectionMatrix();
       sun.shadow.normalBias = 0.045;
       sun.shadow.bias = -0.00015;
       this.scene.add(sun);
