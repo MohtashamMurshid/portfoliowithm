@@ -280,7 +280,8 @@ export default function AboutExperience() {
         <section className={styles.prose} aria-label="About Mohtasham">
           <h2>About me</h2>
           <p className={styles.dropCap}>
-            I&apos;m Mohtasham Murshid Madani, an engineer from Kashmir now based in Kuala
+            I&apos;m Mohtasham Murshid Madani, an engineer from{" "}
+            <Link href="/house">Kashmir</Link> now based in Kuala
             Lumpur. I tend to describe myself in four parts: founder of{" "}
             <a href="https://oikina.com" target="_blank" rel="noreferrer">
               Oikina
@@ -467,7 +468,8 @@ export default function AboutExperience() {
 
         <footer className={styles.footer}>
           <p>
-            <Link href="/books">Check my favorite books</Link>.
+            <Link href="/books">Check my favorite books</Link>.{" "}
+            <Link href="/house">Look around my house</Link>.
           </p>
           <p>
             You can <a href="mailto:mohtashammurshid@gmail.com">email me</a>, find me on{" "}
