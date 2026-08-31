@@ -156,8 +156,8 @@ export default function HeroExperience() {
           <Image src="/hero/alpine-skis.png" alt="" fill sizes="(max-width: 720px) 34vw, 15vw" />
         </DraggableObject>
 
-        <DraggableObject className={styles.pen} entrance={{ x: "-22vw", y: "40vh", delay: 0.34 }} label="A translucent blue pen" reducedMotion={reduceMotion}>
-          <Image src="/hero/pen.png" alt="" fill sizes="(max-width: 720px) 18vw, 10vw" />
+        <DraggableObject className={styles.sunflower} entrance={{ x: "-22vw", y: "40vh", delay: 0.34 }} label="A yellow sunflower" reducedMotion={reduceMotion}>
+          <Image src="/hero/sunflower.png" alt="" fill sizes="(max-width: 720px) 18vw, (max-width: 1125px) 90px, (max-width: 1625px) 8vw, 130px" />
         </DraggableObject>
 
         <DraggableObject className={styles.camera} entrance={{ x: "-38vw", y: "-12vh", delay: 0.46 }} label="A Fujifilm camera facing forward" reducedMotion={reduceMotion}>
