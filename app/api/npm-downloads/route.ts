@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { methodNotAllowedResponse, problemResponse } from "@/lib/api-problems";
 
 const PACKAGE_NAME = "@mohtasham/md-to-docx";
 
@@ -8,7 +9,7 @@ function formatNumber(n: number): string {
   return n.toString();
 }
 
-export async function GET() {
+export async function GET(request: Request) {
   try {
     const start = "2020-01-01";
     const today = new Date().toISOString().split("T")[0];
@@ -32,9 +33,22 @@ export async function GET() {
       package: PACKAGE_NAME,
     });
   } catch {
-    return NextResponse.json(
-      { total: null, formatted: null, package: PACKAGE_NAME, error: "Failed to fetch npm stats" },
-      { status: 502 }
-    );
+    return problemResponse(request, {
+      title: "npm statistics unavailable",
+      status: 502,
+      detail: `Download statistics for ${PACKAGE_NAME} could not be read from npm.`,
+      code: "NPM_STATS_UNAVAILABLE",
+      resolution: "Retry later. Do not treat the unavailable count as zero.",
+    });
   }
 }
+
+const methodNotAllowed = (request: Request) => methodNotAllowedResponse(request);
+
+export {
+  methodNotAllowed as POST,
+  methodNotAllowed as PUT,
+  methodNotAllowed as PATCH,
+  methodNotAllowed as DELETE,
+  methodNotAllowed as OPTIONS,
+};

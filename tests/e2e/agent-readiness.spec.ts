@@ -184,29 +184,71 @@ test("OpenAPI is valid and describes the live read-only API response", async ({ 
   expect(response.status()).toBe(200);
   expect(response.headers()["content-type"]).toContain("application/json");
   const spec = await response.json();
-  await SwaggerParser.validate(spec);
   expect(spec.security).toEqual([]);
   expect(Object.keys(spec.paths)).toEqual(["/api/npm-downloads"]);
+  expect(spec.paths["/api/npm-downloads"].get.responses["200"].content["application/json"].schema.$ref)
+    .toBe("#/components/schemas/NpmDownloadsResponse");
+  expect(spec.paths["/api/npm-downloads"].get.responses["502"].content["application/problem+json"].schema.$ref)
+    .toBe("#/components/schemas/ProblemDetails");
+  expect(spec.components.schemas.ProblemDetails.required).toContain("resolution");
+  await SwaggerParser.validate(structuredClone(spec));
+  const dereferenced = await SwaggerParser.dereference(spec) as typeof spec;
   const stats = await request.get("/api/npm-downloads", { headers: { Accept: "text/markdown" } });
   expect([200, 502]).toContain(stats.status());
-  expect(stats.headers()["content-type"]).toContain("application/json");
+  const mediaType = stats.status() === 200 ? "application/json" : "application/problem+json";
+  expect(stats.headers()["content-type"]).toContain(mediaType);
   const data = await stats.json();
-  const schema = spec.paths["/api/npm-downloads"].get.responses[String(stats.status())].content["application/json"].schema;
+  const schema = dereferenced.paths["/api/npm-downloads"].get.responses[String(stats.status())].content[mediaType].schema;
   expect(Object.keys(data).sort()).toEqual([...schema.required].sort());
-  expect(data.package).toBe("@mohtasham/md-to-docx");
   if (stats.status() === 200) {
+    expect(data.package).toBe("@mohtasham/md-to-docx");
     expect(Number.isInteger(data.total) && data.total >= 0).toBe(true);
     expect(typeof data.formatted).toBe("string");
   } else {
-    expect(data.total).toBeNull();
-    expect(data.formatted).toBeNull();
-    expect(typeof data.error).toBe("string");
+    expect(data.status).toBe(502);
+    expect(data.code).toBe("NPM_STATS_UNAVAILABLE");
+    expect(data.resolution).toContain("Retry later");
   }
+});
+
+test("API errors are typed JSON problems with recovery guidance", async ({ request }) => {
+  const developerGuide = await request.get("/developers/index.md");
+  const guideBody = await developerGuide.text();
+  expect(guideBody).toContain("unknown `/api/*` paths, and unsupported API methods use `application/problem+json`");
+  expect(guideBody).toContain("A missing Markdown content path stays `text/markdown`");
+
+  const missing = await request.get("/api/does-not-exist", { headers: { Accept: "text/html" } });
+  expect(missing.status()).toBe(404);
+  expect(missing.headers()["content-type"]).toContain("application/problem+json");
+  expect(await missing.json()).toMatchObject({
+    type: `${siteUrl}/developers#api-route-not-found`,
+    status: 404,
+    code: "API_ROUTE_NOT_FOUND",
+    instance: "/api/does-not-exist",
+    resolution: "Read /openapi.json for the supported API endpoint and response schemas.",
+  });
+
+  const method = await request.post("/api/npm-downloads");
+  expect(method.status()).toBe(405);
+  expect(method.headers()["content-type"]).toContain("application/problem+json");
+  expect(method.headers().allow).toBe("GET, HEAD");
+  expect(await method.json()).toMatchObject({
+    type: `${siteUrl}/developers#method-not-allowed`,
+    status: 405,
+    code: "METHOD_NOT_ALLOWED",
+    instance: "/api/npm-downloads",
+  });
+
+  const head = await request.head("/api/does-not-exist");
+  expect(head.status()).toBe(404);
+  expect(head.headers()["content-type"]).toContain("application/problem+json");
+  expect(await head.body()).toHaveLength(0);
 });
 
 test("identity and developer discovery are present in server-rendered HTML", async ({ page }) => {
   await page.goto("/");
   await expect(page).toHaveTitle(/Mohtasham's Portfolio.*Mohtasham Murshid Madani/);
+  await expect(page.getByRole("link", { name: "Developer resources" })).toHaveAttribute("href", "/developers");
   const schemas = await page.locator('script[type="application/ld+json"]').evaluateAll((scripts) => scripts.map((s) => JSON.parse(s.textContent ?? "")));
   const person = schemas.find((s) => s["@type"] === "Person");
   expect(person).toMatchObject({ name: "Mohtasham Murshid Madani", url: siteUrl, jobTitle: "AI Engineer" });
@@ -262,4 +304,6 @@ test("the Markdown reader cannot read arbitrary files or fabricate pages", async
   }
   const method = await request.post("/api/markdown");
   expect(method.status()).toBe(405);
+  expect(method.headers()["content-type"]).toContain("application/problem+json");
+  expect(await method.json()).toMatchObject({ status: 405, code: "METHOD_NOT_ALLOWED" });
 });

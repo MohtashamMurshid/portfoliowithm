@@ -1,4 +1,5 @@
 import { notFoundMarkdown } from "@/lib/agent-resources";
+import { methodNotAllowedResponse } from "@/lib/api-problems";
 import { getPageMarkdown } from "@/lib/markdown-content";
 import { siteUrl } from "@/lib/site";
 
@@ -22,3 +23,13 @@ export function GET(request: Request) {
   }
   return new Response(body ?? notFoundMarkdown, { status: body ? 200 : 404, headers });
 }
+
+const methodNotAllowed = (request: Request) => methodNotAllowedResponse(request);
+
+export {
+  methodNotAllowed as POST,
+  methodNotAllowed as PUT,
+  methodNotAllowed as PATCH,
+  methodNotAllowed as DELETE,
+  methodNotAllowed as OPTIONS,
+};
