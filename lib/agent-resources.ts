@@ -46,7 +46,7 @@ A successful response has HTTP 200 and JSON fields \`total\` as an integer, \`fo
 
 ## API errors
 
-API failures use \`application/problem+json\`. Every problem has \`type\`, \`title\`, \`status\`, \`detail\`, \`code\`, \`resolution\`, and \`instance\` fields. The \`code\` is stable for programmatic handling. The \`resolution\` tells an agent what to try next. Unknown \`/api/*\` paths return \`API_ROUTE_NOT_FOUND\`, unsupported methods return \`METHOD_NOT_ALLOWED\`, and an npm service failure returns \`NPM_STATS_UNAVAILABLE\` with HTTP 502.
+Errors from \`/api/npm-downloads\`, unknown \`/api/*\` paths, and unsupported API methods use \`application/problem+json\`. Every problem has \`type\`, \`title\`, \`status\`, \`detail\`, \`code\`, \`resolution\`, and \`instance\` fields. The \`code\` is stable for programmatic handling. The \`resolution\` tells an agent what to try next. Unknown paths return \`API_ROUTE_NOT_FOUND\`, unsupported methods return \`METHOD_NOT_ALLOWED\`, and an npm service failure returns \`NPM_STATS_UNAVAILABLE\` with HTTP 502. A missing Markdown content path stays \`text/markdown\` and includes the same recovery links as other missing pages.
 
 ## Contact
 

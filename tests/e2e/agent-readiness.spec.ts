@@ -212,6 +212,11 @@ test("OpenAPI is valid and describes the live read-only API response", async ({ 
 });
 
 test("API errors are typed JSON problems with recovery guidance", async ({ request }) => {
+  const developerGuide = await request.get("/developers/index.md");
+  const guideBody = await developerGuide.text();
+  expect(guideBody).toContain("unknown `/api/*` paths, and unsupported API methods use `application/problem+json`");
+  expect(guideBody).toContain("A missing Markdown content path stays `text/markdown`");
+
   const missing = await request.get("/api/does-not-exist", { headers: { Accept: "text/html" } });
   expect(missing.status()).toBe(404);
   expect(missing.headers()["content-type"]).toContain("application/problem+json");
