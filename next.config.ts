@@ -31,6 +31,7 @@ const contactRedirects = [
 const nextConfig: NextConfig = {
   trailingSlash: false,
   outputFileTracingIncludes: {
+    "/api/markdown": ["./content/blog/*.md"],
     "/og": [
       "./public/**/*",
       "./app/og/fonts/**/*",
@@ -60,6 +61,11 @@ const nextConfig: NextConfig = {
   },
   async redirects() {
     return [
+      {
+        source: "/docs",
+        destination: "/developers",
+        permanent: true,
+      },
       {
         source: "/",
         has: [{ type: "host", value: "mohtasham.dev" }],

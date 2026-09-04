@@ -3,7 +3,7 @@ import "./globals.css";
 import "./report.css";
 import { Caveat, EB_Garamond, IBM_Plex_Mono, Instrument_Serif, Manrope } from "next/font/google";
 import PageTransition from "@/components/PageTransition";
-import { defaultDescription, defaultTitle, pageAlternates, siteName, siteUrl } from "@/lib/site";
+import { contactEmail, defaultDescription, defaultTitle, pageAlternates, portfolioName, siteName, siteUrl } from "@/lib/site";
 
 const editorial = EB_Garamond({
   subsets: ["latin"],
@@ -98,6 +98,7 @@ export default function RootLayout({
         className={`${editorial.variable} ${registry.variable} ${interfaceSerif.variable} ${interfaceSans.variable} ${handwriting.variable}`}
       >
         <head>
+          <link rel="describedby" href="/llms.txt" />
           <script
             type="application/ld+json"
             dangerouslySetInnerHTML={{
@@ -106,6 +107,18 @@ export default function RootLayout({
                 "@type": "Person",
                 "@id": `${siteUrl}/#person`,
                 name: siteName,
+                description: defaultDescription,
+                email: contactEmail,
+                contactPoint: {
+                  "@type": "ContactPoint",
+                  email: contactEmail,
+                  contactType: "Project inquiries and collaboration",
+                },
+                address: {
+                  "@type": "PostalAddress",
+                  addressLocality: "Kuala Lumpur",
+                  addressCountry: "MY",
+                },
                 alternateName: [
                   "Mohtasham Madani",
                   "\u0645\u062D\u062A\u0634\u0645 \u0645\u0631\u0634\u062F \u0645\u062F\u0646\u064A",
@@ -183,6 +196,11 @@ export default function RootLayout({
                 "@id": "https://oikina.com/#organization",
                 name: "Oikina",
                 url: "https://oikina.com",
+                contactPoint: {
+                  "@type": "ContactPoint",
+                  email: contactEmail,
+                  contactType: "Founder and product inquiries",
+                },
                 founder: { "@id": `${siteUrl}/#person` },
               }),
             }}
@@ -193,10 +211,18 @@ export default function RootLayout({
               __html: JSON.stringify({
                 "@context": "https://schema.org",
                 "@type": "WebSite",
-                name: "Mohtasham's Portfolio",
+                "@id": `${siteUrl}/#website`,
+                name: portfolioName,
+                alternateName: [siteName, "mohtasham.dev"],
+                description: defaultDescription,
                 url: siteUrl,
                 inLanguage: "en",
                 publisher: { "@id": `${siteUrl}/#person` },
+                hasPart: {
+                  "@type": "WebPage",
+                  name: "Mohtasham developer resources",
+                  url: `${siteUrl}/developers`,
+                },
               }),
             }}
           />

@@ -11,12 +11,12 @@ test("the monitor video follows reduced-motion changes", async ({ page }) => {
 
   const video = page.locator("video[src='/hero/valorant-icebox.mp4']");
   await expect(video).not.toHaveAttribute("autoplay", "");
-  await expect.poll(() => video.evaluate((element) => element.paused)).toBe(true);
+  await expect.poll(() => video.evaluate((element) => (element as HTMLVideoElement).paused)).toBe(true);
 
   await page.emulateMedia({ reducedMotion: "no-preference" });
-  await expect.poll(() => video.evaluate((element) => element.paused)).toBe(false);
+  await expect.poll(() => video.evaluate((element) => (element as HTMLVideoElement).paused)).toBe(false);
 
   await page.emulateMedia({ reducedMotion: "reduce" });
-  await expect.poll(() => video.evaluate((element) => element.paused)).toBe(true);
+  await expect.poll(() => video.evaluate((element) => (element as HTMLVideoElement).paused)).toBe(true);
   expect(consoleErrors).toEqual([]);
 });

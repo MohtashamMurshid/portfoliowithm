@@ -1,0 +1,28 @@
+diff --git a/node_modules/next/dist/build/templates/app-page.js b/node_modules/next/dist/build/templates/app-page.js
+index e0e16e8..38c6368 100644
+--- a/node_modules/next/dist/build/templates/app-page.js
++++ b/node_modules/next/dist/build/templates/app-page.js
+@@ -443,7 +443,8 @@ async function handler(req, res, ctx) {
+     };
+     try {
+         const varyHeader = routeModule.getVaryHeader(resolvedPathname, interceptionRoutePatterns);
+-        res.setHeader('Vary', varyHeader);
++        // Preserve negotiated variants: https://github.com/vercel/next.js/issues/85999
++        res.setHeader('Vary', [res.getHeader('Vary'), varyHeader].flat().filter(Boolean).join(', '));
+         let parentSpan;
+         const invokeRouteModule = async (span, context)=>{
+             const nextReq = new _node.NodeNextRequest(req);
+diff --git a/node_modules/next/dist/esm/build/templates/app-page.js b/node_modules/next/dist/esm/build/templates/app-page.js
+index 0cec084..8a0adde 100644
+--- a/node_modules/next/dist/esm/build/templates/app-page.js
++++ b/node_modules/next/dist/esm/build/templates/app-page.js
+@@ -434,7 +434,8 @@ export async function handler(req, res, ctx) {
+     };
+     try {
+         const varyHeader = routeModule.getVaryHeader(resolvedPathname, interceptionRoutePatterns);
+-        res.setHeader('Vary', varyHeader);
++        // Preserve negotiated variants: https://github.com/vercel/next.js/issues/85999
++        res.setHeader('Vary', [res.getHeader('Vary'), varyHeader].flat().filter(Boolean).join(', '));
+         let parentSpan;
+         const invokeRouteModule = async (span, context)=>{
+             const nextReq = new NodeNextRequest(req);
