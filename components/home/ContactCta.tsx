@@ -1,3 +1,4 @@
+import Link from "next/link";
 import styles from "./ContactCta.module.css";
 
 const EMAIL = "mohtashammurshid@gmail.com";
@@ -41,7 +42,9 @@ export default function ContactCta() {
             <a href="https://www.linkedin.com/in/mohtashammurshid/">LinkedIn</a>, and{" "}
             <a href="https://github.com/MohtashamMurshid">GitHub</a>.
           </p>
-          <p>© 2026 Mohtasham Murshid Madani</p>
+          <p>
+            <Link href="/developers">Developer resources</Link> · © 2026 Mohtasham Murshid Madani
+          </p>
         </footer>
       </div>
     </section>

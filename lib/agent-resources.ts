@@ -42,7 +42,11 @@ Product authentication and provider-key requirements belong to each project's li
 
 \`GET /api/npm-downloads\` returns the aggregate npm download count for \`@mohtasham/md-to-docx\`. It accepts no parameters, requires no authentication, and does not modify data. Upstream results are cached for up to one day.
 
-A successful response has HTTP 200 and JSON fields \`total\` as an integer, \`formatted\` as a display string, and \`package\` as the package name. If npm statistics are unavailable, it returns HTTP 502 with \`total: null\`, \`formatted: null\`, and an \`error\` message. Do not interpret an unavailable count as zero. This endpoint supplies the portfolio's statistics; it is not a hosted document-conversion API.
+A successful response has HTTP 200 and JSON fields \`total\` as an integer, \`formatted\` as a display string, and \`package\` as the package name. Do not interpret an unavailable count as zero. This endpoint supplies the portfolio's statistics; it is not a hosted document-conversion API.
+
+## API errors
+
+API failures use \`application/problem+json\`. Every problem has \`type\`, \`title\`, \`status\`, \`detail\`, \`code\`, \`resolution\`, and \`instance\` fields. The \`code\` is stable for programmatic handling. The \`resolution\` tells an agent what to try next. Unknown \`/api/*\` paths return \`API_ROUTE_NOT_FOUND\`, unsupported methods return \`METHOD_NOT_ALLOWED\`, and an npm service failure returns \`NPM_STATS_UNAVAILABLE\` with HTTP 502.
 
 ## Contact
 
