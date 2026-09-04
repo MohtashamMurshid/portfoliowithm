@@ -146,6 +146,9 @@ test("sitemap and RSS are valid XML with canonical, resolvable URLs", async ({ r
       const urls = parsed.urlset.url.map((entry: { loc: string }) => entry.loc);
       expect(urls).toContain(`${siteUrl}/developers`);
       expect(urls).toEqual(sitemap().map((entry) => entry.url));
+      for (const entry of parsed.urlset.url) {
+        if (entry.lastmod) expect(new Date(entry.lastmod).getTime()).toBeLessThanOrEqual(Date.now());
+      }
     } else {
       expect(parsed.rss.channel.item).toHaveLength(blogPosts.length);
     }
@@ -154,6 +157,26 @@ test("sitemap and RSS are valid XML with canonical, resolvable URLs", async ({ r
   expect(robots.status()).toBe(200);
   expect(await robots.text()).toContain(`Sitemap: ${siteUrl}/sitemap.xml`);
   expect(await robots.text()).toContain("Allow: /");
+});
+
+test("trailing slashes redirect before Markdown negotiation", async ({ request }) => {
+  for (const pathname of ["/about", "/developers", "/work/oikina", "/blog/markdown-to-docx-guide"]) {
+    const url = `${pathname}/?source=agent`;
+    for (const method of ["GET", "HEAD"]) {
+      const redirect = await request.fetch(url, {
+        method,
+        headers: { Accept: "text/markdown" },
+        maxRedirects: 0,
+      });
+      expect(redirect.status()).toBe(308);
+      expect(redirect.headers().location).toBe(`${pathname}?source=agent`);
+      const document = await request.fetch(url, { method, headers: { Accept: "text/markdown" } });
+      expect(document.status()).toBe(200);
+      expect(document.headers()["content-type"]).toBe("text/markdown; charset=utf-8");
+      if (method === "GET") expect(await document.text()).toContain(`[Canonical page](${siteUrl}${pathname})`);
+      else expect(await document.body()).toHaveLength(0);
+    }
+  }
 });
 
 test("OpenAPI is valid and describes the live read-only API response", async ({ request }) => {
