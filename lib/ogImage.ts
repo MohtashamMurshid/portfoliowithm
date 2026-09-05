@@ -12,6 +12,8 @@ export const ogImageSize = {
 export function getOgImageUrl(type: OgImageType, slug?: string) {
   const params = new URLSearchParams({ type });
   if (slug) params.set("slug", slug);
+  // Refresh cached previews after fixing WebP decoding and blog cover cropping.
+  params.set("v", "2");
   return `/og?${params.toString()}`;
 }
 

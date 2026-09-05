@@ -35,14 +35,6 @@ async function encodeJpeg(png: ArrayBuffer) {
   return smallest ?? Buffer.from(png);
 }
 
-function mimeFor(filePath: string) {
-  const ext = path.extname(filePath).toLowerCase();
-  if (ext === ".png") return "image/png";
-  if (ext === ".webp") return "image/webp";
-  if (ext === ".gif") return "image/gif";
-  return "image/jpeg";
-}
-
 function publicFilePath(urlPath: string) {
   const relative = urlPath.replace(/^\/+/, "");
   const absolute = path.resolve(publicRoot, relative);
@@ -56,7 +48,12 @@ async function readPublicImage(urlPath: string) {
 
   try {
     const bytes = await readFile(filePath);
-    return `data:${mimeFor(filePath)};base64,${bytes.toString("base64")}`;
+    // ImageResponse cannot decode WebP. Normalize covers before embedding them.
+    const png = await sharp(bytes)
+      .resize({ width: 1200, height: 630, fit: "inside", withoutEnlargement: true })
+      .png()
+      .toBuffer();
+    return `data:image/png;base64,${png.toString("base64")}`;
   } catch {
     return null;
   }
@@ -355,7 +352,7 @@ export async function GET(request: NextRequest) {
                 top: 167,
                 width: 254,
                 height: 270,
-                objectFit: "cover",
+                objectFit: card.type === "blog" ? "contain" : "cover",
                 transform: "rotate(1.6deg)",
               }}
             />
@@ -400,7 +397,8 @@ export async function GET(request: NextRequest) {
         "Cache-Control": "public, max-age=3600, s-maxage=86400, stale-while-revalidate=604800",
       },
     });
-  } catch {
+  } catch (error) {
+    console.error("Failed to render OG image", error);
     const jpeg = await fallbackJpeg();
     return new Response(new Uint8Array(jpeg), {
       headers: {
