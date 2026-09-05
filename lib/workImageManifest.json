@@ -1,0 +1,156 @@
+{
+  "/projects/agent-skills.png": {
+    "width": 1536,
+    "height": 1024,
+    "variants": [
+      {
+        "src": "/projects/thumbnails/agent-skills-240-ac262932bc9f.webp",
+        "width": 240
+      },
+      {
+        "src": "/projects/thumbnails/agent-skills-480-84b057889781.webp",
+        "width": 480
+      },
+      {
+        "src": "/projects/thumbnails/agent-skills-768-e831b11aef36.webp",
+        "width": 768
+      },
+      {
+        "src": "/projects/thumbnails/agent-skills-1024-dc03e36d1901.webp",
+        "width": 1024
+      }
+    ]
+  },
+  "/projects/eikon-studio.png": {
+    "width": 1536,
+    "height": 1024,
+    "variants": [
+      {
+        "src": "/projects/thumbnails/eikon-studio-240-70ce1a336050.webp",
+        "width": 240
+      },
+      {
+        "src": "/projects/thumbnails/eikon-studio-480-2eac7588a60a.webp",
+        "width": 480
+      },
+      {
+        "src": "/projects/thumbnails/eikon-studio-768-cf44ed701a79.webp",
+        "width": 768
+      },
+      {
+        "src": "/projects/thumbnails/eikon-studio-1024-2531c22a6f7a.webp",
+        "width": 1024
+      }
+    ]
+  },
+  "/projects/getdesign.png": {
+    "width": 1448,
+    "height": 1086,
+    "variants": [
+      {
+        "src": "/projects/thumbnails/getdesign-240-0d2fb5d35867.webp",
+        "width": 240
+      },
+      {
+        "src": "/projects/thumbnails/getdesign-480-a37477b1020e.webp",
+        "width": 480
+      },
+      {
+        "src": "/projects/thumbnails/getdesign-768-de72a67eea2f.webp",
+        "width": 768
+      },
+      {
+        "src": "/projects/thumbnails/getdesign-1024-a8b1a1b34aa4.webp",
+        "width": 1024
+      }
+    ]
+  },
+  "/projects/iris-camera.png": {
+    "width": 1086,
+    "height": 1448,
+    "variants": [
+      {
+        "src": "/projects/thumbnails/iris-camera-240-d419e56e0b81.webp",
+        "width": 240
+      },
+      {
+        "src": "/projects/thumbnails/iris-camera-480-c17ee2746dd0.webp",
+        "width": 480
+      },
+      {
+        "src": "/projects/thumbnails/iris-camera-768-63d71f2a9c59.webp",
+        "width": 768
+      },
+      {
+        "src": "/projects/thumbnails/iris-camera-1024-b65b512af3b4.webp",
+        "width": 1024
+      }
+    ]
+  },
+  "/projects/md-to-docx.png": {
+    "width": 1536,
+    "height": 1024,
+    "variants": [
+      {
+        "src": "/projects/thumbnails/md-to-docx-240-4edbb84a97d1.webp",
+        "width": 240
+      },
+      {
+        "src": "/projects/thumbnails/md-to-docx-480-fbabaf9665b2.webp",
+        "width": 480
+      },
+      {
+        "src": "/projects/thumbnails/md-to-docx-768-8369a575eec5.webp",
+        "width": 768
+      },
+      {
+        "src": "/projects/thumbnails/md-to-docx-1024-19d5dfc9264e.webp",
+        "width": 1024
+      }
+    ]
+  },
+  "/projects/oikina-pass.png": {
+    "width": 1536,
+    "height": 1024,
+    "variants": [
+      {
+        "src": "/projects/thumbnails/oikina-pass-240-49a4bc57daec.webp",
+        "width": 240
+      },
+      {
+        "src": "/projects/thumbnails/oikina-pass-480-fc7be3267f3b.webp",
+        "width": 480
+      },
+      {
+        "src": "/projects/thumbnails/oikina-pass-768-0a8fa187e1f3.webp",
+        "width": 768
+      },
+      {
+        "src": "/projects/thumbnails/oikina-pass-1024-4a9e270c5206.webp",
+        "width": 1024
+      }
+    ]
+  },
+  "/projects/understanding-software-zine.png": {
+    "width": 1536,
+    "height": 1024,
+    "variants": [
+      {
+        "src": "/projects/thumbnails/understanding-software-zine-240-441429200a65.webp",
+        "width": 240
+      },
+      {
+        "src": "/projects/thumbnails/understanding-software-zine-480-f68f708c1ae0.webp",
+        "width": 480
+      },
+      {
+        "src": "/projects/thumbnails/understanding-software-zine-768-7dff4c0ae51e.webp",
+        "width": 768
+      },
+      {
+        "src": "/projects/thumbnails/understanding-software-zine-1024-bceba1288d93.webp",
+        "width": 1024
+      }
+    ]
+  }
+}
