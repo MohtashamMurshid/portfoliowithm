@@ -31,7 +31,7 @@ export default function WorkProjectImage({
         width={image.width}
         height={image.height}
         alt=""
-        loading="eager"
+        loading={featured ? "eager" : "lazy"}
         fetchPriority={featured ? "high" : "auto"}
         decoding="async"
         style={{ position: "absolute", inset: 0, width: "100%", height: "100%" }}
