@@ -547,9 +547,9 @@ export function createHouseModel(m: HouseMaterials) {
   ringSector(4.7, CANOPY - 0.05, A0, A1, 7.36, 0.08, m.wood);
   const drum = ringSector(3.3, 3.6, A0 - 0.06, A1 + 0.06, 9.47, 1.02, m.wood);
   drum.position.set(roofInset, 0, -roofInset);
-  function smallRoofWindow(position: Point, rotation: number) {
+  function smallRoofWindow(position: Point, rotation: number, parent = root) {
     const clerestory = new THREE.Group();
-    root.add(clerestory);
+    parent.add(clerestory);
     clerestory.position.set(...position);
     clerestory.rotation.y = rotation;
     box(0.5, 0.57, 0.07, 0, 0.285, 0, m.trim, clerestory);
@@ -561,14 +561,6 @@ export function createHouseModel(m: HouseMaterials) {
     const angle = AM + i * 0.19;
     smallRoofWindow(roofAt(angle, 3.63, 8.68), facing(angle));
   }
-  // Continue the curved window band tangentially into the right gabled roof.
-  // Its endpoint overlaps the roof slope so no exposed gap remains.
-  const bandStart = CX + roofInset;
-  const bandEnd = 5.52;
-  const bandFront = CZ - roofInset + 3.6;
-  box(bandEnd - bandStart, 1.02, 0.3, (bandStart + bandEnd) / 2, 8.96, bandFront - 0.15, m.wood);
-  smallRoofWindow(roofAt(A0 + 0.035, 3.63, 8.68), facing(A0 + 0.035));
-  for (let i = 0; i < 6; i++) smallRoofWindow([bandStart + 0.57 + i * 0.7, 8.68, bandFront + 0.03], 0);
   const peak: Point = [CX + roofInset, 10.95, CZ - roofInset];
   for (let i = 0; i < 40; i++) {
     const a = i / 40 * Math.PI * 2;
@@ -576,14 +568,29 @@ export function createHouseModel(m: HouseMaterials) {
     roofFace(roofAt(a, 3.93, 9.45), roofAt(b, 3.93, 9.45), peak, peak);
     if (a >= A0 - 0.16 && b <= A1 + 0.16) fretwork(roofAt(a, 3.93, 9.4), roofAt(b, 3.93, 9.4));
   }
-  // Carry the cap and fascia over the new window band into the gable slope.
-  const capFront = bandFront + 0.33;
-  const capBack = CZ - roofInset - 3.93;
-  const roofJoin: Point = [6, 9.92, CZ - roofInset];
-  roofFace([bandStart, 9.45, capFront], [bandEnd, 9.45, capFront], roofJoin, peak);
-  roofFace([bandEnd, 9.45, capBack], [bandStart, 9.45, capBack], peak, roofJoin);
-  fretwork([bandStart, 9.4, capFront], [bandEnd, 9.4, capFront]);
-  box(bandEnd - bandStart, 0.06, 0.64, (bandStart + bandEnd) / 2, 9.39, bandFront, m.wood);
+  // Mirror the same window band, roof cap and fascia into both gabled roofs.
+  // Each endpoint overlaps its gable slope so neither side has an exposed gap.
+  function extendRoofBand(mirrored = false) {
+    const extension = new THREE.Group();
+    root.add(extension);
+    extension.rotation.y = mirrored ? -Math.PI / 2 : 0;
+    extension.scale.x = mirrored ? -1 : 1;
+    const bandStart = CX + roofInset;
+    const bandEnd = 5.52;
+    const bandFront = CZ - roofInset + 3.6;
+    box(bandEnd - bandStart, 1.02, 0.3, (bandStart + bandEnd) / 2, 8.96, bandFront - 0.15, m.wood, extension);
+    smallRoofWindow(roofAt(A0 + 0.035, 3.63, 8.68), facing(A0 + 0.035), extension);
+    for (let i = 0; i < 6; i++) smallRoofWindow([bandStart + 0.57 + i * 0.7, 8.68, bandFront + 0.03], 0, extension);
+    const capFront = bandFront + 0.33;
+    const capBack = CZ - roofInset - 3.93;
+    const roofJoin: Point = [6, 9.92, CZ - roofInset];
+    roofFace([bandStart, 9.45, capFront], [bandEnd, 9.45, capFront], roofJoin, peak, extension);
+    roofFace([bandEnd, 9.45, capBack], [bandStart, 9.45, capBack], peak, roofJoin, extension);
+    fretwork([bandStart, 9.4, capFront], [bandEnd, 9.4, capFront], extension);
+    box(bandEnd - bandStart, 0.06, 0.64, (bandStart + bandEnd) / 2, 9.39, bandFront, m.wood, extension);
+  }
+  extendRoofBand();
+  extendRoofBand(true);
   const ridgeCap = mesh(new THREE.SphereGeometry(0.075, 8, 6), m.seam);
   ridgeCap.position.set(...peak);
 
