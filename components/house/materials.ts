@@ -1,6 +1,8 @@
 import * as THREE from "three";
 
-/** Small, deterministic, seamless material tiles. No remote asset requests. */
+type TileKind = "stone" | "brick" | "pier" | "wood" | "concrete" | "block" | "roof" | "lattice" | "paving";
+
+/** Deterministic local textures, sized in metres so masonry stays consistent. */
 export function createHouseMaterials() {
   let seed = 721;
   const random = () => {
@@ -8,100 +10,160 @@ export function createHouseMaterials() {
     return seed / 4294967296;
   };
 
-  function tile(kind: "stone" | "brick" | "wood" | "concrete" | "block") {
+  function tile(kind: TileKind) {
     const canvas = document.createElement("canvas");
     canvas.width = canvas.height = 512;
     const ctx = canvas.getContext("2d");
     if (!ctx) throw new Error("Canvas textures are unavailable.");
-    if (kind === "stone" || kind === "brick" || kind === "block") {
-      const brick = kind === "brick";
-      ctx.fillStyle = brick ? "#b09a83" : kind === "block" ? "#54574f" : "#5a4634";
+    if (["brick", "pier", "stone", "block"].includes(kind)) {
+      const brick = kind === "brick" || kind === "pier";
+      const pier = kind === "pier";
+      ctx.fillStyle = brick ? (pier ? "#9b8b7a" : "#e2d7c4") : kind === "block" ? "#b8b8a9" : "#47463e";
       ctx.fillRect(0, 0, 512, 512);
-      const rows = brick ? 12 : 8;
+      const rows = brick ? (pier ? 22 : 18) : kind === "block" ? 7 : 10;
       const height = 512 / rows;
-      const width = brick ? 128 : 170.6667;
+      const width = brick ? (pier ? 91 : 85.3333) : kind === "block" ? 102.4 : 170.6667;
+      const joint = brick ? (pier ? 1.8 : 3.1) : 3;
       for (let row = 0; row < rows; row++) {
-        for (let column = -1; column < 5; column++) {
+        for (let column = -1; column < Math.ceil(512 / width) + 1; column++) {
           const x = column * width + (row % 2) * width / 2;
           const y = row * height;
-          const light = random() * 14;
           ctx.fillStyle = brick
-            ? `hsl(${9 + random() * 8} ${52 + random() * 10}% ${34 + light}%)`
+            ? `hsl(${pier ? 15 : 13 + random() * 5} ${pier ? 25 : 30 + random() * 8}% ${36 + random() * 14}%)`
             : kind === "block"
-              ? `hsl(${130 + random() * 70} ${4 + random() * 7}% ${31 + light}%)`
-              : `hsl(${24 + random() * 8} ${30 + random() * 10}% ${31 + light}%)`;
-          ctx.fillRect(x + 2, y + 2, width - 4, height - 4);
-          ctx.fillStyle = "#ffffff18";
-          ctx.fillRect(x + 3, y + 3, width - 7, 2);
-          ctx.fillStyle = "#00000024";
-          ctx.fillRect(x + 2, y + height - 5, width - 4, 3);
-          if (!brick) {
-            for (let line = 0; line < 9; line++) {
-              ctx.strokeStyle = random() > 0.5 ? "#d4c5a529" : "#201b172b";
-              ctx.lineWidth = 1 + random() * 4;
-              ctx.beginPath();
-              const sy = y + 7 + random() * (height - 14);
-              ctx.moveTo(x + 6, sy);
-              ctx.bezierCurveTo(x + width * 0.3, sy - 8, x + width * 0.6, sy + 8, x + width - 7, sy - 2);
-              ctx.stroke();
-            }
+              ? `hsl(47 5% ${46 + random() * 13}%)`
+              : `hsl(${35 + random() * 6} ${10 + random() * 10}% ${29 + random() * 16}%)`;
+          const chip = kind === "block" ? 7 + random() * 8 : 2;
+          ctx.beginPath();
+          ctx.moveTo(x + joint + chip, y + joint);
+          ctx.lineTo(x + width - joint - chip * 0.5, y + joint + random() * 3);
+          ctx.lineTo(x + width - joint, y + joint + chip);
+          ctx.lineTo(x + width - joint - random() * 3, y + height - joint - chip);
+          ctx.lineTo(x + width - joint - chip, y + height - joint);
+          ctx.lineTo(x + joint + chip * 0.5, y + height - joint - random() * 2);
+          ctx.lineTo(x + joint, y + height - joint - chip);
+          ctx.lineTo(x + joint, y + joint + chip);
+          ctx.closePath();
+          ctx.fill();
+          ctx.strokeStyle = brick ? "#f5e0c52a" : "#ede6d040";
+          ctx.lineWidth = brick ? 1 : 2;
+          ctx.stroke();
+          for (let fleck = 0; fleck < (brick ? 35 : 100); fleck++) {
+            ctx.fillStyle = random() > 0.5 ? "#f0e3d127" : "#24231f35";
+            ctx.fillRect(x + joint + random() * (width - 2 * joint), y + joint + random() * (height - 2 * joint), 1 + random() * 5, 1 + random() * 2);
           }
         }
       }
+    } else if (kind === "roof") {
+      ctx.fillStyle = "#754c43";
+      ctx.fillRect(0, 0, 512, 512);
+      const w = 64;
+      const h = 85.3333;
+      for (let row = -1; row < 7; row++) {
+        for (let col = -1; col < 9; col++) {
+          const x = col * w + (row % 2) * 12;
+          const y = row * h;
+          const gradient = ctx.createLinearGradient(x, y, x + w, y);
+          const light = 35 + random() * 8;
+          gradient.addColorStop(0, `hsl(12 23% ${light - 9}%)`);
+          gradient.addColorStop(0.45, `hsl(14 28% ${light + 12}%)`);
+          gradient.addColorStop(0.85, `hsl(12 27% ${light}%)`);
+          gradient.addColorStop(1, `hsl(12 22% ${light - 12}%)`);
+          ctx.fillStyle = gradient;
+          ctx.fillRect(x, y, w, h);
+          ctx.fillStyle = "#392923a0";
+          ctx.fillRect(x, y + h - 5, w, 5);
+          ctx.fillStyle = "#dbad9065";
+          ctx.fillRect(x + 5, y + h - 8, w - 10, 3);
+        }
+      }
+    } else if (kind === "lattice") {
+      ctx.fillStyle = "#524a3a";
+      ctx.fillRect(0, 0, 512, 512);
+      ctx.lineWidth = 5;
+      ctx.strokeStyle = "#c1ae89";
+      for (let x = -512; x <= 1024; x += 32) {
+        for (const sign of [-1, 1]) {
+          ctx.beginPath();
+          ctx.moveTo(x, 0);
+          ctx.lineTo(x + sign * 512, 512);
+          ctx.stroke();
+        }
+      }
     } else if (kind === "wood") {
-      ctx.fillStyle = "#5e3c26";
+      ctx.fillStyle = "#987044";
       ctx.fillRect(0, 0, 512, 512);
       for (let line = 0; line < 450; line++) {
         const x = random() * 512;
-        ctx.strokeStyle = `rgba(${random() > 0.5 ? "213,161,100" : "35,18,9"},${0.05 + random() * 0.19})`;
+        ctx.strokeStyle = `rgba(${random() > 0.5 ? "235,193,125" : "48,25,12"},${0.05 + random() * 0.18})`;
         ctx.lineWidth = 0.4 + random() * 2;
         ctx.beginPath();
         ctx.moveTo(x, 0);
         ctx.bezierCurveTo(x + 12, 160, x - 10, 350, x, 512);
         ctx.stroke();
       }
-      for (let x = 0; x < 512; x += 128) {
-        ctx.fillStyle = "#2c190c66";
+      for (let x = 0; x < 512; x += 64) {
+        ctx.fillStyle = "#49351b80";
         ctx.fillRect(x, 0, 2, 512);
       }
+    } else if (kind === "paving") {
+      ctx.fillStyle = "#c6bda9";
+      ctx.fillRect(0, 0, 512, 512);
+      for (let row = 0; row < 4; row++) {
+        for (let col = 0; col < 4; col++) {
+          ctx.fillStyle = (row + col) % 2 ? "#b28f7b" : "#c0b097";
+          ctx.fillRect(col * 128 + 4, row * 128 + 4, 120, 120);
+        }
+      }
     } else {
-      ctx.fillStyle = "#b2ada0";
+      ctx.fillStyle = "#93958e";
       ctx.fillRect(0, 0, 512, 512);
     }
-    // Fine grain also supplies a subtle relief map at close viewing distances.
     const pixels = ctx.getImageData(0, 0, 512, 512);
     for (let i = 0; i < pixels.data.length; i += 4) {
-      const noise = (random() - 0.5) * (kind === "wood" ? 11 : 23);
+      const noise = (random() - 0.5) * (kind === "wood" ? 11 : 22);
       for (let channel = 0; channel < 3; channel++) pixels.data[i + channel] += noise;
     }
     ctx.putImageData(pixels, 0, 0);
     const map = new THREE.CanvasTexture(canvas);
     map.wrapS = map.wrapT = THREE.RepeatWrapping;
     map.colorSpace = THREE.SRGBColorSpace;
-    map.anisotropy = 4;
+    map.anisotropy = 8;
     const bumpMap = map.clone();
     bumpMap.colorSpace = THREE.NoColorSpace;
     return { map, bumpMap };
   }
 
-  const stone = new THREE.MeshStandardMaterial({ ...tile("stone"), roughness: 0.96, bumpScale: 0.09 });
-  const brick = new THREE.MeshStandardMaterial({ ...tile("brick"), roughness: 0.93, bumpScale: 0.045 });
-  const wood = new THREE.MeshStandardMaterial({ ...tile("wood"), roughness: 0.65, bumpScale: 0.018 });
-  const concrete = new THREE.MeshStandardMaterial({ ...tile("concrete"), roughness: 0.98, bumpScale: 0.035 });
-  const block = new THREE.MeshStandardMaterial({ ...tile("block"), roughness: 0.95, bumpScale: 0.07 });
-  for (const material of [stone, brick, wood, concrete, block]) material.userData.worldTile = 2;
+  function surface(kind: TileKind, worldTile: number, roughness = 0.94, bumpScale = 0.025) {
+    const material = new THREE.MeshStandardMaterial({ ...tile(kind), roughness, bumpScale });
+    material.userData.worldTile = worldTile;
+    return material;
+  }
+  const roof = surface("roof", 1.8, 0.88, 0.06);
+  roof.side = THREE.DoubleSide;
   return {
-    stone, brick, wood, concrete, block,
-    paint: new THREE.MeshStandardMaterial({ color: "#7e2f22", roughness: 0.78 }),
-    roof: new THREE.MeshStandardMaterial({ color: "#6a4a33", metalness: 0.5, roughness: 0.56, side: THREE.DoubleSide }),
-    seam: new THREE.MeshStandardMaterial({ color: "#523827", metalness: 0.55, roughness: 0.5 }),
-    trim: new THREE.MeshStandardMaterial({ color: "#f4f1ea", roughness: 0.67 }),
-    recess: new THREE.MeshStandardMaterial({ color: "#292721", roughness: 0.98 }),
-    glass: new THREE.MeshStandardMaterial({ color: "#4c5d5b", metalness: 0.45, roughness: 0.16, envMapIntensity: 1.4 }),
-    steel: new THREE.MeshStandardMaterial({ color: "#a3a59a", metalness: 0.85, roughness: 0.27 }),
+    stone: surface("stone", 2),
+    brick: surface("brick", 1.5),
+    pier: surface("pier", 1.8),
+    wood: surface("wood", 2, 0.76, 0.015),
+    concrete: surface("concrete", 2),
+    block: surface("block", 1.8, 0.98, 0.05),
+    lattice: surface("lattice", 0.95, 0.9, 0.006),
+    paving: surface("paving", 2.4),
+    roof,
+    paint: new THREE.MeshStandardMaterial({ color: "#9c5149", roughness: 0.88 }),
+    seam: new THREE.MeshStandardMaterial({ color: "#715249", roughness: 0.86 }),
+    trim: new THREE.MeshStandardMaterial({ color: "#eee9dc", roughness: 0.73 }),
+    recess: new THREE.MeshStandardMaterial({ color: "#292d29", roughness: 0.98 }),
+    glass: new THREE.MeshStandardMaterial({ color: "#3a5557", metalness: 0.25, roughness: 0.23, envMapIntensity: 0.8 }),
+    steel: new THREE.MeshStandardMaterial({ color: "#c1c3bd", metalness: 0.9, roughness: 0.23 }),
     brass: new THREE.MeshStandardMaterial({ color: "#ad7e3c", metalness: 0.8, roughness: 0.3 }),
-    copper: new THREE.MeshStandardMaterial({ color: "#a45c35", metalness: 0.85, roughness: 0.42 }),
-    soil: new THREE.MeshStandardMaterial({ color: "#767564", roughness: 1 }),
+    copper: new THREE.MeshStandardMaterial({ color: "#a45c35", metalness: 0.7, roughness: 0.5 }),
+    soil: new THREE.MeshStandardMaterial({ color: "#71644f", roughness: 1 }),
+    grass: new THREE.MeshStandardMaterial({ color: "#7f8952", roughness: 1 }),
+    leaf: new THREE.MeshStandardMaterial({ color: "#46603b", roughness: 0.92, side: THREE.DoubleSide }),
+    pot: new THREE.MeshStandardMaterial({ color: "#b58262", roughness: 0.95 }),
+    turquoise: new THREE.MeshStandardMaterial({ color: "#569d91", roughness: 0.85 }),
   };
 }
 
