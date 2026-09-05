@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import Image from "@/components/PortfolioImage";
+import WorkProjectImage, { type WorkImageSource } from "@/components/work/WorkProjectImage";
 import Link from "next/link";
 import { ViewTransition } from "react";
 import WorkEntrance from "@/components/work/WorkEntrance";
@@ -14,7 +14,7 @@ type WorkItem = {
   category: string;
   date: string;
   href: string;
-  image: string;
+  image: WorkImageSource;
   status?: string;
 };
 
@@ -130,14 +130,7 @@ function ProjectLink({ item, featuredCard = false }: { item: WorkItem; featuredC
     >
       <span className={featuredCard ? styles.featuredImage : styles.projectImage}>
         <ViewTransition name={`work-image-${item.slug}`} share="work-image-morph">
-          <Image
-            src={item.image}
-            alt=""
-            fill
-            priority={featuredCard}
-            loading={featuredCard ? undefined : "lazy"}
-            sizes={featuredCard ? "(max-width: 720px) 92vw, 660px" : "(max-width: 720px) 88vw, 280px"}
-          />
+          <WorkProjectImage src={item.image} featured={featuredCard} />
         </ViewTransition>
       </span>
       <span className={styles.projectMeta}>
