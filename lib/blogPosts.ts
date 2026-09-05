@@ -16,6 +16,20 @@ export type BlogPost = {
 
 export const blogPosts: BlogPost[] = [
   {
+    slug: "model-debt-is-a-real-thing",
+    title: "You fixed your tech debt. Your model debt is next.",
+    shortTitle: "You fixed your tech debt. Your model debt is next.",
+    description:
+      "Why I use major model upgrades to review older AI-written code for security issues, architecture problems, and performance improvements, and how I check the findings.",
+    category: "AI workflows",
+    date: "2026-09-05",
+    modifiedDate: "2026-09-05",
+    source: "model-debt-is-a-real-thing.md",
+    image: "/blog/model-debt/cover.webp",
+    imageAlt:
+      "Claude and ChatGPT logos beside the headline Model Debt and a code review highlighting security, architecture, and performance.",
+  },
+  {
     slug: "how-i-use-grok-bot",
     title: "I used Grok Bot before it went public. Here's how I use it.",
     shortTitle: "I used Grok Bot before it went public. Here's how I use it.",
