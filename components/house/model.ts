@@ -5,9 +5,9 @@ import type { HouseMaterials } from "./materials";
 type Point = [number, number, number];
 
 /** Approximate exterior proportions, not a measured architectural survey.
- * Following the floor plan: two identical gabled wings meet at a right angle,
- * one facing front (+Z) and one facing left (-X), and a curved two-storey
- * entrance bay with the colonnade sweeps 90 degrees between their facades.
+ * Matching front gables frame a curved entrance and a continuous veranda.
+ * The rear wings close into a square corner with plain brick elevations.
+ * Photographs and the owner's corrections guide the approximate exterior.
  * All units are nominal metres.
  */
 export function createHouseModel(m: HouseMaterials) {
@@ -51,19 +51,31 @@ export function createHouseModel(m: HouseMaterials) {
     return object;
   }
 
+  function planarUV(geometry: THREE.BufferGeometry, material: THREE.Material) {
+    const scale = material.userData.worldTile as number | undefined;
+    if (!scale) return;
+    const uv = geometry.getAttribute("uv");
+    const pos = geometry.getAttribute("position");
+    const normal = geometry.getAttribute("normal");
+    for (let i = 0; i < uv.count; i++) {
+      const nx = Math.abs(normal.getX(i));
+      const ny = Math.abs(normal.getY(i));
+      const nz = Math.abs(normal.getZ(i));
+      uv.setXY(i, (nx > nz && nx > ny ? pos.getZ(i) : pos.getX(i)) / scale,
+        (ny > nx && ny > nz ? pos.getZ(i) : pos.getY(i)) / scale);
+    }
+  }
+
   function polygon(points: Point[], material: THREE.Material, parent = root) {
     const vertices: number[] = [];
-    const uvs: number[] = [];
     for (let i = 1; i < points.length - 1; i++) {
-      for (const point of [points[0], points[i], points[i + 1]]) {
-        vertices.push(...point);
-        uvs.push(point[0] / 2, (point[1] + point[2]) / 2);
-      }
+      for (const point of [points[0], points[i], points[i + 1]]) vertices.push(...point);
     }
     const geometry = new THREE.BufferGeometry();
     geometry.setAttribute("position", new THREE.Float32BufferAttribute(vertices, 3));
-    geometry.setAttribute("uv", new THREE.Float32BufferAttribute(uvs, 2));
+    geometry.setAttribute("uv", new THREE.Float32BufferAttribute(new Array(vertices.length / 3 * 2).fill(0), 2));
     geometry.computeVertexNormals();
+    planarUV(geometry, material);
     return mesh(geometry, material, parent);
   }
 
@@ -83,6 +95,7 @@ export function createHouseModel(m: HouseMaterials) {
     const object = mesh(new THREE.ExtrudeGeometry(archedShape(width, height), {
       depth: 0.045, bevelEnabled: false, curveSegments: 20,
     }), material, parent);
+    planarUV(object.geometry, material);
     object.position.set(x, y, z);
     return object;
   }
@@ -102,34 +115,93 @@ export function createHouseModel(m: HouseMaterials) {
     group.position.set(x, y, z);
     group.rotation.y = rotation;
     if (arched) {
-      arch(width + 0.55, height + 0.32, 0, -0.12, 0.01, m.brick, group);
-      arch(width + 0.12, height + 0.06, 0, 0, 0.07, m.recess, group);
-      arch(width, height, 0, 0.04, 0.13, m.glass, group);
-      archBorder(width, height, 0.075, 0, 0.04, 0.23, m.trim, group);
-      const spring = height - width / 2;
-      box(0.06, height - 0.03, 0.085, 0, height / 2 + 0.04, 0.23, m.trim, group);
-      box(width, 0.06, 0.09, 0, spring + 0.04, 0.23, m.trim, group);
-      box(width, 0.055, 0.09, 0, spring * 0.46 + 0.04, 0.23, m.trim, group);
-      for (const side of [-1, 1]) {
-        box(0.05, spring, 0.08, side * width * 0.28, spring / 2 + 0.04, 0.23, m.trim, group);
-      }
+      arch(width + 0.16, height + 0.1, 0, -0.04, 0.02, m.trim, group);
+      arch(width, height, 0, 0, 0.09, m.lattice, group);
+      archBorder(width, height, 0.065, 0, 0, 0.19, m.trim, group);
+      const paneH = height - width / 2 - 0.25;
+      box(width * 0.43, paneH, 0.055, 0, paneH / 2 + 0.22, 0.17, m.glass, group);
+      for (const side of [-1, 1]) box(0.055, height - width / 2, 0.07, side * width * 0.25, (height - width / 2) / 2, 0.23, m.trim, group);
+      box(width, 0.06, 0.07, 0, height - width / 2, 0.23, m.trim, group);
+      box(width, 0.06, 0.07, 0, 0.2, 0.23, m.trim, group);
+      for (let row = 1; row < 5; row++) box(width * 0.5, 0.04, 0.07, 0, 0.2 + paneH * row / 5, 0.23, m.trim, group);
+      box(0.04, paneH, 0.07, 0, paneH / 2 + 0.22, 0.23, m.trim, group);
     } else {
-      box(width + 0.4, height + 0.28, 0.09, 0, height / 2, 0.03, m.brick, group);
-      box(width + 0.12, height + 0.12, 0.1, 0, height / 2, 0.09, m.recess, group);
-      box(width, height, 0.07, 0, height / 2, 0.16, m.glass, group);
+      box(width + 0.16, height + 0.16, 0.09, 0, height / 2, 0.03, m.trim, group);
+      box(width, height, 0.07, 0, height / 2, 0.1, m.lattice, group);
+      box(width * 0.64, height * 0.7, 0.035, 0, height * 0.48, 0.15, m.glass, group);
       for (const side of [-1, 1]) {
-        box(0.075, height + 0.08, 0.1, side * width / 2, height / 2, 0.23, m.trim, group);
-        box(width + 0.15, 0.075, 0.1, 0, side < 0 ? 0 : height, 0.23, m.trim, group);
-        box(0.06, height, 0.1, side * width * 0.25, height / 2, 0.23, m.trim, group);
+        box(0.065, height + 0.08, 0.09, side * width / 2, height / 2, 0.2, m.trim, group);
+        box(width + 0.12, 0.065, 0.09, 0, side < 0 ? 0 : height, 0.2, m.trim, group);
+        box(0.055, height, 0.09, side * width * 0.33, height / 2, 0.2, m.trim, group);
       }
-      box(width, 0.06, 0.1, 0, height * 0.6, 0.23, m.trim, group);
-      for (const sx of [-0.38, 0.38]) {
-        for (const sy of [0.22, 0.42, 0.8]) {
-          box(width * 0.24, 0.035, 0.09, sx * width, sy * height, 0.23, m.trim, group);
-        }
+      box(0.045, height, 0.09, 0, height / 2, 0.2, m.trim, group);
+      for (const row of [0.14, 0.36, 0.59, 0.83]) box(width * (row === 0.14 || row === 0.83 ? 1 : 0.66), 0.045, 0.09, 0, height * row, 0.2, m.trim, group);
+    }
+    box(width + 0.22, 0.09, 0.32, 0, -0.06, 0.12, m.trim, group);
+  }
+
+  // Open side casements retain their own frame and small panes.
+  function casement(x: number, y: number, width: number, height: number, arched: boolean, side: number, parent: THREE.Group) {
+    const leaf = new THREE.Group();
+    parent.add(leaf);
+    leaf.position.set(x - side * width / 2, y, 0.29);
+    leaf.rotation.y = -side * 0.95;
+    const centre = side * width / 2;
+    if (arched) {
+      arch(width, height, centre, 0, 0, m.glass, leaf);
+      archBorder(width, height, 0.05, centre, 0, 0.07, m.trim, leaf);
+    } else {
+      box(width, height, 0.035, centre, height / 2, 0, m.glass, leaf);
+      for (const edge of [-1, 1]) {
+        box(0.05, height, 0.065, centre + edge * width / 2, height / 2, 0.04, m.trim, leaf);
+        box(width, 0.05, 0.065, centre, edge < 0 ? 0 : height, 0.04, m.trim, leaf);
       }
     }
-    box(width + 0.3, 0.11, 0.4, 0, -0.07, 0.14, m.trim, group);
+    box(0.035, height - (arched ? width / 2 : 0), 0.07, centre, (height - (arched ? width / 2 : 0)) / 2, 0.07, m.trim, leaf);
+    for (let row = 1; row < 5; row++) box(width - 0.03, 0.035, 0.065, centre, (height - (arched ? width / 2 : 0)) * row / 5, 0.07, m.trim, leaf);
+  }
+
+  function wingWindows(parent: THREE.Group, open: boolean) {
+    // One continuous painted surround, with a taller central arch and two shoulders.
+    arch(2.28, 2.7, 0, 4.34, 0.035, m.paint, parent);
+    for (const side of [-1, 1]) {
+      arch(0.99, 2.02, side * 1.28, 4.34, 0.035, m.paint, parent);
+      box(0.25, 4.9, 0.17, side * 1.79, 3.68, 0.095, m.paint, parent);
+    }
+    box(3.3, 0.98, 0.085, 0, 3.86, 0.1, m.block, parent);
+    for (const y of [3.34, 4.38]) {
+      box(3.36, 0.095, 0.17, 0, y, 0.19, m.paint, parent);
+      box(3.36, 0.055, 0.21, 0, y + 0.065, 0.19, m.trim, parent);
+    }
+    arch(1.87, 2.3, 0, 4.49, 0.17, m.lattice, parent);
+    archBorder(1.87, 2.3, 0.075, 0, 4.49, 0.26, m.trim, parent);
+    archBorder(1.52, 2.05, 0.045, 0, 4.52, 0.28, m.trim, parent);
+    box(1.86, 0.06, 0.08, 0, 4.89, 0.29, m.trim, parent);
+    for (const side of [-1, 1]) {
+      arch(0.59, 1.75, side * 1.27, 4.49, 0.18, m.glass, parent);
+      archBorder(0.59, 1.75, 0.065, side * 1.27, 4.49, 0.27, m.trim, parent);
+      box(0.035, 1.44, 0.06, side * 1.27, 5.21, 0.28, m.trim, parent);
+      for (let row = 1; row < 5; row++) box(0.59, 0.035, 0.06, side * 1.27, 4.49 + row * 0.29, 0.28, m.trim, parent);
+    }
+    box(3.27, 0.1, 0.36, 0, 4.45, 0.2, m.trim, parent);
+    // The lower opening is rectangular, with screened centre and narrow casements.
+    box(3.27, 1.96, 0.07, 0, 2.28, 0.12, m.lattice, parent);
+    for (const side of [-1, 1]) {
+      box(0.07, 2.05, 0.1, side * 1.66, 2.28, 0.23, m.trim, parent);
+      box(3.38, 0.085, 0.15, 0, 2.28 + side * 1.01, 0.23, m.trim, parent);
+      box(0.065, 1.96, 0.09, side * 0.96, 2.28, 0.23, m.trim, parent);
+      box(0.59, 1.53, 0.045, side * 1.29, 2.15, 0.19, m.glass, parent);
+      box(0.035, 1.53, 0.07, side * 1.29, 2.15, 0.25, m.trim, parent);
+      for (let row = 1; row < 5; row++) box(0.6, 0.035, 0.07, side * 1.29, 1.39 + row * 0.3, 0.25, m.trim, parent);
+    }
+    box(3.27, 0.06, 0.09, 0, 2.96, 0.25, m.trim, parent);
+    box(1.88, 0.06, 0.09, 0, 1.83, 0.25, m.trim, parent);
+    box(3.5, 0.12, 0.4, 0, 1.23, 0.21, m.trim, parent);
+    if (open) {
+      casement(-1.27, 4.49, 0.59, 1.75, true, -1, parent);
+      casement(1.29, 1.39, 0.59, 1.53, false, 1, parent);
+    }
+    box(0.16, 0.1, 0.1, 0, 4.03, 0.21, m.recess, parent);
   }
 
   function railing(a: Point, b: Point, height = 0.95) {
@@ -146,20 +218,43 @@ export function createHouseModel(m: HouseMaterials) {
     }
   }
 
+  function mix(a: Point, b: Point, t: number): Point {
+    return [a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t, a[2] + (b[2] - a[2]) * t];
+  }
+
   function roofFace(a: Point, b: Point, c: Point, d: Point, parent = root) {
-    polygon([a, b, c, d], m.roof, parent);
-    // Standing seams run down the fall of the roof, rather than being painted on.
-    const count = Math.ceil(new THREE.Vector3(...a).distanceTo(new THREE.Vector3(...b)) / 0.27);
-    for (let i = 0; i <= count; i++) {
-      const t = i / count;
-      beam(
-        [a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t + 0.015, a[2] + (b[2] - a[2]) * t],
-        [d[0] + (c[0] - d[0]) * t, d[1] + (c[1] - d[1]) * t + 0.015, d[2] + (c[2] - d[2]) * t],
-        0.016, m.seam, parent,
-      );
+    const width = new THREE.Vector3(...a).distanceTo(new THREE.Vector3(...b));
+    const depth = new THREE.Vector3(...a).distanceTo(new THREE.Vector3(...d));
+    const courses = Math.max(1, Math.ceil(depth / 0.3));
+    for (let row = 0; row < courses; row++) {
+      const lo = row / courses;
+      const hi = Math.min(1, (row + 1.09) / courses);
+      const points = [mix(a, d, lo), mix(b, c, lo), mix(b, c, hi), mix(a, d, hi)];
+      points[0][1] += 0.025;
+      points[1][1] += 0.025;
+      const tile = polygon(points, m.roof, parent);
+      // Each course is one row of tiles; U follows the eave, V the slope.
+      const uv = tile.geometry.getAttribute("uv");
+      const topWidth = new THREE.Vector3(...points[2]).distanceTo(new THREE.Vector3(...points[3]));
+      const coords = [[0, 0], [width / 1.8, 0], [topWidth / 1.8, 1 / 6], [0, 0], [topWidth / 1.8, 1 / 6], [0, 1 / 6]];
+      coords.forEach(([u, v], i) => uv.setXY(i, u, v + (row % 6) / 6));
     }
-    beam(a, b, 0.045, m.seam, parent);
     beam(d, c, 0.045, m.seam, parent);
+  }
+
+  function fretwork(a: Point, b: Point, parent = root) {
+    beam(a, b, 0.055, m.trim, parent);
+    const count = Math.ceil(new THREE.Vector3(...a).distanceTo(new THREE.Vector3(...b)) / 0.16);
+    for (let i = 0; i < count; i++) {
+      const left = mix(a, b, i / count);
+      const right = mix(a, b, (i + 1) / count);
+      const tip = mix(left, right, 0.5);
+      tip[1] -= 0.13;
+      const tooth = polygon([left, right, tip], m.trim, parent);
+      // Include the reverse face without making every painted surface double-sided.
+      polygon([tip, right, left], m.trim, parent);
+      tooth.castShadow = false;
+    }
   }
 
   // The curved corner bay: a quarter circle tangent to both wing facades.
@@ -179,40 +274,52 @@ export function createHouseModel(m: HouseMaterials) {
     shape.absarc(CX, CZ, r0, a1, a0, true);
     shape.closePath();
     const geometry = new THREE.ExtrudeGeometry(shape, { depth: thickness, bevelEnabled: false, curveSegments: 32 });
+    geometry.rotateX(Math.PI / 2);
+    geometry.translate(0, y, 0);
     const uv = geometry.getAttribute("uv");
-    for (let i = 0; i < uv.count; i++) uv.setXY(i, uv.getX(i) / 2, uv.getY(i) / 2);
+    const pos = geometry.getAttribute("position");
+    const normal = geometry.getAttribute("normal");
+    const scale = (material.userData.worldTile as number | undefined) ?? 2;
+    for (let i = 0; i < uv.count; i++) {
+      if (Math.abs(normal.getY(i)) > 0.5) uv.setXY(i, pos.getX(i) / scale, pos.getZ(i) / scale);
+      else {
+        const angle = Math.atan2(pos.getZ(i) - CZ, pos.getX(i) - CX);
+        uv.setXY(i, angle * r1 / scale, pos.getY(i) / scale);
+      }
+    }
     const object = mesh(geometry, material);
-    object.rotation.x = Math.PI / 2;
-    object.position.y = y;
     return object;
   }
 
-  // A restrained, shallow ground pad. Landscaping is not part of the reference.
-  box(20, 0.22, 20, 1.2, -0.2, -1.2, m.soil);
-  box(17.8, 0.13, 17.8, 1.2, -0.035, -1.2, m.concrete);
+  // A shallow garden pad and tiled paths echo the reference courtyard.
+  box(22, 0.22, 22, 0.7, -0.2, -0.7, m.soil);
+  box(21.8, 0.08, 21.8, 0.7, -0.07, -0.7, m.grass);
+  box(18.4, 0.08, 18.4, 1.2, -0.025, -1.2, m.paving);
 
-  // One gabled wing, identical and reversible; sideSign picks the exposed long side.
+  // Matching front gables; the two roof ridges meet over the square rear corner.
   function buildWing(px: number, pz: number, ry: number, sideSign: 1 | -1) {
     const wing = new THREE.Group();
     root.add(wing);
     wing.position.set(px, 0, pz);
     wing.rotation.y = ry;
-    box(4.9, 0.62, 10.2, 0, 0.3, 0, m.concrete, wing);
-    box(4.5, 6.65, 9.8, 0, 3.925, 0, m.stone, wing);
-    box(4.52, 0.18, 9.84, 0, 3.82, 0, m.brick, wing);
+    box(4.9, 0.72, 10.2, 0, 0.3, 0, m.block, wing);
+    box(4.5, 6.65, 9.8, 0, 3.925, 0, m.brick, wing);
+    for (const front of [-1, 1]) box(4.5, 6.55, 0.1, 0, 3.94, front * 4.92, m.brick, wing);
+    box(4.62, 0.11, 9.98, 0, 0.77, 0, m.paint, wing);
     box(4.6, 0.12, 9.92, 0, 0.66, 0, m.trim, wing);
     for (const edge of [-1, 1]) {
-      box(0.34, 6.5, 0.15, edge * 2.07, 3.97, 4.94, m.brick, wing);
-      box(0.34, 6.5, 0.15, edge * 2.07, 3.97, -4.94, m.brick, wing);
+      box(0.075, 6.5, 0.16, edge * 2.18, 3.97, 4.99, m.paint, wing);
     }
     box(4.5, 0.19, 10.05, 0, 7.2, 0, m.wood, wing);
-    for (const front of [-1, 1]) {
-      const z = front * 4.91;
+    // Only the two front-facing elevations have decorative gables.
+    {
+      const z = 4.99;
       const gable = new THREE.Group();
       wing.add(gable);
       gable.position.set(0, 0, z);
-      gable.rotation.y = front === 1 ? 0 : Math.PI;
-      polygon([[-2.25, 7.24, 0], [2.25, 7.24, 0], [0, 9.13, 0]], m.brick, gable);
+      gable.rotation.y = 0;
+      polygon([[-2.25, 7.24, 0], [2.25, 7.24, 0], [0, 9.67, 0]], m.brick, gable);
+      polygon([[-1.46, 7.35, 0.03], [1.46, 7.35, 0.03], [1.46, 7.97, 0.03], [0, 9.09, 0.03], [-1.46, 7.97, 0.03]], m.paint, gable);
       polygon([[-1.24, 7.51, 0.08], [1.24, 7.51, 0.08], [1.24, 7.9, 0.08], [0, 8.91, 0.08], [-1.24, 7.9, 0.08]], m.trim, gable);
       polygon([[-1.1, 7.64, 0.1], [1.1, 7.64, 0.1], [1.1, 7.85, 0.1], [0, 8.73, 0.1], [-1.1, 7.85, 0.1]], m.glass, gable);
       for (let bar = -3; bar <= 3; bar++) {
@@ -221,37 +328,52 @@ export function createHouseModel(m: HouseMaterials) {
         box(0.045, h, 0.065, bx, 7.67 + h / 2, 0.16, m.trim, gable);
       }
       box(2.24, 0.045, 0.07, 0, 7.95, 0.17, m.trim, gable);
-      // Arched three-part windows on both floors, per the elevation.
-      windowAt(0, 1.32, z, front === 1 ? 0 : Math.PI, true, 1.32, 2.05, wing);
-      windowAt(0, 4.55, z, front === 1 ? 0 : Math.PI, true, 1.32, 2.05, wing);
-      for (const edge of [-1, 1]) {
-        windowAt(edge * 1.0, 1.32, z, front === 1 ? 0 : Math.PI, true, 0.45, 1.62, wing);
-        windowAt(edge * 1.0, 4.55, z, front === 1 ? 0 : Math.PI, true, 0.45, 1.62, wing);
-      }
+      wingWindows(gable, true);
     }
-    const frontZ = 5.35;
-    const rearZ = -5.35;
-    const ridge = 9.45;
+    const frontZ = 6.08;
+    const ridgeRearZ = -7.15;
+    const ridge = 9.92;
     for (const slope of [-1, 1]) {
-      const edge = slope * 2.67;
-      roofFace([edge, 7.2, frontZ], [edge, 7.2, rearZ], [0, ridge, rearZ], [0, ridge, frontZ], wing);
-      for (const z of [frontZ, rearZ]) {
-        const fascia = box(Math.hypot(2.67, ridge - 7.2), 0.14, 0.15, edge / 2, (7.2 + ridge) / 2, z, m.trim, wing);
-        fascia.rotation.z = -slope * Math.atan2(ridge - 7.2, 2.67);
+      const edge = slope * 3.12;
+      // Outer slopes reach the rear hip, inner slopes meet at the shared valley.
+      const rearZ = slope === sideSign ? -10.27 : -4.03;
+      roofFace([edge, 7.2, frontZ], [edge, 7.2, rearZ], [0, ridge, ridgeRearZ], [0, ridge, frontZ], wing);
+      const soffit = polygon([[edge, 7.13, frontZ], [0, ridge - 0.07, frontZ], [0, ridge - 0.07, ridgeRearZ], [edge, 7.13, rearZ]], m.wood, wing);
+      // Winding follows the slope; the underside must face the ground.
+      const indices = soffit.geometry.getAttribute("position");
+      if (soffit.geometry.getAttribute("normal").getY(0) > 0) {
+        for (let i = 0; i < indices.count; i += 3) {
+          const a = new THREE.Vector3().fromBufferAttribute(indices, i);
+          const b = new THREE.Vector3().fromBufferAttribute(indices, i + 2);
+          indices.setXYZ(i, b.x, b.y, b.z);
+          indices.setXYZ(i + 2, a.x, a.y, a.z);
+        }
+        soffit.geometry.computeVertexNormals();
+        planarUV(soffit.geometry, m.wood);
       }
-      box(0.15, 0.16, 10.7, edge, 7.15, 0, m.seam, wing);
+      fretwork([edge, 7.18, frontZ], [0, ridge, frontZ], wing);
+      fretwork([edge, 7.15, frontZ], [edge, 7.15, rearZ], wing);
     }
-    beam([0, ridge + 0.025, rearZ], [0, ridge + 0.025, frontZ], 0.065, m.seam, wing);
-    // The exposed long elevation repeats the same window vocabulary; layout inferred.
-    for (const z of [0.9, 3.4]) {
-      windowAt(sideSign * 2.26, 1.42, z, sideSign * Math.PI / 2, false, 1.6, 1.6, wing);
-      windowAt(sideSign * 2.26, 4.75, z, sideSign * Math.PI / 2, false, 1.6, 1.65, wing);
-    }
+    beam([0, ridge + 0.025, ridgeRearZ], [0, ridge + 0.025, frontZ], 0.065, m.seam, wing);
     beam([sideSign * 2.31, 0.48, 4.69], [sideSign * 2.31, 7.12, 4.69], 0.055, m.seam, wing);
   }
 
-  buildWing(6.0, 0, 0, 1);
-  buildWing(0, -6.0, -Math.PI / 2, -1);
+  buildWing(6.0, 1.15, 0, 1);
+  buildWing(-1.15, -6.0, -Math.PI / 2, -1);
+
+  // Fill the former rear notch. Both back walls now meet at (8.25, -8.25),
+  // with the same small brick and mortar as the front gables.
+  box(4.5, 6.65, 4.5, 6, 3.925, -6, m.brick);
+  box(4.9, 0.72, 4.9, 6, 0.3, -6, m.block);
+  box(4.6, 0.12, 4.6, 6, 0.66, -6, m.trim);
+  box(4.62, 0.11, 4.62, 6, 0.77, -6, m.paint);
+  // Two simple openings per storey on each long rear elevation.
+  for (const y of [1.42, 4.75]) {
+    for (const offset of [-4.5, 2.5]) {
+      windowAt(8.27, y, offset, Math.PI / 2, false, 1.6, 1.65);
+      windowAt(-offset, y, -8.27, Math.PI, false, 1.6, 1.65);
+    }
+  }
 
   // A straight two-storey run joins each gabled wing to the curved bay, so each
   // elevation reads: gable, long straight wall, then the curve to the other face.
@@ -262,206 +384,257 @@ export function createHouseModel(m: HouseMaterials) {
     section.rotation.y = ry;
     box(4.2, 0.62, 4.8, 0, 0.3, 0.05, m.concrete, section);
     box(3.9, 6.65, 4.4, 0, 3.925, 0, m.stone, section);
-    box(3.92, 0.18, 4.44, 0, 3.82, 0, m.brick, section);
+    box(3.92, 0.1, 4.44, 0, 0.78, 0, m.paint, section);
     box(3.98, 0.12, 4.5, 0, 0.66, 0, m.trim, section);
     box(3.9, 0.19, 4.5, 0, 7.2, 0, m.wood, section);
     windowAt(0, 1.42, 2.2, 0, false, 1.6, 1.6, section);
     windowAt(0, 4.75, 2.2, 0, false, 1.6, 1.65, section);
-    // A flat seam roof tucked under the veranda band, the cone and the wing slope.
+    // A concealed roof closes the connector below the canopy and wing slope.
     box(3.9, 0.08, 4.5, 0, 7.66, 0.05, m.seam, section);
   }
   buildConnector(2.0, 2.55, 0);
   buildConnector(-2.55, -2.0, -Math.PI / 2);
 
-  // Curved bay wall, tangent to both facades, with brick and trim bands.
-  ringSector(WALL - 0.4, WALL, A0 - 0.015, A1 + 0.015, 8.2, 8.2, m.block);
-  ringSector(WALL - 0.05, WALL + 0.04, A0 - 0.01, A1 + 0.01, 3.91, 0.18, m.brick);
-  ringSector(WALL - 0.05, WALL + 0.05, A0 - 0.01, A1 + 0.01, 0.78, 0.12, m.trim);
-  const plinth = new THREE.Shape();
-  plinth.moveTo(CX, CZ);
-  plinth.absarc(CX, CZ, 5.4, A0 - 0.05, A1 + 0.05, false);
-  plinth.closePath();
-  const plinthMesh = mesh(new THREE.ExtrudeGeometry(plinth, { depth: 0.62, bevelEnabled: false, curveSegments: 24 }), m.concrete);
-  plinthMesh.rotation.x = Math.PI / 2;
-  plinthMesh.position.y = 0.61;
-
-  // Windows on the curve: an arched window over the door and two flankers.
-  {
-    const p = at(AM, 5.15);
-    windowAt(p[0], 4.63, p[1], facing(AM), true, 1.75, 2.02);
-  }
-  // Door-height windows open onto the balcony either side of the arched window.
-  for (const angle of [AM - Math.PI / 8, AM + Math.PI / 8]) {
-    const p = at(angle, 5.07);
-    windowAt(p[0], 3.97, p[1], facing(angle), false, 1.1, 2.05);
+  // One continuous curved stone wall behind the wraparound veranda.
+  ringSector(WALL - 0.4, WALL, A0 - 0.015, A1 + 0.015, 7.5, 6.85, m.stone);
+  ringSector(WALL - 0.35, WALL + 0.08, A0, A1, 0.69, 0.69, m.block);
+  for (const angle of [AM - 0.48, AM + 0.48]) {
+    const p = at(angle, 5.08);
+    windowAt(p[0], 1.1, p[1], facing(angle), false, 1.2, 2.12);
+    windowAt(p[0], 4.08, p[1], facing(angle), false, 1.2, 2.35);
   }
 
-  // Carved double entrance doors on the curve, raised panels and brass hardware.
-  const doorGroup = new THREE.Group();
-  root.add(doorGroup);
-  const doorPos = at(AM, 2.33);
-  doorGroup.position.set(doorPos[0], 0, doorPos[1]);
-  doorGroup.rotation.y = facing(AM);
-  box(2.24, 2.83, 0.15, 0, 1.99, 2.79, m.trim, doorGroup);
-  box(2.03, 2.65, 0.2, 0, 1.95, 2.9, m.recess, doorGroup);
+  // Keep the entrance detailing, mounted directly on the curved wall. There
+  // is no projecting box behind it; the flat door is tangent to the stone arc.
+  const entrance = new THREE.Group();
+  root.add(entrance);
+  const entrancePos = at(AM, WALL - 1.02);
+  entrance.position.set(entrancePos[0], 0, entrancePos[1]);
+  entrance.rotation.y = facing(AM);
+  box(2.25, 0.82, 0.05, 0, 3.78, 1.03, m.trim, entrance);
+  box(2.12, 0.69, 0.065, 0, 3.78, 1.07, m.block, entrance);
+  windowAt(0, 4.57, 1.05, 0, true, 1.86, 2.2, entrance);
+  box(2.12, 2.78, 0.12, 0, 2.02, 1.07, m.trim, entrance);
+  box(1.95, 2.66, 0.1, 0, 1.99, 1.15, m.recess, entrance);
   for (const side of [-1, 1]) {
-    box(0.94, 2.54, 0.16, side * 0.49, 1.94, 3.015, m.wood, doorGroup);
-    for (const y of [1.22, 2.36]) {
-      box(0.72, 0.98, 0.055, side * 0.49, y, 3.12, m.wood, doorGroup);
+    box(0.94, 2.56, 0.12, side * 0.48, 1.99, 1.24, m.wood, entrance);
+    for (const y of [1.33, 2.57]) {
+      box(0.73, 1.04, 0.06, side * 0.48, y, 1.33, m.wood, entrance);
       for (const edge of [-1, 1]) {
-        box(0.035, 0.87, 0.035, side * 0.49 + edge * 0.3, y, 3.16, m.brass, doorGroup);
-        box(0.63, 0.035, 0.035, side * 0.49, y + edge * 0.435, 3.16, m.wood, doorGroup);
+        box(0.03, 0.94, 0.04, side * 0.48 + edge * 0.32, y, 1.38, m.wood, entrance);
+        box(0.65, 0.03, 0.04, side * 0.48, y + edge * 0.47, 1.38, m.wood, entrance);
       }
-      // Small repeated rosettes give the door a carved rather than flat surface.
-      for (const cy of [-0.24, 0, 0.24]) {
-        const ornament = mesh(new THREE.TorusGeometry(0.095, 0.016, 5, 12), m.wood, doorGroup);
-        ornament.position.set(side * 0.49, y + cy, 3.18);
-        for (const angle of [0, Math.PI / 2, Math.PI, Math.PI * 1.5]) {
-          const petal = mesh(new THREE.SphereGeometry(0.035, 6, 4), m.wood, doorGroup);
-          petal.position.set(side * 0.49 + Math.cos(angle) * 0.057, y + cy + Math.sin(angle) * 0.057, 3.185);
+      for (const cy of [-0.29, 0, 0.29]) {
+        const ornament = mesh(new THREE.TorusGeometry(0.095, 0.016, 5, 12), m.wood, entrance);
+        ornament.position.set(side * 0.48, y + cy, 1.39);
+        for (let i = 0; i < 5; i++) {
+          const petal = mesh(new THREE.SphereGeometry(0.034, 6, 4), m.wood, entrance);
+          petal.position.set(side * 0.48 + Math.cos(i * Math.PI * 0.4) * 0.06, y + cy + Math.sin(i * Math.PI * 0.4) * 0.06, 1.4);
           petal.scale.z = 0.5;
         }
       }
     }
-    beam([side * 0.12, 1.65, 3.22], [side * 0.12, 1.98, 3.22], 0.025, m.brass, doorGroup);
-    // Hammered copper sconces flank the entrance.
-    beam([side * 1.55, 3.32, 2.72], [side * 1.55, 3.16, 2.9], 0.016, m.copper, doorGroup);
-    const cap = mesh(new THREE.SphereGeometry(0.11, 10, 5, 0, Math.PI * 2, 0, Math.PI / 2), m.copper, doorGroup);
-    cap.position.set(side * 1.55, 3.12, 2.9);
+    beam([side * 0.12, 1.78, 1.44], [side * 0.12, 2.08, 1.44], 0.025, m.brass, entrance);
   }
 
-  // Porch and balcony sweep the quarter circle between the two wings.
-  ringSector(4.7, 7.35, A0, A1, 0.66, 0.22, m.concrete);
-  ringSector(4.7, 7.35, A0, A1, 3.91, 0.22, m.concrete);
-
-  // A painted fascia wraps the balcony slab edge, as in the photograph.
-  ringSector(7.02, 7.37, A0, A1, 3.94, 0.29, m.paint);
-
-  // The veranda continues straight along each connector, past its window,
-  // stopping just before the gabled wing.
-  function boxByCorners(x0: number, x1: number, y0: number, y1: number, z0: number, z1: number, material: THREE.Material) {
-    return box(x1 - x0, y1 - y0, z1 - z0, (x0 + x1) / 2, (y0 + y1) / 2, (z0 + z1) / 2, material);
+  const OUTER = 7.6;
+  ringSector(4.7, OUTER, A0, A1, 0.66, 0.22, m.concrete);
+  ringSector(OUTER - 0.08, OUTER + 0.03, A0, A1, 0.55, 0.55, m.block);
+  ringSector(OUTER - 0.04, OUTER + 0.045, A0, A1, 0.68, 0.08, m.paint);
+  // The upper slab, fascia, ceiling and rail continue all the way around.
+  ringSector(4.7, OUTER, A0, A1, 3.97, 0.23, m.concrete);
+  ringSector(4.7, OUTER - 0.03, A0, A1, 3.73, 0.055, m.wood);
+  ringSector(OUTER - 0.08, OUTER + 0.03, A0, A1, 3.93, 0.25, m.paint);
+  const segments = 16;
+  for (let i = 0; i < segments; i++) {
+    const a = A0 + (A1 - A0) * i / segments;
+    const b = A0 + (A1 - A0) * (i + 1) / segments;
+    roofFace(at3(a, OUTER + 0.12, 3.87), at3(b, OUTER + 0.12, 3.87), at3(b, OUTER - 0.18, 3.99), at3(a, OUTER - 0.18, 3.99));
+    railing(at3(a, OUTER - 0.17, 4.0), at3(b, OUTER - 0.17, 4.0));
   }
-  // Front side, in front of the connector facade (z = 4.75).
-  boxByCorners(0.25, 3.55, 0.44, 0.66, 4.75, 7.10, m.concrete);
-  boxByCorners(0.25, 3.55, 3.69, 3.91, 4.75, 7.10, m.concrete);
-  boxByCorners(0.25, 3.55, 3.65, 3.94, 6.76, 7.12, m.paint);
-  boxByCorners(0.25, 3.7, 7.05, 7.12, 4.75, 7.10, m.wood);
-  railing([0.25, 3.96, 6.87], [3.55, 3.96, 6.87]);
-  railing([3.55, 3.96, 6.87], [3.55, 3.96, 4.95]);
-  railing([0.25, 0.7, 6.87], [3.55, 0.7, 6.87]);
-  railing([3.55, 0.7, 6.87], [3.55, 0.7, 4.95]);
-  for (let x = 0.7; x < 3.3; x += 0.6) beam([x, 7.0, 4.85], [x, 7.0, 7.2], 0.035, m.wood);
-  // Left side, in front of the connector facade (x = -4.75), mirrored.
-  boxByCorners(-7.10, -4.75, 0.44, 0.66, -3.55, -0.25, m.concrete);
-  boxByCorners(-7.10, -4.75, 3.69, 3.91, -3.55, -0.25, m.concrete);
-  boxByCorners(-7.12, -6.76, 3.65, 3.94, -3.55, -0.25, m.paint);
-  boxByCorners(-7.10, -4.75, 7.05, 7.12, -3.7, -0.25, m.wood);
-  railing([-6.87, 3.96, -0.25], [-6.87, 3.96, -3.55]);
-  railing([-6.87, 3.96, -3.55], [-4.95, 3.96, -3.55]);
-  railing([-6.87, 0.7, -0.25], [-6.87, 0.7, -3.55]);
-  railing([-6.87, 0.7, -3.55], [-4.95, 0.7, -3.55]);
-  for (let z = -0.7; z > -3.3; z -= 0.6) beam([-4.85, 7.0, z], [-7.2, 7.0, z], 0.035, m.wood);
-
-  // Massive banded masonry piers carry the veranda roof through both storeys:
-  // brick shafts with grey block bands and white caps, per the photograph.
-  const pierAngles = [AM - 0.55, AM - 0.17, AM + 0.17, AM + 0.55];
-  for (const angle of pierAngles) {
-    const [px, pz] = at(angle, 7.0);
-    const ry = facing(angle);
-    box(0.56, 0.16, 0.56, px, 0.74, pz, m.concrete).rotation.y = ry;
-    let y = 0.82;
-    let brickBand = true;
-    while (y < 6.72) {
-      const h = Math.min(brickBand ? 0.72 : 0.24, 6.72 - y);
-      const band = box(brickBand ? 0.42 : 0.48, h, brickBand ? 0.42 : 0.48, px, y + h / 2, pz, brickBand ? m.brick : m.block);
-      band.rotation.y = ry;
-      y += h;
-      brickBand = !brickBand;
+  // Only the ground-floor rail opens for the stairs.
+  const stairHalfAngle = Math.asin(1.72 / (OUTER - 0.17));
+  for (const [a, b] of [[A0, AM - stairHalfAngle], [AM + stairHalfAngle, A1]]) {
+    for (let i = 0; i < 6; i++) {
+      railing(at3(a + (b - a) * i / 6, OUTER - 0.17, 0.72), at3(a + (b - a) * (i + 1) / 6, OUTER - 0.17, 0.72));
     }
-    box(0.58, 0.18, 0.58, px, 6.81, pz, m.trim).rotation.y = ry;
-    box(0.46, 0.26, 0.46, px, 6.99, pz, m.trim).rotation.y = ry;
   }
 
-  // Railings follow the curve; the ground level opens where the stair lands.
-  const stairOpen: [number, number] = [AM - 0.16, AM + 0.16];
-  for (let i = 0; i < 12; i++) {
-    const a = A0 + i * Math.PI / 24;
-    const b = A0 + (i + 1) * Math.PI / 24;
-    railing(at3(a, 7.12, 3.96), at3(b, 7.12, 3.96));
-    const mid = (a + b) / 2;
-    if (mid < stairOpen[0] || mid > stairOpen[1]) railing(at3(a, 7.12, 0.7), at3(b, 7.12, 0.7));
+  // Straight veranda sections reach the inner edges of the projecting wings.
+  function straightVeranda(mirrored = false) {
+    const porch = new THREE.Group();
+    root.add(porch);
+    // Reflect across x = -z. A quarter-turn alone puts the left extension
+    // toward the entrance instead of along the connector to the left gable.
+    porch.rotation.y = mirrored ? -Math.PI / 2 : 0;
+    porch.scale.x = mirrored ? -1 : 1;
+    box(3.5, 0.55, 2.95, 2, 0.275, 6.15, m.block, porch);
+    box(3.5, 0.11, 2.95, 2, 0.605, 6.15, m.concrete, porch);
+    box(3.5, 0.22, 2.95, 2, 3.86, 6.15, m.concrete, porch);
+    box(3.5, 0.055, 2.95, 2, 3.72, 6.15, m.wood, porch);
+    box(3.5, 0.25, 0.12, 2, 3.81, 7.63, m.paint, porch);
+    box(3.5, 0.08, 0.1, 2, 0.68, 7.63, m.paint, porch);
+    roofFace([0.25, 3.87, 7.75], [3.75, 3.87, 7.75], [3.75, 3.99, 7.44], [0.25, 3.99, 7.44], porch);
+    box(3.55, 0.09, 3.4, 2, 7.34, 6.3, m.wood, porch);
+    roofFace([0.25, 7.45, 8.1], [3.75, 7.45, 8.1], [3.75, 8.36, 4.65], [0.25, 8.36, 4.65], porch);
+    fretwork([0.25, 7.4, 8.1], [3.75, 7.4, 8.1], porch);
+    // Transform endpoints once so the shared railing helper can batch them.
+    const point = (x: number, y: number, z: number): Point => {
+      return mirrored ? [-z, y, -x] : [x, y, z];
+    };
+    for (const y of [0.72, 4.0]) {
+      railing(point(0.25, y, 7.45), point(3.65, y, 7.45));
+      railing(point(3.65, y, 7.45), point(3.65, y, 6.2));
+    }
+  }
+  straightVeranda();
+  straightVeranda(true);
+
+  // Two continuous brick piers flank the entrance, with brick collars at
+  // intervals instead of the former alternating gray blocks and white capitals.
+  for (const angle of [AM - 0.33, AM + 0.33]) {
+    const [px, pz] = at(angle, OUTER - 0.21);
+    const ry = facing(angle);
+    box(0.57, 0.18, 0.57, px, 0.75, pz, m.concrete).rotation.y = ry;
+    box(0.43, 6.45, 0.43, px, 4.02, pz, m.pier).rotation.y = ry;
+    for (let y = 1.25; y < 7.1; y += 0.88) {
+      box(0.52, 0.12, 0.52, px, y, pz, m.pier).rotation.y = ry;
+      box(0.48, 0.055, 0.48, px, y + 0.085, pz, m.pier).rotation.y = ry;
+    }
+    box(0.59, 0.17, 0.59, px, 7.23, pz, m.pier).rotation.y = ry;
+    const bracket = new THREE.Group();
+    root.add(bracket);
+    bracket.position.set(px, 5.58, pz);
+    bracket.rotation.y = ry;
+    beam([0, 0.32, 0.23], [0, 0.14, 0.36], 0.018, m.copper, bracket);
+    const sconce = mesh(new THREE.SphereGeometry(0.085, 10, 8), m.brass, bracket);
+    sconce.position.set(0, 0.08, 0.36);
+    sconce.scale.y = 1.55;
   }
 
-  // A fanned concrete stair descends radially from the centre bay.
+  // Broad parallel treads and a landing, aligned with the entrance door.
+  const stairs = new THREE.Group();
+  root.add(stairs);
+  const stairPos = at(AM, 7.28);
+  stairs.position.set(stairPos[0], 0, stairPos[1]);
+  stairs.rotation.y = facing(AM);
+  box(3.48, 0.66, 1.26, 0, 0.33, -0.25, m.concrete, stairs);
   for (let i = 0; i < 5; i++) {
     const height = (5 - i) * 0.125;
-    const [sx, sz] = at(AM, 7.54 + i * 0.38);
-    const step = box(1.9 + i * 0.5, height, 0.39, sx, height / 2, sz, m.concrete);
-    step.rotation.y = facing(AM);
-    const nose = box(1.96 + i * 0.5, 0.045, 0.43, sx, height, sz, m.trim);
-    nose.rotation.y = facing(AM);
+    box(3.48, height, 0.4, 0, height / 2, 0.54 + i * 0.37, m.concrete, stairs);
+    box(3.5, 0.035, 0.43, 0, height, 0.54 + i * 0.37, m.concrete, stairs);
   }
-  for (const s of [-1, 1]) {
-    railing(
-      [CX + Math.cos(AM) * 7.5 - Math.sin(AM) * s * 1.2, 0.68, CZ + Math.sin(AM) * 7.5 + Math.cos(AM) * s * 1.2],
-      [CX + Math.cos(AM) * 9.4 - Math.sin(AM) * s * 2.25, 0.15, CZ + Math.sin(AM) * 9.4 + Math.cos(AM) * s * 2.25],
-    );
+  for (const side of [-1, 1]) {
+    const a = new THREE.Vector3(side * 1.72, 0.67, 0.15).applyAxisAngle(new THREE.Vector3(0, 1, 0), facing(AM)).add(stairs.position);
+    const b = new THREE.Vector3(side * 1.72, 0.13, 2.13).applyAxisAngle(new THREE.Vector3(0, 1, 0), facing(AM)).add(stairs.position);
+    railing([a.x, a.y, a.z], [b.x, b.y, b.z]);
   }
 
-  // Curved canopy band ends against the wings; the faceted corner roof rises
-  // above it, like the round roof in the sheet's isometric view.
-  for (let i = 0; i < 12; i++) {
-    const a = A0 - 0.005 + (i / 12) * (A1 - A0 + 0.01);
-    const b = A0 - 0.005 + ((i + 1) / 12) * (A1 - A0 + 0.01);
-    roofFace(at3(a, 7.9, 7.2), at3(b, 7.9, 7.2), at3(b, 5.6, 8.0), at3(a, 5.6, 8.0));
-    beam(at3(a, 7.9, 7.15), at3(b, 7.9, 7.15), 0.073, m.trim);
+  // A raised window drum separates the curved canopy from its pointed cap.
+  // The cap sits between the enlarged gables, above the lower canopy.
+  const CANOPY = 8.1;
+  const roofInset = 0.3;
+  const roofAt = (angle: number, radius: number, y: number): Point => [
+    CX + roofInset + radius * Math.cos(angle), y,
+    CZ - roofInset + radius * Math.sin(angle),
+  ];
+  for (let i = 0; i < 18; i++) {
+    const a = A0 + i / 18 * (A1 - A0);
+    const b = A0 + (i + 1) / 18 * (A1 - A0);
+    roofFace(at3(a, CANOPY, 7.45), at3(b, CANOPY, 7.45), roofAt(b, 3.6, 8.5), roofAt(a, 3.6, 8.5));
+    fretwork(at3(a, CANOPY, 7.4), at3(b, CANOPY, 7.4));
   }
-  // The band continues straight over each porch extension, ending against the
-  // gabled wings with fascia returns.
-  roofFace([0.25, 7.2, 7.65], [3.75, 7.2, 7.65], [3.75, 8.0, 5.35], [0.25, 8.0, 5.35]);
-  beam([0.25, 7.15, 7.65], [3.75, 7.15, 7.65], 0.073, m.trim);
-  polygon([[3.75, 7.2, 7.65], [3.75, 7.2, 5.35], [3.75, 8.0, 5.35]], m.trim);
-  roofFace([-7.65, 7.2, -0.25], [-7.65, 7.2, -3.75], [-5.35, 8.0, -3.75], [-5.35, 8.0, -0.25]);
-  beam([-7.65, 7.15, -0.25], [-7.65, 7.15, -3.75], 0.073, m.trim);
-  polygon([[-7.65, 7.2, -3.75], [-5.35, 8.0, -3.75], [-5.35, 7.2, -3.75]], m.trim);
-  for (let i = 0; i < 20; i++) {
-    const a = (i / 20) * Math.PI * 2;
-    const b = ((i + 1) / 20) * Math.PI * 2;
-    roofFace(at3(a, 5.6, 8.0), at3(b, 5.6, 8.0), at3(b, 0.28, 9.5), at3(a, 0.28, 9.5));
+  ringSector(4.7, CANOPY - 0.05, A0, A1, 7.36, 0.08, m.wood);
+  const drum = ringSector(3.3, 3.6, A0 - 0.06, A1 + 0.06, 9.47, 1.02, m.wood);
+  drum.position.set(roofInset, 0, -roofInset);
+  function smallRoofWindow(position: Point, rotation: number) {
+    const clerestory = new THREE.Group();
+    root.add(clerestory);
+    clerestory.position.set(...position);
+    clerestory.rotation.y = rotation;
+    box(0.5, 0.57, 0.07, 0, 0.285, 0, m.trim, clerestory);
+    box(0.37, 0.44, 0.04, 0, 0.285, 0.06, m.glass, clerestory);
+    box(0.035, 0.44, 0.06, 0, 0.285, 0.09, m.trim, clerestory);
+    box(0.37, 0.035, 0.06, 0, 0.285, 0.09, m.trim, clerestory);
   }
-  // A curved clerestory drum with a row of small windows rises over the bay,
-  // capped by its own swept roof, as in the photograph.
-  ringSector(3.5, 3.78, A0 - 0.05, A1 + 0.05, 9.35, 1.1, m.wood);
   for (let i = -3; i <= 3; i++) {
-    const angle = AM + i * 0.155;
-    const [wx, wz] = at(angle, 3.79);
-    windowAt(wx, 8.52, wz, facing(angle), false, 0.4, 0.55);
+    const angle = AM + i * 0.19;
+    smallRoofWindow(roofAt(angle, 3.63, 8.68), facing(angle));
   }
-  for (let i = 0; i < 20; i++) {
-    const a = (i / 20) * Math.PI * 2;
-    const b = ((i + 1) / 20) * Math.PI * 2;
-    roofFace(at3(a, 4.15, 9.25), at3(b, 4.15, 9.25), at3(b, 0.3, 10.15), at3(a, 0.3, 10.15));
-    if (a > A0 - 0.2 && a < A1 + 0.2) beam(at3(a, 4.15, 9.22), at3(b, 4.15, 9.22), 0.06, m.trim);
+  // Continue the curved window band tangentially into the right gabled roof.
+  // Its endpoint overlaps the roof slope so no exposed gap remains.
+  const bandStart = CX + roofInset;
+  const bandEnd = 5.52;
+  const bandFront = CZ - roofInset + 3.6;
+  box(bandEnd - bandStart, 1.02, 0.3, (bandStart + bandEnd) / 2, 8.96, bandFront - 0.15, m.wood);
+  smallRoofWindow(roofAt(A0 + 0.035, 3.63, 8.68), facing(A0 + 0.035));
+  for (let i = 0; i < 6; i++) smallRoofWindow([bandStart + 0.57 + i * 0.7, 8.68, bandFront + 0.03], 0);
+  const peak: Point = [CX + roofInset, 10.95, CZ - roofInset];
+  for (let i = 0; i < 40; i++) {
+    const a = i / 40 * Math.PI * 2;
+    const b = (i + 1) / 40 * Math.PI * 2;
+    roofFace(roofAt(a, 3.93, 9.45), roofAt(b, 3.93, 9.45), peak, peak);
+    if (a >= A0 - 0.16 && b <= A1 + 0.16) fretwork(roofAt(a, 3.93, 9.4), roofAt(b, 3.93, 9.4));
   }
-  const capMesh = mesh(new THREE.CylinderGeometry(0.32, 0.32, 0.06, 20), m.seam);
-  capMesh.position.set(CX, 10.16, CZ);
+  // Carry the cap and fascia over the new window band into the gable slope.
+  const capFront = bandFront + 0.33;
+  const capBack = CZ - roofInset - 3.93;
+  const roofJoin: Point = [6, 9.92, CZ - roofInset];
+  roofFace([bandStart, 9.45, capFront], [bandEnd, 9.45, capFront], roofJoin, peak);
+  roofFace([bandEnd, 9.45, capBack], [bandStart, 9.45, capBack], peak, roofJoin);
+  fretwork([bandStart, 9.4, capFront], [bandEnd, 9.4, capFront]);
+  box(bandEnd - bandStart, 0.06, 0.64, (bandStart + bandEnd) / 2, 9.39, bandFront, m.wood);
+  const ridgeCap = mesh(new THREE.SphereGeometry(0.075, 8, 6), m.seam);
+  ridgeCap.position.set(...peak);
 
-  // Timber ceiling boards and radial joists under the balcony canopy.
-  ringSector(4.7, 7.35, A0, A1, 7.12, 0.07, m.wood);
-  for (let i = 0; i <= 16; i++) {
-    const angle = A0 + 0.05 + (i / 16) * (A1 - A0 - 0.1);
-    beam(at3(angle, 4.8, 7.0), at3(angle, 7.25, 7.0), 0.035, m.wood);
+  // Small flush ceiling lights, visible from the low reference-photo angles.
+  for (const angle of [AM - 0.48, AM, AM + 0.48]) {
+    const [x, z] = at(angle, 6.65);
+    const light = mesh(new THREE.CylinderGeometry(0.085, 0.085, 0.025, 12), m.trim);
+    light.position.set(x, 7.265, z);
   }
 
-  // Hammered copper pendants hang under the canopy.
-  for (const angle of [AM - Math.PI / 8, AM, AM + Math.PI / 8]) {
-    const [px, pz] = at(angle, 6.15);
-    beam([px, 7.1, pz], [px, 6.62, pz], 0.014, m.copper);
-    const shade = mesh(new THREE.SphereGeometry(0.17, 14, 7, 0, Math.PI * 2, 0, Math.PI / 2), m.copper);
-    shade.position.set(px, 6.55, pz);
-    const bulb = mesh(new THREE.SphereGeometry(0.055, 8, 6), m.brass);
-    bulb.position.set(px, 6.52, pz);
+  // A few pots and one fan palm give scale without obscuring the elevations.
+  function planter(x: number, z: number, index: number) {
+    const h = 0.25 + index % 3 * 0.055;
+    const pot = mesh(new THREE.CylinderGeometry(0.18, 0.125, h, 12), index % 4 === 0 ? m.turquoise : m.pot);
+    pot.position.set(x, h / 2 + 0.03, z);
+    const rim = mesh(new THREE.TorusGeometry(0.18, 0.022, 5, 12), index % 4 === 0 ? m.turquoise : m.pot);
+    rim.rotation.x = Math.PI / 2;
+    rim.position.set(x, h + 0.03, z);
+    const earth = mesh(new THREE.CylinderGeometry(0.155, 0.155, 0.025, 12), m.soil);
+    earth.position.set(x, h + 0.01, z);
+    for (let i = 0; i < 6; i++) {
+      const angle = i * 2.4 + index;
+      const tip: Point = [x + Math.cos(angle) * 0.19, h + 0.24 + i % 3 * 0.07, z + Math.sin(angle) * 0.19];
+      beam([x, h, z], tip, 0.009, m.leaf);
+      const leaf = mesh(new THREE.SphereGeometry(0.09, 6, 4), m.leaf);
+      leaf.position.set(...tip);
+      leaf.scale.set(0.55, 1, 0.35);
+      leaf.rotation.z = angle;
+    }
+  }
+  for (let i = 0; i < 6; i++) {
+    planter(3.9 + i * 0.68, 6.67, i);
+    planter(-6.67, -3.9 - i * 0.68, i + 2);
+  }
+  for (const side of [-1, 1]) {
+    const p = at(AM + side * 0.28, 8.4);
+    planter(p[0], p[1], side + 3);
+  }
+  const palmX = 7.6;
+  const palmZ = 8.8;
+  beam([palmX, 0, palmZ], [palmX - 0.12, 1.65, palmZ], 0.12, m.wood);
+  for (let i = 0; i < 11; i++) {
+    const angle = i * Math.PI * 2 / 11;
+    const origin: Point = [palmX - 0.12, 1.6, palmZ];
+    const mid: Point = [origin[0] + Math.cos(angle) * 0.75, 1.95 + i % 2 * 0.14, origin[2] + Math.sin(angle) * 0.75];
+    beam(origin, mid, 0.012, m.leaf);
+    for (let finger = -4; finger <= 4; finger++) {
+      const direction = angle + finger * 0.115;
+      const tip: Point = [mid[0] + Math.cos(direction) * 0.63, 1.66 - Math.abs(finger) * 0.025, mid[2] + Math.sin(direction) * 0.63];
+      polygon([mid, [tip[0] - Math.sin(direction) * 0.035, tip[1], tip[2] + Math.cos(direction) * 0.035], [tip[0] + Math.sin(direction) * 0.035, tip[1], tip[2] - Math.cos(direction) * 0.035]], m.leaf);
+    }
   }
 
   // Static geometry is batched by material to keep orbiting inexpensive on phones.
@@ -471,6 +644,20 @@ export function createHouseModel(m: HouseMaterials) {
     if (!(object instanceof THREE.Mesh)) return;
     const geometry = object.geometry.index ? object.geometry.toNonIndexed() : object.geometry.clone();
     geometry.applyMatrix4(object.matrixWorld);
+    // Baking a reflection into a batch also requires reversing triangle winding.
+    // Otherwise the mirrored veranda's walls and ceilings render inside out.
+    if (object.matrixWorld.determinant() < 0) {
+      for (const name of Object.keys(geometry.attributes)) {
+        const attribute = geometry.getAttribute(name);
+        for (let i = 0; i < attribute.count; i += 3) {
+          for (let component = 0; component < attribute.itemSize; component++) {
+            const first = attribute.getComponent(i, component);
+            attribute.setComponent(i, component, attribute.getComponent(i + 2, component));
+            attribute.setComponent(i + 2, component, first);
+          }
+        }
+      }
+    }
     // All source geometry has position, normal and UV; remove optional attributes.
     for (const key of Object.keys(geometry.attributes)) {
       if (!["position", "normal", "uv"].includes(key)) geometry.deleteAttribute(key);

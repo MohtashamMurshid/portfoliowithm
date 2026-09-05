@@ -27,9 +27,9 @@ export class HouseEngine {
       this.renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.75));
       this.renderer.outputColorSpace = THREE.SRGBColorSpace;
       this.renderer.toneMapping = THREE.ACESFilmicToneMapping;
-      this.renderer.toneMappingExposure = 1.15;
+      this.renderer.toneMappingExposure = 1.02;
       this.renderer.shadowMap.enabled = true;
-      this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+      this.renderer.shadowMap.type = THREE.PCFShadowMap;
       this.scene.background = new THREE.Color("#f3f0e8");
       this.scene.fog = new THREE.Fog("#f3f0e8", 65, 135);
 
@@ -41,8 +41,8 @@ export class HouseEngine {
       room.dispose();
       pmrem.dispose();
 
-      this.scene.add(new THREE.HemisphereLight("#e4eef3", "#a18b70", 2.2));
-      const sun = new THREE.DirectionalLight("#fff0d5", 3.3);
+      this.scene.add(new THREE.HemisphereLight("#e8edf0", "#8b806d", 1.8));
+      const sun = new THREE.DirectionalLight("#fff5e7", 2.7);
       sun.position.set(-12, 22, 15);
       sun.castShadow = true;
       sun.shadow.mapSize.set(2048, 2048);
@@ -65,7 +65,7 @@ export class HouseEngine {
       this.scene.add(ground);
 
       this.controls = new OrbitControls(this.camera, canvas);
-      this.controls.target.set(1.4, 3.9, -1.4);
+      this.controls.target.set(0.5, 4.3, -0.5);
       this.controls.enablePan = false;
       this.controls.enableDamping = !this.motion.matches;
       this.controls.dampingFactor = 0.09;
@@ -101,7 +101,7 @@ export class HouseEngine {
     this.camera.updateProjectionMatrix();
     this.renderer.setSize(width, height, false);
     const tangent = Math.tan(THREE.MathUtils.degToRad(this.camera.fov / 2));
-    this.fitDistance = Math.max(7.4 / tangent, 13 / (tangent * this.camera.aspect)) + 4;
+    this.fitDistance = Math.max(9.0 / tangent, 14.5 / (tangent * this.camera.aspect)) + 4;
     this.controls.maxDistance = Math.max(58, this.fitDistance * 1.7);
     if (!this.hasSized) {
       this.hasSized = true;
@@ -122,7 +122,7 @@ export class HouseEngine {
     this.controls.update();
     // "Perspective" faces the curved corner bay; "back" faces the opposite corner.
     const theta = view === "front" ? 0 : view === "back" ? Math.PI * 0.75 : -Math.PI / 4;
-    const phi = view === "perspective" ? 1.24 : 1.4;
+    const phi = view === "perspective" ? 1.39 : 1.43;
     const offset = new THREE.Vector3().setFromSpherical(new THREE.Spherical(this.fitDistance, phi, theta));
     this.camera.position.copy(this.controls.target).add(offset);
     this.controls.update();
