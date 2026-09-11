@@ -2,7 +2,7 @@ import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import PortfolioImage from "@/components/PortfolioImage";
 import type { EventCaseStudy as EventCaseStudyRecord } from "@/lib/eventCaseStudies";
-import { siteUrl } from "@/lib/site";
+import { siteUrl, toIsoDateTime } from "@/lib/site";
 import styles from "./EventCaseStudy.module.css";
 
 type EventCaseStudyProps = {
@@ -20,8 +20,8 @@ export default function EventCaseStudy({ event, previous, next }: EventCaseStudy
     url: `${siteUrl}/events/${event.slug}`,
     mainEntityOfPage: `${siteUrl}/events/${event.slug}`,
     image: `${siteUrl}${event.image}`,
-    datePublished: event.datePublished,
-    dateModified: event.dateModified,
+    datePublished: toIsoDateTime(event.datePublished),
+    dateModified: toIsoDateTime(event.dateModified),
     author: {
       "@type": "Person",
       "@id": `${siteUrl}/#person`,

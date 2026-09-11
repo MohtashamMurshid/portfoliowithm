@@ -2,6 +2,7 @@
 
 import Image from "@/components/PortfolioImage";
 import { motion, type MotionProps } from "framer-motion";
+import Link from "next/link";
 import { useEffect, useRef } from "react";
 import {
   reducedMotionMediaQuery,
@@ -130,7 +131,14 @@ function DraggableObject({
   );
 }
 
-export default function HeroExperience() {
+type HeroExperienceProps = {
+  latestPost: {
+    slug: string;
+    title: string;
+  };
+};
+
+export default function HeroExperience({ latestPost }: HeroExperienceProps) {
   const reduceMotion = usePrefersReducedMotion();
 
   return (
@@ -203,6 +211,17 @@ export default function HeroExperience() {
 
       <FutureLetter />
       <ProjectCollage />
+      <section className={styles.latestWriting} aria-labelledby="latest-writing-title">
+        <div>
+          <p>Latest writing</p>
+          <h2 id="latest-writing-title">
+            <Link href={`/blog/${latestPost.slug}`}>{latestPost.title}</Link>
+          </h2>
+          <Link className={styles.readLatest} href={`/blog/${latestPost.slug}`}>
+            Read the article <span aria-hidden="true">→</span>
+          </Link>
+        </div>
+      </section>
       <ContactCta />
 
       <span id="about" className={styles.anchor} aria-hidden="true" />

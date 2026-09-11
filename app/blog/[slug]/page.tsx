@@ -11,7 +11,7 @@ import {
   getBlogPostBody,
 } from "@/lib/blogPosts";
 import { getOgImage } from "@/lib/ogImage";
-import { pageAlternates } from "@/lib/site";
+import { pageAlternates, toIsoDateTime } from "@/lib/site";
 import styles from "./article.module.css";
 
 type BlogPostPageProps = {
@@ -38,8 +38,8 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
       title: post.title,
       description: post.description,
       type: "article",
-      publishedTime: post.date,
-      modifiedTime: post.modifiedDate,
+      publishedTime: toIsoDateTime(post.date),
+      modifiedTime: toIsoDateTime(post.modifiedDate),
       authors: ["Mohtasham Murshid Madani"],
       url: `/blog/${post.slug}`,
       images: [ogImage],
@@ -64,8 +64,8 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
     "@type": "BlogPosting",
     headline: post.title,
     description: post.description,
-    datePublished: post.date,
-    dateModified: post.modifiedDate,
+    datePublished: toIsoDateTime(post.date),
+    dateModified: toIsoDateTime(post.modifiedDate),
     url: `https://www.mohtasham.dev/blog/${post.slug}`,
     mainEntityOfPage: `https://www.mohtasham.dev/blog/${post.slug}`,
     image: {

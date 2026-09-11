@@ -5,7 +5,7 @@ import SwaggerParser from "@apidevtools/swagger-parser";
 import { XMLParser, XMLValidator } from "fast-xml-parser";
 import sitemap from "../../app/sitemap";
 import { blogPosts, getBlogPostBody } from "../../lib/blogPosts";
-import { siteUrl } from "../../lib/site";
+import { siteUrl, toIsoDateTime } from "../../lib/site";
 
 const paths = [...new Set([
   ...sitemap().map((entry) => new URL(entry.url).pathname),
@@ -248,6 +248,9 @@ test("API errors are typed JSON problems with recovery guidance", async ({ reque
 test("identity and developer discovery are present in server-rendered HTML", async ({ page }) => {
   await page.goto("/");
   await expect(page).toHaveTitle(/Mohtasham's Portfolio.*Mohtasham Murshid Madani/);
+  const latestPost = [...blogPosts].sort((left, right) => right.date.localeCompare(left.date))[0];
+  const latestWriting = page.locator('section[aria-labelledby="latest-writing-title"]');
+  await expect(latestWriting.locator(`a[href="/blog/${latestPost.slug}"]`).first()).toContainText(latestPost.shortTitle);
   await expect(page.getByRole("link", { name: "Developer resources" })).toHaveAttribute("href", "/developers");
   const schemas = await page.locator('script[type="application/ld+json"]').evaluateAll((scripts) => scripts.map((s) => JSON.parse(s.textContent ?? "")));
   const person = schemas.find((s) => s["@type"] === "Person");
@@ -261,6 +264,18 @@ test("identity and developer discovery are present in server-rendered HTML", asy
   const website = schemas.find((s) => s["@type"] === "WebSite");
   expect(website.name).toBe("Mohtasham's Portfolio");
   expect(website.hasPart.url).toBe(`${siteUrl}/developers`);
+
+  await page.goto("/about");
+  const profilePage = await page.locator('script[type="application/ld+json"]')
+    .evaluateAll((scripts) => scripts.map((script) => JSON.parse(script.textContent ?? "")))
+    .then((items) => items.find((item) => item["@type"] === "ProfilePage"));
+  expect(profilePage).toMatchObject({
+    mainEntity: { "@id": `${siteUrl}/#person` },
+    dateModified: toIsoDateTime("2026-08-27"),
+  });
+  expect(profilePage.dateModified).toMatch(
+    /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?(?:Z|[+-]\d{2}:\d{2})$/,
+  );
 
   await page.goto("/developers");
   await expect(page.getByRole("heading", { level: 1 })).toHaveText("Mohtasham developer resources");

@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import EventCaseStudy from "@/components/events/EventCaseStudy";
 import { eventCaseStudies, getEventCaseStudy } from "@/lib/eventCaseStudies";
-import { pageAlternates, siteUrl } from "@/lib/site";
+import { pageAlternates, siteUrl, toIsoDateTime } from "@/lib/site";
 
 type EventPageProps = {
   params: Promise<{ slug: string }>;
@@ -29,8 +29,8 @@ export async function generateMetadata({ params }: EventPageProps): Promise<Meta
       description: event.seoDescription,
       type: "article",
       url: `/events/${event.slug}`,
-      publishedTime: event.datePublished,
-      modifiedTime: event.dateModified,
+      publishedTime: toIsoDateTime(event.datePublished),
+      modifiedTime: toIsoDateTime(event.dateModified),
       authors: ["Mohtasham Murshid Madani"],
       images: [{ url: image, alt: event.imageAlt }],
     },

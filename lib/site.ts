@@ -9,6 +9,10 @@ export const defaultDescription =
   "Mohtasham Murshid Madani is a founder and AI engineer in Kuala Lumpur exploring how artificial intelligence can change the way we live.";
 export const rssPath = "/rss.xml";
 
+export function toIsoDateTime(value: string) {
+  return /^\d{4}-\d{2}-\d{2}$/.test(value) ? `${value}T00:00:00Z` : value;
+}
+
 export function markdownPath(pathname: string) {
   const path = new URL(pathname, siteUrl).pathname.replace(/\/$/, "");
   return `${path}/index.md`;

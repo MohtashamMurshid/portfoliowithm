@@ -36,7 +36,7 @@ npm run test:e2e
 4. Run `npm run lint` and `npm run build`, then commit, push, and deploy the portfolio.
 5. Check the new article, `/blog`, `/sitemap.xml`, and `/rss.xml` on the live site.
 
-The newest publication becomes the featured article and the first entry in the blog list and RSS feed. Editing an older article does not move it above newer publications. The sitemap includes registered posts automatically, and the blog index's modification date follows the latest publication or update, with a baseline for edits to the index itself. When changing the index layout or removing a post, update `blogIndexUpdated` in `app/sitemap.ts` to the date of that change.
+The newest publication becomes the featured article, the first entry in the blog list and RSS feed, and the latest-writing link on the home page. Editing an older article does not move it above newer publications. The sitemap includes registered posts automatically, and the blog index's modification date follows the latest publication or update, with a baseline for edits to the index itself. When changing the index layout or removing a post, update `blogIndexUpdated` in `app/sitemap.ts` to the date of that change.
 
 ## Search Console
 

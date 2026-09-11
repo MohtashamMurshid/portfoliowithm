@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { getOgImage } from "@/lib/ogImage";
-import { pageAlternates } from "@/lib/site";
+import { pageAlternates, toIsoDateTime } from "@/lib/site";
 import AboutExperience from "./AboutExperience";
 
 const siteUrl = "https://www.mohtasham.dev";
@@ -14,7 +14,7 @@ const profilePageSchema = {
   "@id": `${siteUrl}/about#profile-page`,
   url: `${siteUrl}/about`,
   name: "About Mohtasham Murshid Madani",
-  dateModified: "2026-08-27",
+  dateModified: toIsoDateTime("2026-08-27"),
   mainEntity: {
     "@id": `${siteUrl}/#person`,
   },

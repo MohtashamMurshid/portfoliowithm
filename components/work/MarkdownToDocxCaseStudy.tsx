@@ -2,6 +2,7 @@ import Image from "@/components/PortfolioImage";
 import Link from "next/link";
 import { ViewTransition, type ReactNode } from "react";
 import type { Project } from "@/lib/projects";
+import { toIsoDateTime } from "@/lib/site";
 import styles from "./MarkdownToDocxCaseStudy.module.css";
 
 const apiExample = `import { convertMarkdownToDocx } from "@mohtasham/md-to-docx";
@@ -402,8 +403,8 @@ export default async function MarkdownToDocxCaseStudy({ project }: MarkdownToDoc
             url: "https://www.mohtasham.dev/work/markdown-to-docx",
             mainEntityOfPage: "https://www.mohtasham.dev/work/markdown-to-docx",
             image: "https://www.mohtasham.dev/projects/md-to-docx.png",
-            datePublished: project.datePublished,
-            dateModified: project.dateModified,
+            datePublished: toIsoDateTime(project.datePublished),
+            dateModified: toIsoDateTime(project.dateModified),
             author: {
               "@type": "Person",
               "@id": "https://www.mohtasham.dev/#person",

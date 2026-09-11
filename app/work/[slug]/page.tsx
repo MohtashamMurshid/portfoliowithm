@@ -6,7 +6,7 @@ import GitHubProjectCaseStudy from "@/components/work/GitHubProjectCaseStudy";
 import MarkdownToDocxCaseStudy from "@/components/work/MarkdownToDocxCaseStudy";
 import { githubCaseStudies } from "@/lib/githubCaseStudies";
 import { getOgImage } from "@/lib/ogImage";
-import { pageAlternates } from "@/lib/site";
+import { pageAlternates, siteUrl, toIsoDateTime } from "@/lib/site";
 import { getProject, projects } from "@/lib/projects";
 
 type WorkPageProps = {
@@ -34,8 +34,8 @@ export async function generateMetadata({ params }: WorkPageProps): Promise<Metad
       description: project.summary,
       type: "article",
       url: `/work/${project.slug}`,
-      publishedTime: project.datePublished,
-      modifiedTime: project.dateModified,
+      publishedTime: toIsoDateTime(project.datePublished),
+      modifiedTime: toIsoDateTime(project.dateModified),
       images: [ogImage],
     },
     twitter: {
@@ -113,16 +113,16 @@ export default async function WorkPage({ params }: WorkPageProps) {
             "@type": "CreativeWork",
             name: project.name,
             description: project.description,
-            url: `https://www.mohtasham.dev/work/${project.slug}`,
-            image: `https://www.mohtasham.dev${project.image}`,
-            dateCreated: project.datePublished,
-            dateModified: project.dateModified,
+            url: `${siteUrl}/work/${project.slug}`,
+            image: `${siteUrl}${project.image}`,
+            dateCreated: toIsoDateTime(project.datePublished),
+            dateModified: toIsoDateTime(project.dateModified),
             sameAs: project.url,
             creator: {
               "@type": "Person",
-              "@id": "https://www.mohtasham.dev/#person",
+              "@id": `${siteUrl}/#person`,
               name: "Mohtasham Murshid Madani",
-              url: "https://www.mohtasham.dev/about",
+              url: `${siteUrl}/about`,
             },
           }),
         }}

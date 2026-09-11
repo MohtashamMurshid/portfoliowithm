@@ -1,6 +1,7 @@
 import Image from "@/components/PortfolioImage";
 import Link from "next/link";
 import { ViewTransition, type ReactNode } from "react";
+import { toIsoDateTime } from "@/lib/site";
 import styles from "./GitHubProjectCaseStudy.module.css";
 
 export type GitHubProjectImage = {
@@ -211,8 +212,8 @@ export default function GitHubProjectCaseStudy({
     url: project.pageUrl,
     mainEntityOfPage: project.pageUrl,
     image: new URL(project.image.src, project.pageUrl).toString(),
-    ...(datePublished ? { datePublished } : {}),
-    ...(dateModified ? { dateModified } : {}),
+    ...(datePublished ? { datePublished: toIsoDateTime(datePublished) } : {}),
+    ...(dateModified ? { dateModified: toIsoDateTime(dateModified) } : {}),
     author: {
       "@type": "Person",
       name: author.name,

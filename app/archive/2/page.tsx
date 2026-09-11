@@ -70,7 +70,7 @@ export default async function ArchivedReportPage() {
               name: "Mohtasham Murshid Madani",
               url: "https://www.mohtasham.dev",
             },
-            datePublished: "2026",
+            datePublished: "2026-01-01T00:00:00Z",
             description:
               "A portfolio presented as an archival field report about software, artificial intelligence, design, open-source tools, writing, and visual work.",
           }),
