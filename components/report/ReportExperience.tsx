@@ -248,7 +248,7 @@ export default function ReportExperience({ npmDownloadText }: ReportExperiencePr
             <h2>getdesign</h2>
             <p className="report-deck">A screenshot and design.md from any URL.</p>
             <p>
-              Given a URL, getdesign screenshots the live page and returns design.md grounded in the site's CSS. The same agent core runs on the web, API, CLI, SDK, and as a portable skill.
+              Given a URL, getdesign screenshots the live page and returns design.md grounded in actual CSS. The same agent core runs on the web, API, CLI, SDK, and as a portable skill.
             </p>
             <Link className="report-text-link" href="/work/getdesign">
               Open full dossier <ArrowUpRight aria-hidden="true" />
