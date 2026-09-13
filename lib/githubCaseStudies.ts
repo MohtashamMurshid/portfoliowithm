@@ -855,7 +855,7 @@ python3 scripts/validate-skills.py`,
     metadata: [
       { title: "My work", items: ["Founder", "Built alone", "AI agent collaboration"] },
       { title: "Current access", items: ["Public beta", "Web, API, CLI, SDK, Skill", "BYOK"] },
-      { title: "September 2026", items: ["Public beta live", "Waitlist launched", "51 GitHub stars"] },
+      { title: "September 2026", items: ["Public beta live", "Hosted cursor.com extract", "51 GitHub stars"] },
     ],
     sections: [
       {
@@ -877,7 +877,7 @@ python3 scripts/validate-skills.py`,
       {
         title: "What works today and what still breaks",
         paragraphs: [
-          "The public beta is live. Sign in at dashboard.getdesign.app with WorkOS, add your own Daytona and OpenAI keys, and run a URL. getdesign does not bill those runs yet. Pricing is coming. Until then the product is BYOK: you pay Daytona and OpenAI directly.",
+          "The public beta is live, including the hosted web product. Sign in at dashboard.getdesign.app with WorkOS, add your own Daytona and OpenAI keys, and run a URL. I used that path to extract cursor.com. getdesign does not bill those runs yet. Pricing is coming. Until then the product is BYOK: you pay Daytona and OpenAI directly.",
           "The weakest part is still fetching the page source and CSS. Some sites render most of their interface on the server. Others inject styles after JavaScript runs, lazy-load assets, hide files behind authentication, or ship more CSS than the fetcher can reasonably process. Complex pages can stall the capture. The screenshot shows what appeared, but the crawler may still miss the rule that produced it.",
           "I announced the public beta on LinkedIn, X, and Show HN, and I sent the first waitlist emails. getdesign stays open source. Oikina still gets most of my time.",
         ],

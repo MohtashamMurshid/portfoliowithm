@@ -128,8 +128,8 @@ export const projects: Project[] = [
     eyebrow: "Design extraction agent",
     summary: "An agent that screenshots a live site and writes design.md, so coding agents can copy designs from the best designers in the world.",
     description:
-      "Hand getdesign a URL. It captures the live page in a real browser and returns a screenshot plus a CSS-backed design.md. The public beta is live across web, API, CLI, SDK, and an agent skill. Runs are BYOK: you bring Daytona and OpenAI keys. getdesign does not bill runs yet.",
-    evidence: ["Public beta", "BYOK (Daytona + OpenAI)", "Web, API, CLI, SDK, Skill", "Waitlist launched"],
+      "Hand getdesign a URL. It captures the live page in a real browser and returns a screenshot plus a CSS-backed design.md. The public beta is live across web, API, CLI, SDK, and an agent skill, including the hosted dashboard. I extracted cursor.com there with BYOK. getdesign does not bill runs yet.",
+    evidence: ["Public beta", "BYOK (Daytona + OpenAI)", "Web, API, CLI, SDK, Skill", "Hosted cursor.com extract"],
     image: "/projects/getdesign.png",
     imageAlt: "A getdesign interface showing an extracted design system",
     datePublished: "2026-07-20",
