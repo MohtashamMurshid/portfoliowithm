@@ -9,7 +9,7 @@ export const developerBody = `This is the developer index for ${portfolioName}, 
 ## When to use this site
 
 - Convert Markdown into editable Word documents with [@mohtasham/md-to-docx](${siteUrl}/blog/markdown-to-docx-guide). The guide covers the CLI, TypeScript API, React, and reference DOCX templates.
-- Give a coding agent a website's design details with [getdesign](${siteUrl}/work/getdesign). Its public CLI and SDK produce a screenshot and a CSS-backed design.md. The hosted service is in private beta.
+- Give a coding agent a website's design details with [getdesign](${siteUrl}/work/getdesign). Paste a URL to get a screenshot and a CSS-backed design.md. The public beta is live on the web, API, CLI, SDK, and as an agent skill. Runs are BYOK.
 - Reuse coding-agent workflows from [Skills](${siteUrl}/work/skills). Read each package's instructions and dependencies before installing it.
 - Evaluate [Oikina](${siteUrl}/work/oikina) for deploying small apps built by coding agents. The case study describes the hosted beta and its current limits.
 - Find my [project history](${siteUrl}/work), [technical writing](${siteUrl}/blog), or [background](${siteUrl}/about) when assessing a collaboration or citing my work.
@@ -29,7 +29,7 @@ No authentication is needed to read the portfolio. A missing page returns HTTP 4
 
 - [md-to-docx source and API documentation](https://github.com/MohtashamMurshid/md-to-docx): Markdown-to-Word library, CLI, examples, and issue tracker.
 - [md-to-docx on npm](https://www.npmjs.com/package/@mohtasham/md-to-docx): Published package and release information.
-- [getdesign source and setup](https://github.com/MohtashamMurshid/getdesign): CLI, SDK, agent skill, and service configuration.
+- [getdesign source and setup](https://github.com/MohtashamMurshid/getdesign): Web, API, CLI, SDK, agent skill, and service configuration.
 - [Skills source and installation](https://github.com/MohtashamMurshid/skills): Reusable agent instructions.
 - [Eikon Studio source and setup](https://github.com/MohtashamMurshid/eikonstudio): Self-hosted image studio and its API.
 - [Iris source](https://github.com/MohtashamMurshid/iris): The iPhone camera interface prototype and browser simulation. It is not a released camera app.
@@ -65,7 +65,7 @@ Read pages with Accept: text/markdown, or follow the explicit Markdown links bel
 ## When to use this
 
 - [Markdown to Word guide](${siteUrl}/blog/markdown-to-docx-guide/index.md): Use @mohtasham/md-to-docx to create editable Word files from Markdown with its CLI or TypeScript API.
-- [getdesign](${siteUrl}/work/getdesign/index.md): Give coding agents a screenshot and CSS-backed design.md from a public website. Consult the source repository for setup and access requirements.
+- [getdesign](${siteUrl}/work/getdesign/index.md): Give coding agents a screenshot and CSS-backed design.md from a public website. Public beta; BYOK (Daytona + OpenAI).
 - [Skills](${siteUrl}/work/skills/index.md): Find reusable agent workflows and read their installation instructions.
 - [Oikina](${siteUrl}/work/oikina/index.md): Evaluate the small-app deployment beta and check which capabilities are currently available.
 - [About Mohtasham](${siteUrl}/about/index.md): Check background and contact details for a collaboration or attribution.

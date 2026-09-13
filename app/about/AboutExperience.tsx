@@ -367,7 +367,7 @@ export default function AboutExperience() {
             </a>{" "}
             on 29 March 2025 because I needed editable Word files for my own workflow. I
             began{" "}
-            <a href="https://getdesign.app" target="_blank" rel="noreferrer">
+            <a href="https://www.getdesign.app" target="_blank" rel="noreferrer">
               getdesign
             </a>{" "}
             shortly before graduating, then started{" "}
@@ -392,7 +392,7 @@ export default function AboutExperience() {
               GitHub
             </a>
             , work on{" "}
-            <a href="https://getdesign.app" target="_blank" rel="noreferrer">
+            <a href="https://www.getdesign.app" target="_blank" rel="noreferrer">
               getdesign
             </a>
             , and{" "}

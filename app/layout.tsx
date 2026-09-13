@@ -171,7 +171,7 @@ export default function RootLayout({
                       "@type": "SoftwareApplication",
                       name: "getdesign",
                       applicationCategory: "DesignApplication",
-                      url: "https://getdesign.app",
+                      url: "https://www.getdesign.app",
                     },
                   },
                   {

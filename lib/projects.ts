@@ -121,19 +121,19 @@ export const projects: Project[] = [
   {
     slug: "getdesign",
     name: "getdesign",
-    register: "OI-07 / BETA",
+    register: "OI-07 / PUBLIC BETA",
     role: "Founder",
     category: "Design infrastructure",
-    url: "https://getdesign.app",
-    eyebrow: "Design extraction startup",
-    summary: "The tool I built because screenshots kept hiding the exact design decisions my coding agents needed.",
+    url: "https://www.getdesign.app",
+    eyebrow: "Design extraction agent",
+    summary: "An agent that screenshots a live site and writes design.md, so coding agents can copy designs from the best designers in the world.",
     description:
-      "getdesign renders a public page inside a Daytona sandbox and returns its full-page screenshot with a CSS-backed, nine-section design.md. The hosted product is in private beta, while the skill, CLI, and SDK are public.",
-    evidence: ["118-person waitlist", "46 GitHub stars", "Published CLI and SDK", "Private beta"],
+      "Hand getdesign a URL. It captures the live page in a real browser and returns a screenshot plus a CSS-backed design.md. The public beta is live across web, API, CLI, SDK, and an agent skill, including the hosted dashboard. I extracted cursor.com there with BYOK. getdesign does not bill runs yet.",
+    evidence: ["Public beta", "BYOK (Daytona + OpenAI)", "Web, API, CLI, SDK, Skill", "Hosted cursor.com extract"],
     image: "/projects/getdesign.png",
     imageAlt: "A getdesign interface showing an extracted design system",
     datePublished: "2026-07-20",
-    dateModified: "2026-08-26",
+    dateModified: "2026-09-14",
   },
 ];
 
