@@ -16,6 +16,20 @@ export type BlogPost = {
 
 export const blogPosts: BlogPost[] = [
   {
+    slug: "dario-pacing-the-frontier",
+    title: "Dario's warning worries me. His proposal leaves me with questions.",
+    shortTitle: "Dario's warning worries me. His proposal leaves me with questions.",
+    description:
+      "Why I take Dario Amodei's warning seriously, what the Hugging Face incident shows, and why pacing AI needs verifiable limits and accountable oversight.",
+    category: "AI safety",
+    date: "2026-09-13",
+    modifiedDate: "2026-09-13",
+    source: "dario-pacing-the-frontier.md",
+    image: "/blog/frontier-pacing/cover-with-logos.png",
+    imageAlt:
+      "Pencil illustration of race cars at a safety checkpoint, with the Claude logo on the car being inspected and the ChatGPT logo on a following car.",
+  },
+  {
     slug: "model-debt-is-a-real-thing",
     title: "You fixed your tech debt. Your model debt is next.",
     shortTitle: "You fixed your tech debt. Your model debt is next.",
