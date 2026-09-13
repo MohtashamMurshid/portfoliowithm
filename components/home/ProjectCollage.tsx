@@ -5,7 +5,7 @@ import styles from "./ProjectCollage.module.css";
 const projects = [
   {
     name: "getdesign",
-    note: "A design system from any URL.",
+    note: "Screenshot a site. Get design.md.",
     href: "/work/getdesign",
     image: "/projects/getdesign.png",
     className: styles.getdesign,

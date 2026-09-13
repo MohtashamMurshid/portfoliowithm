@@ -47,9 +47,8 @@ const Landing = ({ npmDownloadText }: LandingProps) => {
       title: "getdesign",
       position: "Founder",
       description:
-        "On-demand design systems from any URL. Accessible via web, API, CLI, and as a portable agent.",
-   
-      url: "https://getdesign.app",
+        "An agent that screenshots a live site and writes design.md. Web, API, CLI, SDK, and Skill.",
+      url: "https://www.getdesign.app",
       isExternal: true,
     },
   ];

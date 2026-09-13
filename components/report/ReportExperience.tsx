@@ -232,7 +232,7 @@ export default function ReportExperience({ npmDownloadText }: ReportExperiencePr
             <h2>Two systems remain<br />under active observation.</h2>
           </motion.div>
           <motion.div className="report-operation-list" {...reveal}>
-            <ProjectRow index="01" name="getdesign" role="Founder" text="On-demand design systems from any URL, delivered through the web, API, CLI, and a portable agent." href="/work/getdesign" />
+            <ProjectRow index="01" name="getdesign" role="Founder" text="Hand it a URL. It screenshots the live site and writes design.md — web, API, CLI, SDK, and Skill." href="/work/getdesign" />
             <ProjectRow index="02" name="Citysage" role="AI Engineer" text="Intelligent software considered at the scale and complexity of a city." href="https://citysage.my" />
           </motion.div>
           <motion.figure className="report-bird-flight" {...reveal}>
@@ -246,9 +246,9 @@ export default function ReportExperience({ npmDownloadText }: ReportExperiencePr
           <motion.div className="report-dossier-copy" {...reveal}>
             <p className="report-kicker">Primary instrument / OI–01</p>
             <h2>getdesign</h2>
-            <p className="report-deck">A portable memory for visual systems.</p>
+            <p className="report-deck">A screenshot and design.md from any URL.</p>
             <p>
-              Given a URL, getdesign observes the language of an interface and returns a design system that can travel. The work treats visual consistency as infrastructure rather than decoration.
+              Given a URL, getdesign screenshots the live page and returns design.md grounded in the site's CSS. The same agent core runs on the web, API, CLI, SDK, and as a portable skill.
             </p>
             <Link className="report-text-link" href="/work/getdesign">
               Open full dossier <ArrowUpRight aria-hidden="true" />
@@ -259,13 +259,13 @@ export default function ReportExperience({ npmDownloadText }: ReportExperiencePr
             <div className="report-evidence-body">
               <Image
                 src="/report/getdesign-interface.png"
-                alt="The public getdesign interface showing its design-system extraction workflow."
+                alt="The public getdesign interface showing a URL-to-design.md run."
                 fill
                 sizes="(max-width: 899px) 90vw, 48vw"
                 className="report-ui-shot"
               />
             </div>
-            <div className="report-evidence-footer"><span>WEB</span><span>API</span><span>CLI</span><span>AGENT</span></div>
+            <div className="report-evidence-footer"><span>WEB</span><span>API</span><span>CLI</span><span>SDK</span><span>SKILL</span></div>
           </motion.div>
           <motion.figure className="report-drafting-figure" {...reveal}>
             <Image src="/report/drafting-bird-cutout.png" alt="An engraved mechanical bird drafts an interface from cards, rulers, gears, and thread." fill sizes="(max-width: 899px) 100vw, 40vw" />
@@ -323,7 +323,7 @@ export default function ReportExperience({ npmDownloadText }: ReportExperiencePr
               <p>Maintained in public, inspected by strangers, altered through use.</p>
             </div>
             <div className="report-ledger">
-              <LedgerRow year="2026" title="getdesign" meta="Design systems / active" href="https://getdesign.app" />
+              <LedgerRow year="2026" title="getdesign" meta="Public beta / design.md" href="https://www.getdesign.app" />
               <LedgerRow year="2026" title="Eikon Studio" meta="Agent tooling / active" href="https://eikonstudio.xyz" />
               <LedgerRow year="2025" title="Markdown to Docx" meta="Document conversion / npm" href="https://npmjs.com/package/@mohtasham/md-to-docx" />
               <LedgerRow year="∞" title="GitHub Archive" meta="Repositories / experiments" href="https://github.com/mohtashammurshid" />
