@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from "next";
+import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 import "./report.css";
 import { Caveat, EB_Garamond, IBM_Plex_Mono, Instrument_Serif, Manrope } from "next/font/google";
@@ -229,6 +230,7 @@ export default function RootLayout({
         </head>
         <body>
           <PageTransition>{children}</PageTransition>
+          <Analytics />
         </body>
       </html>
     </>
