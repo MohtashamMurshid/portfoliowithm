@@ -17,8 +17,8 @@ export type BlogPost = {
 export const blogPosts: BlogPost[] = [
   {
     slug: "jev-vs-a-fast-llm",
-    title: "Jev's confidence was useful. It wasn't a guarantee.",
-    shortTitle: "Does Jev know when it is wrong?",
+    title: "I Tested Jev Against Three Fast LLMs. Speed Wasn’t the Interesting Part.",
+    shortTitle: "I Tested Jev Against Three Fast LLMs. Speed Wasn’t the Interesting Part.",
     description:
       "A reproducible comparison of Jev, GPT-OSS, Mercury, and Gemini on 500 banking messages: accuracy, latency, cost, and whether confidence helps identify mistakes.",
     category: "AI evaluation",

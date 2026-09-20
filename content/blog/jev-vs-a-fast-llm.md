@@ -1,10 +1,10 @@
 ---
-title: "Jev's confidence was useful. It wasn't a guarantee."
+title: "I Tested Jev Against Three Fast LLMs. Speed Wasn’t the Interesting Part."
 author: Mohtasham Murshid Madani
 pubDate: "2026-09-20"
 ---
 
-# Jev's confidence was useful. It wasn't a guarantee.
+# I Tested Jev Against Three Fast LLMs. Speed Wasn’t the Interesting Part.
 
 [Code and data on GitHub](https://github.com/MohtashamMurshid/jev-speed-test) · [Download the experiment](https://github.com/MohtashamMurshid/jev-speed-test/releases/tag/v0.1.0)
 

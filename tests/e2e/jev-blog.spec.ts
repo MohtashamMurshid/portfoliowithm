@@ -8,7 +8,7 @@ for (const viewport of [{ width: 1440, height: 1000 }, { width: 390, height: 844
     page.on("pageerror", (error) => errors.push(error.message));
     const response = await page.goto("/blog/jev-vs-a-fast-llm");
     expect(response?.status()).toBe(200);
-    await expect(page.getByRole("heading", { level: 1 })).toHaveText("Jev's confidence was useful. It wasn't a guarantee.");
+    await expect(page.getByRole("heading", { level: 1 })).toHaveText("I Tested Jev Against Three Fast LLMs. Speed Wasn’t the Interesting Part.");
     await expect(page.locator('link[rel="canonical"]')).toHaveAttribute("href", "https://www.mohtasham.dev/blog/jev-vs-a-fast-llm");
     await expect(page.locator('article a[href="https://github.com/MohtashamMurshid/jev-speed-test"]').first()).toBeVisible();
     const images = page.locator("article img");
