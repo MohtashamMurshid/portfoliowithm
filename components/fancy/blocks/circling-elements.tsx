@@ -7,7 +7,7 @@ import { cn } from "@/lib/utils"
 
 type CirclingElementsProps = {
   children: React.ReactNode
-  radius?: number
+  radius?: number | string
   duration?: number // in seconds
   easing?: string
   direction?: "normal" | "reverse"
@@ -48,7 +48,7 @@ const CirclingElements: React.FC<CirclingElementsProps> = ({
             className={cn(
               "transform-gpu animate-circling absolute -translate-x-1/2 -translate-y-1/2",
               pauseOnHover &&
-                "group-hover/circling:![animation-play-state:paused]"
+                "group-hover/circling:![animation-play-state:paused] group-focus-within/circling:![animation-play-state:paused]"
             )}
           >
             {child}

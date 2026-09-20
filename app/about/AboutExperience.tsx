@@ -3,10 +3,9 @@
 import Image from "@/components/PortfolioImage";
 import CirclingElements from "@/components/fancy/blocks/circling-elements";
 import Link from "next/link";
-import { AnimatePresence, motion, useMotionValue } from "framer-motion";
+import { AnimatePresence, motion, useMotionValue, type Variants } from "framer-motion";
 import { useEffect, useRef, useState, type PointerEvent, type ReactNode } from "react";
 import { createPortal } from "react-dom";
-import useScreenSize from "@/hooks/use-screen-size";
 import { usePrefersReducedMotion } from "@/lib/usePrefersReducedMotion";
 import styles from "./about.module.css";
 
@@ -68,6 +67,28 @@ const personalPhotos = [
 ] as const;
 
 const photoRotations = ["-6deg", "5deg", "-2deg"] as const;
+
+const photoSlideVariants: Variants = {
+  enter: (direction: number) => ({
+    opacity: 0,
+    rotate: direction > 0 ? 16 : -16,
+    scale: 0.78,
+    x: direction > 0 ? "72%" : "-72%",
+    y: 84,
+  }),
+  exit: (direction: number) => ({
+    opacity: 0,
+    rotate: direction > 0 ? -16 : 16,
+    scale: 0.78,
+    x: direction > 0 ? "-72%" : "72%",
+    y: 84,
+  }),
+};
+
+const reducedPhotoSlideVariants: Variants = {
+  enter: { opacity: 0 },
+  exit: { opacity: 0 },
+};
 
 function DraggableAsset({
   children,
@@ -200,7 +221,6 @@ function PersonalPhotoGallery() {
   const [activePhoto, setActivePhoto] = useState<number | null>(null);
   const [slideDirection, setSlideDirection] = useState(1);
   const reduceMotion = usePrefersReducedMotion();
-  const screenSize = useScreenSize();
   const activePhotoIndex = activePhoto ?? 0;
   const selectedPhoto = activePhoto === null ? null : personalPhotos[activePhoto];
 
@@ -286,41 +306,26 @@ function PersonalPhotoGallery() {
                 y: 0,
               }}
               className={styles.lightboxPolaroid}
+              custom={slideDirection}
               drag={reduceMotion ? false : "x"}
               dragConstraints={{ left: 0, right: 0 }}
               dragElastic={0.16}
-              exit={
-                reduceMotion
-                  ? { opacity: 0 }
-                  : {
-                      opacity: 0,
-                      rotate: slideDirection > 0 ? -16 : 16,
-                      scale: 0.78,
-                      x: slideDirection > 0 ? "-72%" : "72%",
-                      y: 84,
-                    }
-              }
-              initial={
-                reduceMotion
-                  ? { opacity: 0 }
-                  : {
-                      opacity: 0,
-                      rotate: slideDirection > 0 ? 16 : -16,
-                      scale: 0.78,
-                      x: slideDirection > 0 ? "72%" : "-72%",
-                      y: 84,
-                    }
-              }
+              exit="exit"
+              initial="enter"
               key={selectedPhoto.src}
               onDragEnd={(_, info) => {
-                if (info.offset.x < -70 || info.velocity.x < -500) showRelativePhoto(1);
-                if (info.offset.x > 70 || info.velocity.x > 500) showRelativePhoto(-1);
+                if (Math.abs(info.offset.x) > 70) {
+                  showRelativePhoto(info.offset.x < 0 ? 1 : -1);
+                } else if (Math.abs(info.velocity.x) > 500) {
+                  showRelativePhoto(info.velocity.x < 0 ? 1 : -1);
+                }
               }}
               transition={
                 reduceMotion
                   ? { duration: 0 }
                   : { damping: 24, mass: 0.78, stiffness: 210, type: "spring" }
               }
+              variants={reduceMotion ? reducedPhotoSlideVariants : photoSlideVariants}
               whileDrag={{ cursor: "grabbing", scale: 0.98 }}
             >
               <div className={styles.lightboxFrame}>
@@ -363,7 +368,7 @@ function PersonalPhotoGallery() {
             duration={10}
             easing="linear"
             pauseOnHover
-            radius={screenSize.lessThan("md") ? 105 : 160}
+            radius="var(--photo-orbit-radius)"
           >
             {personalPhotos.map((photo, index) => (
               <button
