@@ -22,7 +22,7 @@ I asked Ren to run a larger follow-up using [BANKING77](https://github.com/PolyA
 
 We selected 500 messages from the official test split, covering all 77 intents. A separate 50-message development set checked that the code and model calls worked. Another 200 messages were reserved for choosing confidence cutoffs. Those came from the training split and did not overlap the test subset.
 
-The comparison was Jev 1.13, GPT-OSS-120B on Cerebras, Mercury 2.5, and Gemini 3.8 Flash. No Sol. All four used [OpenRouter](https://openrouter.ai/docs) through [Vercel AI SDK](https://ai-sdk.dev/docs/introduction), with the provider pinned and fallback disabled. GPT-OSS and Gemini used low reasoning; Mercury used none. Gemini ran on standard serving, not Flex.
+The comparison was Jev 1.13, GPT-OSS-120B on Cerebras, Mercury 2.5, and Gemini 3.8 Flash. All four used [OpenRouter](https://openrouter.ai/docs) through [Vercel AI SDK](https://ai-sdk.dev/docs/introduction), with the provider pinned and fallback disabled. GPT-OSS and Gemini used low reasoning; Mercury used none. Gemini ran on standard serving, not Flex.
 
 We asked each model for the intent. The LLMs also reported how likely they thought that answer was to be correct. Jev returned its native probabilities and confidence. Those are different ways of getting uncertainty, so I am comparing the usable systems, not pretending their scores have identical meanings.
 
