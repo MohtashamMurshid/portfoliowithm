@@ -4,6 +4,8 @@ import "./globals.css";
 import "./report.css";
 import { Caveat, EB_Garamond, IBM_Plex_Mono, Instrument_Serif, Manrope } from "next/font/google";
 import PageTransition from "@/components/PageTransition";
+import RouteImagePrefetcher from "@/components/navigation/RouteImagePrefetcher";
+import { routeImagePrefetchTargets } from "@/lib/routeImagePrefetchTargets";
 import { contactEmail, defaultDescription, defaultTitle, pageAlternates, portfolioName, siteName, siteUrl } from "@/lib/site";
 
 const editorial = EB_Garamond({
@@ -229,6 +231,7 @@ export default function RootLayout({
           />
         </head>
         <body>
+          <RouteImagePrefetcher targets={routeImagePrefetchTargets} />
           <PageTransition>{children}</PageTransition>
           <Analytics />
         </body>
