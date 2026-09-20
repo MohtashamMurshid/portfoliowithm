@@ -336,100 +336,45 @@
   filter: drop-shadow(0 0 5px rgb(232 117 63 / 60%));
 }
 
-.photoStack {
+.photoGallery {
   position: relative;
   width: min(42rem, calc(100% - 48px));
-  height: 500px;
   margin: 70px auto 94px;
 }
 
-.photoStack::before {
-  position: absolute;
-  top: 13%;
-  right: 1%;
-  width: 38%;
-  height: 21%;
-  border: 2px solid rgb(232 117 63 / 64%);
-  border-radius: 47% 53% 46% 54%;
-  content: "";
-  rotate: 9deg;
+.galleryStage {
+  position: relative;
+  display: grid;
+  min-height: 450px;
+  place-items: center;
 }
 
-.photoStack::after {
-  position: absolute;
-  bottom: 13%;
-  left: 3%;
-  width: 31%;
-  height: 17%;
-  border-top: 2px dashed rgb(102 139 139 / 58%);
-  border-radius: 50%;
-  content: "";
-  rotate: -13deg;
+.photoOrbit {
+  z-index: 2;
 }
 
 .photoCard {
-  position: absolute;
-  z-index: 1;
+  position: relative;
   display: block;
+  width: 88px;
+  aspect-ratio: 1;
   padding: 0;
   overflow: hidden;
-  border: 9px solid #f8f4ea;
-  border-bottom-width: 28px;
-  border-radius: 2px 5px 3px 4px;
-  background: #f8f4ea;
-  box-shadow: 0 17px 28px rgb(54 44 32 / 20%);
+  border: 0;
+  background: transparent;
   cursor: zoom-in;
-  transition: z-index 0s, scale 180ms ease, box-shadow 180ms ease;
+  transition: scale 200ms ease-out;
 }
 
 .photoCard img {
   object-fit: cover;
 }
 
-.photoCard:nth-of-type(1) {
-  top: 5%;
-  left: 0;
-  width: 59%;
-  aspect-ratio: 4 / 3;
-  rotate: -6deg;
-}
-
-.photoCard:nth-of-type(2) {
-  top: 2%;
-  right: 2%;
-  z-index: 3;
-  width: 46%;
-  aspect-ratio: 4 / 3;
-  rotate: 5deg;
-}
-
-.photoCard:nth-of-type(3) {
-  bottom: 6%;
-  left: 22%;
-  z-index: 2;
-  width: 61%;
-  aspect-ratio: 4 / 3;
-  rotate: -2deg;
-}
-
 .photoCard:hover,
 .photoCard:focus-visible {
-  z-index: 8;
-  box-shadow: 0 22px 34px rgb(54 44 32 / 26%);
   outline: 2px solid var(--orange);
   outline-offset: 5px;
-  scale: 1.035;
-}
-
-.photoStack figcaption {
-  position: absolute;
-  right: 4%;
-  bottom: -3px;
-  z-index: 5;
-  color: #6f6960;
-  font-family: var(--font-handwriting), cursive;
-  font-size: 18px;
-  rotate: -3deg;
+  scale: 1.25;
 }
 
 .lightbox {
@@ -437,40 +382,135 @@
   inset: 0;
   z-index: 200;
   display: grid;
-  padding: 48px;
-  background: rgb(24 21 17 / 94%);
+  padding: 64px 48px;
+  background: rgb(24 21 17 / 92%);
+  backdrop-filter: blur(10px);
   cursor: zoom-out;
   place-items: center;
 }
 
+.lightboxStage {
+  position: relative;
+  display: grid;
+  width: min(96vw, 1120px);
+  cursor: default;
+  place-items: center;
+}
+
+.lightboxCardStack {
+  display: grid;
+  width: min(75vw, 900px, calc((100svh - 190px) * 4 / 3));
+  perspective: 1200px;
+  place-items: center;
+}
+
+.lightboxPolaroid {
+  grid-area: 1 / 1;
+  width: 100%;
+  margin: 0;
+  padding: clamp(10px, 1.4vw, 18px);
+  padding-bottom: clamp(18px, 2.4vw, 32px);
+  border-radius: 2px 5px 3px 4px;
+  background: #f8f4ea;
+  box-shadow: 0 32px 80px rgb(0 0 0 / 46%), 0 2px 0 rgb(255 255 255 / 70%) inset;
+  cursor: grab;
+  transform-origin: 50% 135%;
+  user-select: none;
+}
+
 .lightboxFrame {
   position: relative;
-  width: min(92vw, 96rem);
-  height: 86vh;
-  cursor: default;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  background: #d8d3c8;
 }
 
 .lightboxFrame img {
-  object-fit: contain;
+  object-fit: cover;
 }
 
-.lightboxClose {
-  position: fixed;
-  top: 22px;
-  right: 24px;
-  z-index: 1;
-  padding: 8px 12px;
+.lightboxPolaroid figcaption {
+  display: flex;
+  min-height: 52px;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+  padding: clamp(12px, 1.8vw, 22px) 7px 0;
+  color: #49443c;
+}
+
+.lightboxPolaroid figcaption p {
+  margin: 0;
+  font-family: var(--font-handwriting), cursive;
+  font-size: clamp(18px, 2vw, 26px);
+  line-height: 1;
+  text-align: left;
+}
+
+.lightboxPolaroid figcaption span {
+  flex: none;
+  color: #8a8378;
+  font-family: var(--font-registry), monospace;
+  font-size: 9px;
+  letter-spacing: .08em;
+}
+
+.lightboxNav {
+  position: absolute;
+  top: 50%;
+  z-index: 2;
+  display: grid;
+  width: 46px;
+  height: 46px;
+  padding: 0;
   border: 1px solid rgb(255 255 255 / 38%);
   border-radius: 999px;
   background: rgb(255 255 255 / 9%);
   color: #fff;
   cursor: pointer;
   font: inherit;
-  font-size: 13px;
+  font-size: 20px;
+  translate: 0 -50%;
+  place-items: center;
 }
 
-.lightboxClose:hover,
+.lightboxPrevious {
+  left: 0;
+}
+
+.lightboxNext {
+  right: 0;
+}
+
+.lightboxClose {
+  position: fixed;
+  top: 16px;
+  right: 20px;
+  z-index: 1;
+  padding: 4px;
+  border: 0;
+  background: none;
+  color: rgb(255 255 255 / 82%);
+  cursor: pointer;
+  font: inherit;
+  font-size: 38px;
+  font-weight: 200;
+  line-height: 1;
+}
+
+.lightboxClose:hover {
+  color: #fff;
+}
+
 .lightboxClose:focus-visible {
+  color: #fff;
+  outline: 2px solid #fff;
+  outline-offset: 4px;
+}
+
+.lightboxNav:hover,
+.lightboxNav:focus-visible {
   border-color: #fff;
   outline: 2px solid #fff;
   outline-offset: 3px;
@@ -618,44 +658,55 @@
     font-size: 20px;
   }
 
-  .photoStack {
+  .photoGallery {
     width: min(100% - 32px, 35rem);
-    height: 430px;
     margin-top: 58px;
     margin-bottom: 82px;
   }
 
+  .galleryStage {
+    min-height: 310px;
+  }
+
   .photoCard {
-    border-width: 6px;
-    border-bottom-width: 22px;
-  }
-
-  .photoCard:nth-of-type(1) {
-    width: 67%;
-  }
-
-  .photoCard:nth-of-type(2) {
-    width: 53%;
-  }
-
-  .photoCard:nth-of-type(3) {
-    bottom: 8%;
-    left: 14%;
-    width: 72%;
-  }
-
-  .photoStack figcaption {
-    right: 1%;
-    font-size: 16px;
+    width: 64px;
   }
 
   .lightbox {
-    padding: 42px 14px 18px;
+    padding: 58px 14px 78px;
   }
 
-  .lightboxFrame {
-    width: calc(100vw - 28px);
-    height: calc(100svh - 60px);
+  .lightboxStage {
+    width: 100%;
+  }
+
+  .lightboxCardStack {
+    width: min(calc(100vw - 44px), calc((100svh - 190px) * 4 / 3));
+  }
+
+  .lightboxPolaroid figcaption {
+    min-height: 46px;
+    gap: 12px;
+  }
+
+  .lightboxPolaroid figcaption p {
+    font-size: 17px;
+  }
+
+  .lightboxNav {
+    top: auto;
+    bottom: -60px;
+    width: 42px;
+    height: 42px;
+    translate: none;
+  }
+
+  .lightboxPrevious {
+    left: calc(50% - 50px);
+  }
+
+  .lightboxNext {
+    right: calc(50% - 50px);
   }
 
   .footer {
@@ -666,4 +717,6 @@
 @media (prefers-reduced-motion: reduce) {
   .draggable { cursor: default; }
   .prose .eventsLink { transition: none; }
+  .photoCard { transition: none; }
+  .photoOrbit > * { animation: none !important; }
 }

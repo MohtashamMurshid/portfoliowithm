@@ -1,10 +1,12 @@
 "use client";
 
 import Image from "@/components/PortfolioImage";
+import CirclingElements from "@/components/fancy/blocks/circling-elements";
 import Link from "next/link";
-import { motion, useMotionValue } from "framer-motion";
+import { AnimatePresence, motion, useMotionValue } from "framer-motion";
 import { useEffect, useRef, useState, type PointerEvent, type ReactNode } from "react";
 import { createPortal } from "react-dom";
+import useScreenSize from "@/hooks/use-screen-size";
 import { usePrefersReducedMotion } from "@/lib/usePrefersReducedMotion";
 import styles from "./about.module.css";
 
@@ -28,18 +30,44 @@ const entranceDelay = {
 
 const personalPhotos = [
   {
+    src: "/about/high-valley-mountains.jpg",
+    alt: "A snow-dusted mountain above a high valley",
+  },
+  {
     src: "/about/mountain-lake.jpg",
     alt: "A blue lake below a range of snow-capped mountains",
+  },
+  {
+    src: "/about/mountain-sand-walk.jpg",
+    alt: "Mohtasham walking across sand beneath a blue mountain sky",
   },
   {
     src: "/about/mountain-portrait.jpg",
     alt: "Mohtasham standing alone in front of a mountain slope",
   },
   {
+    src: "/about/cloudy-mountain-river-portrait.jpg",
+    alt: "A turquoise river beneath storm clouds and distant mountains",
+  },
+  {
     src: "/about/mountain-river.jpg",
     alt: "A river running below a forest and snow-covered mountains",
   },
+  {
+    src: "/about/skiing-snowy-mountains.jpg",
+    alt: "A skier crossing a sunlit slope beneath snowy mountains",
+  },
+  {
+    src: "/about/misty-mountain-forest-portrait.jpg",
+    alt: "Mist drifting through a green mountain forest",
+  },
+  {
+    src: "/about/forest-city-tower-portrait.jpg",
+    alt: "A planted high-rise curving into the Kuala Lumpur sky",
+  },
 ] as const;
+
+const photoRotations = ["-6deg", "5deg", "-2deg"] as const;
 
 function DraggableAsset({
   children,
@@ -168,8 +196,12 @@ function JourneyGraph({ reducedMotion }: { reducedMotion: boolean }) {
   );
 }
 
-function PersonalPhotoStack() {
+function PersonalPhotoGallery() {
   const [activePhoto, setActivePhoto] = useState<number | null>(null);
+  const [slideDirection, setSlideDirection] = useState(1);
+  const reduceMotion = usePrefersReducedMotion();
+  const screenSize = useScreenSize();
+  const activePhotoIndex = activePhoto ?? 0;
   const selectedPhoto = activePhoto === null ? null : personalPhotos[activePhoto];
 
   useEffect(() => {
@@ -180,6 +212,22 @@ function PersonalPhotoStack() {
 
     function handleKeyDown(event: KeyboardEvent) {
       if (event.key === "Escape") setActivePhoto(null);
+      if (event.key === "ArrowLeft") {
+        event.preventDefault();
+        setSlideDirection(-1);
+        setActivePhoto((current) =>
+          current === null
+            ? 0
+            : (current - 1 + personalPhotos.length) % personalPhotos.length,
+        );
+      }
+      if (event.key === "ArrowRight") {
+        event.preventDefault();
+        setSlideDirection(1);
+        setActivePhoto((current) =>
+          current === null ? 0 : (current + 1) % personalPhotos.length,
+        );
+      }
     }
 
     window.addEventListener("keydown", handleKeyDown);
@@ -189,6 +237,15 @@ function PersonalPhotoStack() {
       window.removeEventListener("keydown", handleKeyDown);
     };
   }, [activePhoto]);
+
+  function showRelativePhoto(offset: number) {
+    setSlideDirection(offset < 0 ? -1 : 1);
+    setActivePhoto((current) =>
+      current === null
+        ? 0
+        : (current + offset + personalPhotos.length) % personalPhotos.length,
+    );
+  }
 
   const lightbox = selectedPhoto ? (
     <div
@@ -205,30 +262,131 @@ function PersonalPhotoStack() {
         onClick={() => setActivePhoto(null)}
         type="button"
       >
-        Close
+        &times;
       </button>
-      <div className={styles.lightboxFrame} onClick={(event) => event.stopPropagation()}>
-        <Image alt={selectedPhoto.alt} fill loading="eager" sizes="100vw" src={selectedPhoto.src} />
+      <div className={styles.lightboxStage} onClick={(event) => event.stopPropagation()}>
+        <button
+          aria-label="View previous photograph"
+          className={`${styles.lightboxNav} ${styles.lightboxPrevious}`}
+          onClick={() => showRelativePhoto(-1)}
+          type="button"
+        >
+          &larr;
+        </button>
+        <div aria-live="polite" className={styles.lightboxCardStack}>
+          <AnimatePresence custom={slideDirection} initial={false} mode="sync">
+            <motion.figure
+              animate={{
+                opacity: 1,
+                rotate: Number.parseFloat(
+                  photoRotations[activePhotoIndex % photoRotations.length],
+                ),
+                scale: 1,
+                x: 0,
+                y: 0,
+              }}
+              className={styles.lightboxPolaroid}
+              drag={reduceMotion ? false : "x"}
+              dragConstraints={{ left: 0, right: 0 }}
+              dragElastic={0.16}
+              exit={
+                reduceMotion
+                  ? { opacity: 0 }
+                  : {
+                      opacity: 0,
+                      rotate: slideDirection > 0 ? -16 : 16,
+                      scale: 0.78,
+                      x: slideDirection > 0 ? "-72%" : "72%",
+                      y: 84,
+                    }
+              }
+              initial={
+                reduceMotion
+                  ? { opacity: 0 }
+                  : {
+                      opacity: 0,
+                      rotate: slideDirection > 0 ? 16 : -16,
+                      scale: 0.78,
+                      x: slideDirection > 0 ? "72%" : "-72%",
+                      y: 84,
+                    }
+              }
+              key={selectedPhoto.src}
+              onDragEnd={(_, info) => {
+                if (info.offset.x < -70 || info.velocity.x < -500) showRelativePhoto(1);
+                if (info.offset.x > 70 || info.velocity.x > 500) showRelativePhoto(-1);
+              }}
+              transition={
+                reduceMotion
+                  ? { duration: 0 }
+                  : { damping: 24, mass: 0.78, stiffness: 210, type: "spring" }
+              }
+              whileDrag={{ cursor: "grabbing", scale: 0.98 }}
+            >
+              <div className={styles.lightboxFrame}>
+                <Image
+                  alt={selectedPhoto.alt}
+                  fill
+                  loading="eager"
+                  sizes="(max-width: 720px) calc(100vw - 44px), 75vw"
+                  src={selectedPhoto.src}
+                />
+              </div>
+              <figcaption>
+                <p>{selectedPhoto.alt}</p>
+                <span>
+                  {String(activePhotoIndex + 1).padStart(2, "0")} /{" "}
+                  {String(personalPhotos.length).padStart(2, "0")}
+                </span>
+              </figcaption>
+            </motion.figure>
+          </AnimatePresence>
+        </div>
+        <button
+          aria-label="View next photograph"
+          className={`${styles.lightboxNav} ${styles.lightboxNext}`}
+          onClick={() => showRelativePhoto(1)}
+          type="button"
+        >
+          &rarr;
+        </button>
       </div>
     </div>
   ) : null;
 
   return (
     <>
-      <figure className={styles.photoStack}>
-        {personalPhotos.map((photo, index) => (
-          <button
-            aria-label={`Enlarge photograph ${index + 1} of ${personalPhotos.length}`}
-            className={styles.photoCard}
-            key={photo.src}
-            onClick={() => setActivePhoto(index)}
-            type="button"
+      <div aria-label="Personal photo gallery" className={styles.photoGallery} role="group">
+        <div className={styles.galleryStage}>
+          <CirclingElements
+            className={styles.photoOrbit}
+            duration={10}
+            easing="linear"
+            pauseOnHover
+            radius={screenSize.lessThan("md") ? 105 : 160}
           >
-            <Image alt={photo.alt} fill sizes="(max-width: 720px) 68vw, 25rem" src={photo.src} />
-          </button>
-        ))}
-        <figcaption>A few photographs from home and my trips.</figcaption>
-      </figure>
+            {personalPhotos.map((photo, index) => (
+              <button
+                aria-label={`Enlarge photograph ${index + 1} of ${personalPhotos.length}`}
+                className={styles.photoCard}
+                key={photo.src}
+                onClick={() => {
+                  setSlideDirection(1);
+                  setActivePhoto(index);
+                }}
+                type="button"
+              >
+                <Image
+                  alt={photo.alt}
+                  fill
+                  sizes="(max-width: 720px) 64px, 88px"
+                  src={photo.src}
+                />
+              </button>
+            ))}
+          </CirclingElements>
+        </div>
+      </div>
       {lightbox && typeof document !== "undefined"
         ? createPortal(lightbox, document.body)
         : null}
@@ -454,7 +612,7 @@ export default function AboutExperience() {
           </p>
         </section>
 
-        <PersonalPhotoStack />
+        <PersonalPhotoGallery />
 
         <section className={`${styles.prose} ${styles.closing}`} aria-label="Closing note">
           <p>
