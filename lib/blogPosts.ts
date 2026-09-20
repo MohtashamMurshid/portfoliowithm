@@ -16,6 +16,20 @@ export type BlogPost = {
 
 export const blogPosts: BlogPost[] = [
   {
+    slug: "jev-vs-a-fast-llm",
+    title: "Jev's confidence was useful. It wasn't a guarantee.",
+    shortTitle: "Does Jev know when it is wrong?",
+    description:
+      "A reproducible comparison of Jev, GPT-OSS, Mercury, and Gemini on 500 banking messages: accuracy, latency, cost, and whether confidence helps identify mistakes.",
+    category: "AI evaluation",
+    date: "2026-09-20",
+    modifiedDate: "2026-09-20",
+    source: "jev-vs-a-fast-llm.md",
+    image: "/blog/jev-vs-a-fast-llm/cover.webp",
+    imageAlt:
+      "A pencil-and-paper illustration of banking requests passing through a Jev stamp into accepted and human-review stacks, with a question mark beside an accepted decision.",
+  },
+  {
     slug: "dario-pacing-the-frontier",
     title: "Dario's warning worries me. His proposal leaves me with questions.",
     shortTitle: "Dario's warning worries me. His proposal leaves me with questions.",

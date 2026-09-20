@@ -5,13 +5,14 @@ import sharp from "sharp";
 import { getOgImageUrl } from "../../lib/ogImage";
 
 const cases = [
+  ["jev-vs-a-fast-llm", "WebP"],
   ["model-debt-is-a-real-thing", "WebP"],
   ["how-i-use-grok-bot", "JPEG"],
   ["my-instruct-plus", "PNG"],
 ] as const;
 
 for (const [slug, format] of cases) {
-  test(`blog OG renders ${format} covers without the generic fallback`, async ({ request }) => {
+  test(`blog OG renders ${format} cover for ${slug} without the generic fallback`, async ({ request }) => {
     const response = await request.get(getOgImageUrl("blog", slug));
     expect(response.status()).toBe(200);
     expect(response.headers()["content-type"]).toBe("image/jpeg");
