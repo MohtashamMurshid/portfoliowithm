@@ -1,10 +1,10 @@
 ---
-title: "I Tested Jev Against Three Fast LLMs. Speed Wasn’t the Interesting Part."
+title: "Do you need Jev, or is a fast LLM enough?"
 author: Mohtasham Murshid Madani
 pubDate: "2026-09-20"
 ---
 
-# I Tested Jev Against Three Fast LLMs. Speed Wasn’t the Interesting Part.
+# Do you need Jev, or is a fast LLM enough?
 
 [Code and data on GitHub](https://github.com/MohtashamMurshid/jev-speed-test) · [Download the experiment](https://github.com/MohtashamMurshid/jev-speed-test/releases/tag/v0.1.0)
 
