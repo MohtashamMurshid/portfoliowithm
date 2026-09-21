@@ -5,6 +5,7 @@ import { blogPosts, getBlogPostBody } from "./blogPosts";
 import { eventCaseStudies } from "./eventCaseStudies";
 import { githubCaseStudies } from "./githubCaseStudies";
 import { projects } from "./projects";
+import { getRenBody, renTitle } from "./ren";
 import { contactEmail, defaultDescription, markdownPath, portfolioName, siteName, siteUrl } from "./site";
 
 function link(title: string, path: string, description?: string) {
@@ -23,6 +24,7 @@ const contact = `Contact: [${contactEmail}](mailto:${contactEmail}).\n\n[GitHub]
 const pages = new Map<string, { title: string; body: string }>([
   ["/", { title: `${portfolioName} | ${siteName}`, body: `${defaultDescription}\n\nAI Engineer at [CitySage](https://citysage.my) and founder of [Oikina](${siteUrl}/work/oikina).\n\n${section("Selected work", [projectIndex])}\n\n${section("Explore", [link("About Mohtasham", "/about"), link("Writing", "/blog"), link(developerTitle, "/developers"), link("Events", "/events"), link("Books", "/books")])}\n\n${section("Contact", [contact])}` }],
   ["/developers", { title: developerTitle, body: developerBody }],
+  ["/ren", { title: renTitle, body: getRenBody() }],
   ["/about", { title: `About ${siteName}`, body: `I am an engineer from Kashmir, now based in Kuala Lumpur. I am the founder of Oikina, an AI engineer, an open-source builder, and a researcher.\n\n${section("Background and current work", [
     "I moved to Kuala Lumpur in February 2023 and studied computer science at Taylor's University from March 2023 to March 2026, specialising in artificial intelligence. I graduated with first-class honours.",
     "I interned at CitySage and returned as an AI engineer in March 2026. I build AI agents for government and city councils, along with geospatial AI software.",

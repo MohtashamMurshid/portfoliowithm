@@ -4,6 +4,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import BlogReveal from "@/components/blog/BlogReveal";
 import MarkdownArticle from "@/components/blog/MarkdownArticle";
+import JevArticle from "@/components/blog/jev/JevArticle";
 import {
   blogPosts,
   formatBlogDate,
@@ -116,7 +117,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
             />
           </div>
 
-          <MarkdownArticle body={body} />
+          {post.slug === "jev-vs-a-fast-llm" ? <JevArticle body={body} /> : <MarkdownArticle body={body} />}
 
           <aside className={styles.authorBlock} aria-labelledby="blog-author-name">
             <p className={styles.authorLabel}>About the author</p>

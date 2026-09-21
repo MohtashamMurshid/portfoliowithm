@@ -23,7 +23,7 @@ export const blogPosts: BlogPost[] = [
       "A reproducible comparison of Jev, GPT-OSS, Mercury, and Gemini on 500 banking messages: accuracy, latency, cost, and whether confidence helps identify mistakes.",
     category: "AI evaluation",
     date: "2026-09-20",
-    modifiedDate: "2026-09-20",
+    modifiedDate: "2026-09-21",
     source: "jev-vs-a-fast-llm.md",
     image: "/blog/jev-vs-a-fast-llm/cover.webp",
     imageAlt:
