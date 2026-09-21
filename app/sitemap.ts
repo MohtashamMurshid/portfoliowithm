@@ -38,6 +38,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.8,
     },
     {
+      url: `${siteUrl}/ren`,
+      lastModified: new Date("2026-09-21T00:00:00Z"),
+      changeFrequency: "monthly",
+      priority: 0.5,
+    },
+    {
       url: `${siteUrl}/books`,
       lastModified: siteUpdated,
       changeFrequency: "monthly",

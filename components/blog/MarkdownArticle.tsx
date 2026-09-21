@@ -27,13 +27,23 @@ function getCodeLanguage(children: ReactNode): string {
   return child.props.className?.match(/language-([\w-]+)/)?.[1] ?? "text";
 }
 
-export default function MarkdownArticle({ body }: { body: string }) {
+export default function MarkdownArticle({ body, figures = {} }: { body: string; figures?: Record<string, ReactNode> }) {
   return (
     <div className={styles.prose}>
       <ReactMarkdown
         remarkPlugins={[remarkGfm]}
         rehypePlugins={[[rehypeHighlight, { detect: false }]]}
         components={{
+          p: ({ node, children }) => {
+            // Standalone figure links stay readable in the Markdown edition.
+            // Replace the whole paragraph to avoid nesting a figure inside <p>.
+            const child = node?.children.length === 1 ? node.children[0] : undefined;
+            if (child?.type === "element" && child.tagName === "a") {
+              const href = child.properties.href;
+              if (typeof href === "string" && Object.hasOwn(figures, href)) return figures[href];
+            }
+            return <p>{children}</p>;
+          },
           a: ({ href, children }) => {
             const external = href?.startsWith("http");
             return (

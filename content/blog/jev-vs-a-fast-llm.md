@@ -1,10 +1,10 @@
 ---
-title: "I Tested Jev Against Three Fast LLMs. Speed Wasn’t the Interesting Part."
+title: "Do you need Jev, or is a fast LLM enough?"
 author: Mohtasham Murshid Madani
 pubDate: "2026-09-20"
 ---
 
-# I Tested Jev Against Three Fast LLMs. Speed Wasn’t the Interesting Part.
+# Do you need Jev, or is a fast LLM enough?
 
 [Code and data on GitHub](https://github.com/MohtashamMurshid/jev-speed-test) · [Download the experiment](https://github.com/MohtashamMurshid/jev-speed-test/releases/tag/v0.1.0)
 
@@ -18,7 +18,7 @@ A score is useful if it helps me make a better decision. I wanted to know whethe
 
 ## This time, the answers didn't come from our own model
 
-I asked Ren to run a larger follow-up using [BANKING77](https://github.com/PolyAI-LDN/task-specific-datasets), an existing English dataset of banking queries labeled with 77 intents. Choosing between lost cards, delayed transfers, unrecognized payments, and other closely related requests is harder than routing among four support teams.
+I asked [Ren](/ren), my personal AI agent, to run a larger follow-up using [BANKING77](https://github.com/PolyAI-LDN/task-specific-datasets), an existing English dataset of banking queries labeled with 77 intents. Choosing between lost cards, delayed transfers, unrecognized payments, and other closely related requests is harder than routing among four support teams.
 
 We selected 500 messages from the official test split, covering all 77 intents. A separate 50-message development set checked that the code and model calls worked. Another 200 messages were reserved for choosing confidence cutoffs. Those came from the training split and did not overlap the test subset.
 
@@ -28,9 +28,7 @@ We asked each model for the intent. The LLMs also reported how likely they thoug
 
 ## How we built and ran the test
 
-[![The actual study sequence. Timing repeats do not create additional independent test messages.](/blog/jev-vs-a-fast-llm/01-workflow.webp)](/blog/jev-vs-a-fast-llm/01-workflow.webp)
-
-*The actual study sequence. Timing repeats do not create additional independent test messages. [Full-size PNG](https://raw.githubusercontent.com/MohtashamMurshid/jev-speed-test/main/blog-study/run-v1/analysis/blog-assets/01-workflow.png) · [Editable SVG](https://raw.githubusercontent.com/MohtashamMurshid/jev-speed-test/main/blog-study/run-v1/analysis/blog-assets/01-workflow.svg) · [Plotting code](https://github.com/MohtashamMurshid/jev-speed-test/blob/main/blog-study/blog_visuals.py)*
+[Test architecture: choose and freeze cutoffs, send each of 500 messages to four models, then evaluate intent, confidence, time, and cost.](https://www.mohtasham.dev/blog/jev-vs-a-fast-llm#study-architecture)
 
 ### 1. Keep the first experiment in its proper place
 
@@ -56,6 +54,8 @@ The sampling seed was `60421`. We saved the actual selected row IDs, text, label
 The development and threshold-selection messages came from the training split. The 500 evaluation messages came from the official test split. Thirty-eight intents contributed seven test examples each, and the other 39 contributed six. This is a roughly class-balanced subset, not a sample of the traffic mix a real bank necessarily receives.
 
 The answer key remained in the local evaluation records. The model saw the message and the available categories, not the expected answer. We compared its returned category with the saved label afterward.
+
+[Dataset split: 50 development and 200 cutoff-selection messages from training, with 500 evaluation messages from the official test split. All 77 intents are represented.](https://www.mohtasham.dev/blog/jev-vs-a-fast-llm#data-splits)
 
 ### 3. Give the systems the same classification problem
 
@@ -145,21 +145,15 @@ These are results on the 500 held-out messages. A failed request or invalid answ
 | Mercury 2.5 | 73.2% | 0.674 s | $0.084 | 28 |
 | Gemini 3.8 Flash | 85.4% | 1.489 s | $0.685 | 1 |
 
-[![Accuracy over all 500 attempts, including failed requests; intervals preserve the paired, intent-stratified design.](/blog/jev-vs-a-fast-llm/02-accuracy.webp)](/blog/jev-vs-a-fast-llm/02-accuracy.webp)
+[Accuracy with 95% intervals: Jev 81.0%, GPT-OSS 82.8%, Mercury 73.2%, Gemini 85.4%, including failed requests.](https://www.mohtasham.dev/blog/jev-vs-a-fast-llm#accuracy)
 
-*Accuracy over all 500 attempts, including failed requests; intervals preserve the paired, intent-stratified design. [Full-size PNG](https://raw.githubusercontent.com/MohtashamMurshid/jev-speed-test/main/blog-study/run-v1/analysis/blog-assets/02-accuracy.png) · [Editable SVG](https://raw.githubusercontent.com/MohtashamMurshid/jev-speed-test/main/blog-study/run-v1/analysis/blog-assets/02-accuracy.svg) · [Plotting code](https://github.com/MohtashamMurshid/jev-speed-test/blob/main/blog-study/blog_visuals.py)*
-
-[![Median and p95 time to a valid answer. Failure counts are reported separately.](/blog/jev-vs-a-fast-llm/03-latency.webp)](/blog/jev-vs-a-fast-llm/03-latency.webp)
-
-*Median and p95 time to a valid answer. Failure counts are reported separately. [Full-size PNG](https://raw.githubusercontent.com/MohtashamMurshid/jev-speed-test/main/blog-study/run-v1/analysis/blog-assets/03-latency.png) · [Editable SVG](https://raw.githubusercontent.com/MohtashamMurshid/jev-speed-test/main/blog-study/run-v1/analysis/blog-assets/03-latency.svg) · [Plotting code](https://github.com/MohtashamMurshid/jev-speed-test/blob/main/blog-study/blog_visuals.py)*
+[Compare median and 95th-percentile time to a valid response. Median: Jev 0.347 s, GPT-OSS 0.404 s, Mercury 0.674 s, Gemini 1.489 s.](https://www.mohtasham.dev/blog/jev-vs-a-fast-llm#latency)
 
 Jev had the lowest observed median time and cost. Gemini had the highest observed accuracy, but its median answer took longer. GPT-OSS was close to Jev on speed and a little ahead on accuracy. The accuracy difference between those two is small enough that our paired interval includes no difference.
 
 Mercury needs a qualification. Of its 500 test attempts, 21 returned upstream server errors and seven failed parsing or schema validation. Gemini had one API rejection about location. Those failures stay in the result. They tell us about the API paths during this run, not just the models' ability to understand banking requests.
 
-[![Test-stage cost per 1,000 attempts, not the full-study bill. Missing failed-call bills are reserved conservatively.](/blog/jev-vs-a-fast-llm/04-cost.webp)](/blog/jev-vs-a-fast-llm/04-cost.webp)
-
-*Test-stage cost per 1,000 attempts, not the full-study bill. Missing failed-call bills are reserved conservatively. [Full-size PNG](https://raw.githubusercontent.com/MohtashamMurshid/jev-speed-test/main/blog-study/run-v1/analysis/blog-assets/04-cost.png) · [Editable SVG](https://raw.githubusercontent.com/MohtashamMurshid/jev-speed-test/main/blog-study/run-v1/analysis/blog-assets/04-cost.svg) · [Plotting code](https://github.com/MohtashamMurshid/jev-speed-test/blob/main/blog-study/blog_visuals.py)*
+[Test cost per 1,000 attempts: Jev $0.068, GPT-OSS $0.452, Mercury $0.084, Gemini $0.685.](https://www.mohtasham.dev/blog/jev-vs-a-fast-llm#request-cost)
 
 Across development, threshold selection, testing, and 50 timing repeats per model, we made 3,200 calls. The total accounted cost was about $1.03. Most calls reported a billed amount; missing bills were covered by usage estimates or conservative error reservations. That is not a promise about what these endpoints will cost next month.
 
@@ -167,15 +161,11 @@ Across development, threshold selection, testing, and 50 timing repeats per mode
 
 Yes, it helped rank them. Jev's wrong answers generally had lower native-confidence scores than its correct answers. The two groups still overlapped.
 
-[![Jev native confidence and selected-answer probability distributions for correct and incorrect predictions.](/blog/jev-vs-a-fast-llm/03-jev-confidence.webp)](/blog/jev-vs-a-fast-llm/03-jev-confidence.webp)
-
-*Each line shows how much of a group falls at or below a score. Jev's mistakes tend to lie further left. There were 405 correct and 95 incorrect test predictions. The right-hand plot uses the selected answer's probability; the left uses native confidence.*
+[Explore the native-confidence and selected-answer probability distributions for Jev's 405 correct and 95 incorrect predictions.](https://www.mohtasham.dev/blog/jev-vs-a-fast-llm#confidence-distribution)
 
 One numerical check is error-detection AUROC, which asks whether a score can rank mistakes below correct answers. Jev's native confidence scored 0.814, where 0.5 is chance. Its bootstrap interval was about 0.770 to 0.856. That supports a useful signal on this set. It does not mean Jev was 81.4% accurate, or that a score of 0.9 means a 90% chance of being right.
 
-[![Confidence can rank errors without being a calibrated probability. Score sources differ, and these intervals overlap.](/blog/jev-vs-a-fast-llm/06-confidence-ranking.webp)](/blog/jev-vs-a-fast-llm/06-confidence-ranking.webp)
-
-*Confidence can rank errors without being a calibrated probability. Score sources differ, and these intervals overlap. [Full-size PNG](https://raw.githubusercontent.com/MohtashamMurshid/jev-speed-test/main/blog-study/run-v1/analysis/blog-assets/06-confidence-ranking.png) · [Editable SVG](https://raw.githubusercontent.com/MohtashamMurshid/jev-speed-test/main/blog-study/run-v1/analysis/blog-assets/06-confidence-ranking.svg) · [Plotting code](https://github.com/MohtashamMurshid/jev-speed-test/blob/main/blog-study/blog_visuals.py)*
+[Error-detection AUROC with 95% intervals: Jev 0.814, GPT-OSS 0.808, Mercury 0.753, Gemini 0.843. Chance is 0.5.](https://www.mohtasham.dev/blog/jev-vs-a-fast-llm#confidence-ranking)
 
 The LLMs had useful signals too. GPT-OSS scored 0.808 using its reported probability, and Gemini scored 0.843. Their intervals overlap Jev's. I don't have evidence here that Jev uniquely knows when it is wrong.
 
@@ -195,9 +185,7 @@ We then froze those cutoffs. The held-out results did not get a vote in choosing
 | GPT-OSS / Cerebras / probability | 0/500 | No qualifying cutoff |
 | Mercury 2.5 / probability | 0/500 | No qualifying cutoff |
 
-[![Correct, wrong, and deferred cases under frozen off-test rules. Neither accepted-error interval guarantees the 5% target.](/blog/jev-vs-a-fast-llm/05-acceptance.webp)](/blog/jev-vs-a-fast-llm/05-acceptance.webp)
-
-*Correct, wrong, and deferred cases under frozen off-test rules. Neither accepted-error interval guarantees the 5% target. [Full-size PNG](https://raw.githubusercontent.com/MohtashamMurshid/jev-speed-test/main/blog-study/run-v1/analysis/blog-assets/05-acceptance.png) · [Editable SVG](https://raw.githubusercontent.com/MohtashamMurshid/jev-speed-test/main/blog-study/run-v1/analysis/blog-assets/05-acceptance.svg) · [Plotting code](https://github.com/MohtashamMurshid/jev-speed-test/blob/main/blog-study/blog_visuals.py)*
+[Explore all five frozen acceptance rules on 500 messages. Jev native confidence accepted 168 with five mistakes; Gemini accepted 365 with 15 mistakes.](https://www.mohtasham.dev/blog/jev-vs-a-fast-llm#acceptance)
 
 Jev's native-confidence rule accepted 168 messages and got five wrong. That reduced its observed error from 19% across all messages to about 3% among the accepted ones. It also left 332 messages for review.
 
@@ -221,6 +209,8 @@ We also computed macro-F1 over the 77 intents. That calculates a precision/recal
 
 The failure breakdown matters when interpreting Mercury. Its lower end-to-end accuracy includes both wrong decisions and 28 failed attempts. Confidence metrics cannot score a missing answer, so those metrics use its 472 valid test responses. Gemini's confidence metrics use 499 valid responses. Jev and GPT-OSS each use 500.
 
+[See the denominator: correct, wrong, and failed outcomes for all four systems, each out of 500 attempts.](https://www.mohtasham.dev/blog/jev-vs-a-fast-llm#failures)
+
 ### Timing: completed answers, not token speed
 
 For the main latency table, we sorted the valid-response durations and used nearest-rank median and 95th percentile. The median is the middle typical duration. The 95th percentile describes a slower part of the observed distribution, but one run is not enough to establish a dependable production tail-latency promise.
@@ -231,6 +221,8 @@ The later 50-message timing check stayed separate. Its median times were about 3
 
 While assembling this walkthrough, we also checked label agreement on successful original/repeat pairs. Jev repeated the same label on 49 of 50 pairs, GPT-OSS on 50 of 50, Mercury on 41 of 45, and Gemini on 49 of 50. This is an exploratory consistency check, not an extra accuracy experiment. Mercury has fewer eligible pairs because both calls must have succeeded.
 
+[Compare test and repeat median latency, alongside label agreement on successful pairs.](https://www.mohtasham.dev/blog/jev-vs-a-fast-llm#timing-repeats)
+
 ### Three questions about confidence, not one
 
 **Can the score rank mistakes?** Error-detection AUROC checks whether an incorrect answer tends to receive a lower score than a correct answer. Ties receive half credit. We also computed average precision for error detection. Its reference point depends on how many errors the model made, so it should not be compared across systems without looking at their error rates.
@@ -238,6 +230,8 @@ While assembling this walkthrough, we also checked label agreement on successful
 **Do the numbers behave like probabilities?** For Jev's selected-label probability and the LLMs' reported probabilities, we computed binary correctness Brier score: the mean squared difference between the reported probability and whether the answer was actually correct. Smaller is better. Reliability plots grouped probabilities into five fixed equal-width bins, then compared the mean reported probability with the observed fraction correct. We included bin counts and marked bins with fewer than 20 examples as sparse.
 
 We did not interpret Jev's native confidence as a correctness probability and give it a probability-calibration score. It is a distinct uncertainty signal. A score can rank mistakes well while the numerical values still need calibration for a particular application.
+
+[Explore probability reliability for each system, with observed accuracy, Brier scores, bin counts, and Wilson 95% intervals. Jev uses selected-answer probability.](https://www.mohtasham.dev/blog/jev-vs-a-fast-llm#reliability)
 
 **Does the frozen rule leave us a useful set of answers?** Coverage is accepted messages divided by all 500 attempts. Accepted-case error is mistakes divided by accepted valid answers. All failed requests are deferred. These are the two quantities behind the 168 accepted Jev messages and 365 accepted Gemini messages.
 
@@ -269,6 +263,8 @@ Reservations and outcomes were written durably. An unresolved reservation blocke
 The total was $1.028709 accounted. API responses reported $1.007308 in charges. Another $0.021401 was conservative reservation accounting for 38 attempts without billing information. There were no usage-estimate-only fallbacks in this run. This distinction is why I say approximately $1.03 accounted rather than claim to have verified an exact final account charge.
 
 The per-1,000-request costs in the main table normalize the 500 test attempts only. They exclude development, threshold selection, and repeats. The full-study total includes all four stages. Human review of deferred messages, any cost of the assistant used to develop the experiment, and hosting are not included in these model-request amounts.
+
+[Full-study cost breakdown: $1.028709 accounted across 3,200 attempts, including $1.007308 in reported charges and $0.021401 in missing-bill reservations.](https://www.mohtasham.dev/blog/jev-vs-a-fast-llm#study-budget)
 
 ### What the audits changed
 
@@ -306,11 +302,11 @@ Jev's confidence gave me something useful to work with. It didn't remove the nee
 
 ## Sources, software, and downloadable figures
 
-The graphs above were rendered from the saved metrics with Python and Matplotlib, not generated as pictures of plausible results. The portfolio cover is a conceptual paper-and-pencil illustration, not measured evidence. The workflow depicts the recorded design. The statistical figures have a paper-texture background; their data marks and geometry are unchanged. [The original reproducible visuals are available as PNG, SVG, and PDF](https://github.com/MohtashamMurshid/jev-speed-test/tree/main/blog-study/run-v1/analysis/blog-assets), with [their plotting source](https://github.com/MohtashamMurshid/jev-speed-test/blob/main/blog-study/blog_visuals.py).
+The figures in this article use React, HTML, and SVG. Their values come from a pinned snapshot of the saved study metrics; the confidence distributions come from the 2,000 recorded test results. The interactive controls switch between recorded scores, statistics, and frozen rules. They do not choose new cutoffs or make model calls. The original Python and Matplotlib figures remain available for download. [The original reproducible visuals are available as PNG, SVG, and PDF](https://github.com/MohtashamMurshid/jev-speed-test/tree/main/blog-study/run-v1/analysis/blog-assets), with [their plotting source](https://github.com/MohtashamMurshid/jev-speed-test/blob/main/blog-study/blog_visuals.py).
 
 - **Dataset:** [the exact BANKING77 source revision](https://github.com/PolyAI-LDN/task-specific-datasets/tree/57ec275d8078af65b7731c2a98be812d844a6d6b/banking_data), [the dataset paper](https://arxiv.org/abs/2003.04807), [CC BY 4.0 terms](https://creativecommons.org/licenses/by/4.0/), and [our source hashes and sampling manifest](https://github.com/MohtashamMurshid/jev-speed-test/blob/main/blog-study/data-manifest.json).
 - **Systems:** OpenRouter model listings for [Jev 1.13](https://openrouter.ai/typesafe/jev-1.13), [GPT-OSS-120B](https://openrouter.ai/openai/gpt-oss-120b), [Mercury 2.5](https://openrouter.ai/inception/mercury-2.5), and [Gemini 3.8 Flash](https://openrouter.ai/google/gemini-3.8-flash). Those pages can change; the [saved run manifest](https://github.com/MohtashamMurshid/jev-speed-test/blob/main/blog-study/run-v1/manifest.json) and raw responses establish what this experiment actually used.
 - **Request stack:** [Vercel AI SDK](https://ai-sdk.dev/docs/introduction), the [OpenRouter SDK integration](https://openrouter.ai/docs/guides/community/vercel-ai-sdk), [Zod](https://zod.dev/) for schema validation, and the [exact Node dependency lockfile](https://github.com/MohtashamMurshid/jev-speed-test/blob/main/package-lock.json).
 - **Analysis and drawing:** [NumPy](https://numpy.org/doc/stable/), [Matplotlib](https://matplotlib.org/stable/), and [scikit-learn's metric definitions and independent checks](https://scikit-learn.org/stable/modules/model_evaluation.html). Versions are saved in [analysis-requirements.txt](https://github.com/MohtashamMurshid/jev-speed-test/blob/main/blog-study/analysis-requirements.txt).
 - **Uncertainty references:** [TypeSafe's confidence semantics](https://docs.typesafe.ai/confidence), [ROC-AUC](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.roc_auc_score.html), [Brier score](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.brier_score_loss.html), and [a Wilson-interval reference](https://www.statsmodels.org/stable/generated/statsmodels.stats.proportion.proportion_confint.html). The last link is explanatory documentation; statsmodels was not a runtime dependency.
-- **Reproducibility:** [2,000 held-out results as CSV](https://github.com/MohtashamMurshid/jev-speed-test/blob/main/data/test-results.csv), [all 3,200 response records](https://raw.githubusercontent.com/MohtashamMurshid/jev-speed-test/main/data/responses.jsonl.gz), [the audit trail](https://github.com/MohtashamMurshid/jev-speed-test/blob/main/blog-study/ANALYSIS-AUDIT.md), and the [original versioned source-and-data release](https://github.com/MohtashamMurshid/jev-speed-test/releases/tag/v0.1.0). The new editorial figures are committed separately in the repository; they do not alter the underlying study.
+- **Reproducibility:** [2,000 held-out results as CSV](https://github.com/MohtashamMurshid/jev-speed-test/blob/main/data/test-results.csv), [all 3,200 response records](https://raw.githubusercontent.com/MohtashamMurshid/jev-speed-test/main/data/responses.jsonl.gz), [the audit trail](https://github.com/MohtashamMurshid/jev-speed-test/blob/main/blog-study/ANALYSIS-AUDIT.md), and the [original versioned source-and-data release](https://github.com/MohtashamMurshid/jev-speed-test/releases/tag/v0.1.0). The website figures use the same recorded results and do not alter the underlying study.
