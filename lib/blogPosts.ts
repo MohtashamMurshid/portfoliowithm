@@ -20,10 +20,10 @@ export const blogPosts: BlogPost[] = [
     title: "Do you need Jev, or is a fast LLM enough?",
     shortTitle: "Do you need Jev, or is a fast LLM enough?",
     description:
-      "A reproducible comparison of Jev, GPT-OSS, Mercury, and Gemini on 500 banking messages: accuracy, latency, cost, and whether confidence helps identify mistakes.",
+      "Jev against fast LLMs, followed by fresh tests of a live cascade and local classifier. Accuracy, cost, latency, confidence limits, and a technical paper.",
     category: "AI evaluation",
     date: "2026-09-20",
-    modifiedDate: "2026-09-21",
+    modifiedDate: "2026-09-22",
     source: "jev-vs-a-fast-llm.md",
     image: "/blog/jev-vs-a-fast-llm/cover.webp",
     imageAlt:

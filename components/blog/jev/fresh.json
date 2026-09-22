@@ -1,0 +1,160 @@
+{
+  "provenance": {
+    "revision": "08138146e4a7ae0e73487e411e25765839a3d523",
+    "input_sha256": {
+      "analysis/summary.json": "377312b1353b28d64998db74e79ab5e5b9d7e52cbeb7292b123e1c404b46f3d0",
+      "supplement/cost-sensitivity.json": "40860b36df9f8c44045939b7ca86a40d5b0db5d245bbdbe4bf390bea88e2879e"
+    },
+    "summary": "https://github.com/MohtashamMurshid/jev-speed-test/blob/08138146e4a7ae0e73487e411e25765839a3d523/blog-study/fresh-followup/analysis/summary.json",
+    "costs": "https://github.com/MohtashamMurshid/jev-speed-test/blob/08138146e4a7ae0e73487e411e25765839a3d523/blog-study/fresh-followup/supplement/cost-sensitivity.json",
+    "report": "https://github.com/MohtashamMurshid/jev-speed-test/blob/08138146e4a7ae0e73487e411e25765839a3d523/blog-study/fresh-followup/README.md",
+    "code": "https://github.com/MohtashamMurshid/jev-speed-test/blob/08138146e4a7ae0e73487e411e25765839a3d523/blog-study/fresh-followup/runner.ts",
+    "data": "https://github.com/MohtashamMurshid/jev-speed-test/blob/08138146e4a7ae0e73487e411e25765839a3d523/blog-study/fresh-followup/data/README.md"
+  },
+  "cohort": "fresh500",
+  "banking_n": 500,
+  "new_calls": 1630,
+  "systems": [
+    {
+      "id": "jev",
+      "label": "Jev",
+      "accuracy": {
+        "count": 399,
+        "n": 500,
+        "rate": 0.798,
+        "wilson_ci95": [
+          0.7605971137604937,
+          0.8308587793244213
+        ]
+      },
+      "median_ms": 327.0243639999826,
+      "timing_kind": "first-stage API component"
+    },
+    {
+      "id": "gemini",
+      "label": "Independent Gemini",
+      "accuracy": {
+        "count": 425,
+        "n": 500,
+        "rate": 0.85,
+        "wilson_ci95": [
+          0.8160389193683016,
+          0.8786240423086119
+        ]
+      },
+      "median_ms": 1638.047122500022,
+      "timing_kind": "measured path wall time"
+    },
+    {
+      "id": "cascade",
+      "label": "Actual cascade",
+      "accuracy": {
+        "count": 424,
+        "n": 500,
+        "rate": 0.848,
+        "wilson_ci95": [
+          0.8138858517125613,
+          0.8768076073261983
+        ]
+      },
+      "median_ms": 1866.7892324999557,
+      "timing_kind": "measured path wall time"
+    },
+    {
+      "id": "local",
+      "label": "Supervised TF-IDF LR",
+      "accuracy": {
+        "count": 425,
+        "n": 500,
+        "rate": 0.85,
+        "wilson_ci95": [
+          0.8160389193683016,
+          0.8786240423086119
+        ]
+      },
+      "median_ms": 0.730067,
+      "timing_kind": "CPU local inference"
+    }
+  ],
+  "cost_sensitivity": {
+    "cascade": {
+      "calls": 830,
+      "cases": 500,
+      "reported_bills_usd": 0.2633189400000005,
+      "unknown_bill_calls": 0,
+      "unknown_bill_reservations_usd": 0,
+      "unknown_cases": []
+    },
+    "gemini_baseline": {
+      "calls": 500,
+      "cases": 500,
+      "reported_bills_usd": 0.3431940000000003,
+      "unknown_bill_calls": 1,
+      "unknown_bill_reservations_usd": 0.2544795,
+      "unknown_cases": [
+        {
+          "caseId": "test-861",
+          "httpStatus": 503,
+          "reservation_usd": 0.2544795,
+          "status": "error"
+        }
+      ]
+    },
+    "jev_first_stage": {
+      "calls": 500,
+      "cases": 500,
+      "reported_bills_usd": 0.033786690000000064,
+      "unknown_bill_calls": 0,
+      "unknown_bill_reservations_usd": 0,
+      "unknown_cases": []
+    },
+    "sensitivity": {
+      "definition": "Vary every missing bill from zero to its conservative reservation. For the lower saving, assign cascade missing bills their reserves and baseline missing bills zero; reverse for upper saving. These are scenarios, not known invoices or statistical confidence intervals.",
+      "lower_saving_percent": 23.274025769681202,
+      "reported_only_difference_usd": 0.07987505999999978,
+      "upper_saving_percent": 55.942677732909296
+    }
+  },
+  "cascade_minus_gemini": {
+    "difference_pp": -0.2,
+    "ci95_pp": [
+      -1.2,
+      0.8
+    ]
+  },
+  "training_rows": 9742,
+  "routing": {
+    "gemini": 330,
+    "jev": 170
+  },
+  "safety": {
+    "accepted": {
+      "count": 374,
+      "n": 500,
+      "rate": 0.748,
+      "wilson_ci95": [
+        0.7081521755124419,
+        0.7840661516186281
+      ]
+    },
+    "accepted_error": {
+      "count": 23,
+      "n": 374,
+      "rate": 0.06149732620320856,
+      "wilson_ci95": [
+        0.041325058753411914,
+        0.09058597868609403
+      ]
+    },
+    "human_defer_count": 126
+  },
+  "oos": {
+    "count": 0,
+    "n": 100,
+    "rate": 0.0,
+    "wilson_ci95": [
+      3.469446951953614e-18,
+      0.03699349820698568
+    ]
+  }
+}
