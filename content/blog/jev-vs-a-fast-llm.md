@@ -6,6 +6,8 @@ pubDate: "2026-09-20"
 
 # Do you need Jev, or is a fast LLM enough?
 
+> **Fresh validation, September 22, 2026.** A separate set of 500 new messages tests an actual Jev-to-Gemini cascade and a supervised local baseline. The cascade got 424/500 right versus independent Gemini's 425/500, with 23.27% lower request cost under the lower-saving assumption but a slower median path. [Read the fresh follow-up](#fresh-validation) or [download the draft technical report](/research/jev-confidence-study.pdf). The original 500-message results and all original figures below remain unchanged.
+
 [Code and data on GitHub](https://github.com/MohtashamMurshid/jev-speed-test) · [Download the experiment](https://github.com/MohtashamMurshid/jev-speed-test/releases/tag/v0.1.0)
 
 My first question about Jev was whether I could get the same result by giving a fast LLM a set of choices. We ran a small test, and the answer was mostly yes. Jev was cheaper and somewhat faster, but a general-purpose model was still competitive.
@@ -286,7 +288,31 @@ To repeat the experiment against live services, use the saved splits and pinned 
 
 The repository implementation uses a TypeScript runner, ordinary files for durable records, and a Python analysis script. There is no judge model deciding which answer is right, no hidden retry loop, and no dashboard or database needed to replay the calculation. The complete evidence is now available in the [public repository](https://github.com/MohtashamMurshid/jev-speed-test) and its [versioned source-and-data release](https://github.com/MohtashamMurshid/jev-speed-test/releases/tag/v0.1.0).
 
+## Fresh follow-up: an actual cascade and a local baseline
+
+This September 22 validation uses another 500 BANKING77 test messages that were excluded from the earlier experiment. The original results above come from the separate September 20 test. We do not pool their accuracy denominators. The primary fresh run made 1,630 new hosted calls across the banking cohort and 100 out-of-scope stress cases; the earlier study's 3,200 calls remain a separate historical total.
+
+[Fresh validation, September 22: Jev 399/500, independent Gemini 425/500, actual cascade 424/500, supervised TF-IDF LR 425/500.](https://www.mohtasham.dev/blog/jev-vs-a-fast-llm#fresh-validation)
+
+The hosted calls kept the OpenRouter and Vercel AI SDK stack, pinned providers, and no automatic retries. Each case ran an actual Jev-first path and a separate Gemini-only path in deterministic randomized order. The cascade accepted a valid Jev response only at native confidence 1.0, otherwise calling Gemini on the original text. Jev handled 170 banking cases without fallback; 330 went to Gemini. The fallback is a planned policy step, not provider failover. Jev-only accuracy reuses the same first-stage predictions.
+
+The actual cascade was 0.2 percentage points below independent Gemini, with a paired, intent-stratified bootstrap 95% interval from -1.2 to +0.8 points. That is not evidence of equivalence or noninferiority. The supervised TF-IDF logistic-regression baseline also got 425/500 right, but trained on 9,742 labeled examples. Unlike those supervised predictions, the hosted API prompts had no worked examples. This is a useful deployment alternative, not an equal-training-data comparison.
+
+[Fresh costs and latency: 23.27% lower request cost under the lower-saving assumption; actual cascade median 1867 ms versus independent Gemini 1638 ms. Local inference is a separate 0.730 CPU ms measurement.](https://www.mohtasham.dev/blog/jev-vs-a-fast-llm#fresh-cost-latency)
+
+One independent Gemini failure had no reported bill. Assigning that missing bill zero cost gives the lower saving of 23.27%; assigning its full reservation gives 55.94%. These are accounting scenarios, not confidence intervals or verified final invoices. The actual cascade's median path was slower, so the fresh result does not support a blanket speed advantage for the combined system.
+
+[Fresh selective safety policy: 374 accepted, 23 errors among accepted, 126 deferred; 0/100 out-of-scope false accepts with a Wilson 95% upper limit of 3.7%.](https://www.mohtasham.dev/blog/jev-vs-a-fast-llm#fresh-gates)
+
+The selective safety policy accepts the frozen Jev gate first, then accepts fallback Gemini only at its frozen 0.95 probability cutoff, otherwise deferring to a person. It accepted 374 banking messages with 23 errors and deferred 126. That is 6.1% accepted-case error, above the original 5% calibration target. The separate out-of-scope check saw 0/100 false accepts, with a Wilson 95% upper limit of 3.7%. Those easy-domain nonbanking cases do not test difficult banking near-misses or establish general out-of-scope detection. The forced-answer cascade used for headline accuracy has no reject option.
+
+The [downloadable draft technical report](/research/jev-confidence-study.pdf) brings the historical study and fresh validation together in IEEE-style formatting. It is a draft technical report, not a claim of IEEE acceptance or peer review. The pinned public follow-up includes the [report](https://github.com/MohtashamMurshid/jev-speed-test/blob/08138146e4a7ae0e73487e411e25765839a3d523/blog-study/fresh-followup/README.md), [runner code](https://github.com/MohtashamMurshid/jev-speed-test/blob/08138146e4a7ae0e73487e411e25765839a3d523/blog-study/fresh-followup/runner.ts), and [data guide](https://github.com/MohtashamMurshid/jev-speed-test/blob/08138146e4a7ae0e73487e411e25765839a3d523/blog-study/fresh-followup/data/README.md). The separate website snapshot records the source revision and input hashes; rendering makes no model calls.
+
+My updated reading is narrower than a single winner. On the fresh test set, the cascade reduced request cost under the stated assumptions but did not improve median latency or establish an accuracy advantage over independent Gemini. A simple supervised classifier remains worth testing when labeled examples are available. Confidence gates still leave mistakes, and neither the banking result nor the easy-domain stress check is a production safety guarantee.
+
 ## What I take from this
+
+The following conclusion preserves the original study's interpretation. Its statement about not testing outside the supported categories describes that historical phase only; the bounded fresh follow-up above adds the separate stress check and updated conclusions.
 
 I have a more useful reason to consider Jev now than I did after the first speed test. Its native confidence helped identify a smaller set of decisions with fewer mistakes, and it did that on a cheap, fast API path.
 

@@ -12,7 +12,7 @@ for (const viewport of [{ width: 1440, height: 1000 }, { width: 390, height: 844
     await expect(page.locator('link[rel="canonical"]')).toHaveAttribute("href", "https://www.mohtasham.dev/blog/jev-vs-a-fast-llm");
     await expect(page.locator('article a[href="https://github.com/MohtashamMurshid/jev-speed-test"]').first()).toBeVisible();
     await expect(page.locator("article img")).toHaveCount(1);
-    await expect(page.locator("article figure")).toHaveCount(12);
+    await expect(page.locator("article figure")).toHaveCount(15);
     await expect(page.locator("p figure")).toHaveCount(0);
     await expect(page.locator("#study-architecture")).toContainText("Freeze the rules");
     await expect(page.locator("#study-architecture")).toContainText("500 × 4 = 2,000");
@@ -68,7 +68,9 @@ test("Jev figures retain their content without JavaScript and in Markdown", asyn
   const context = await browser.newContext({ javaScriptEnabled: false, reducedMotion: "reduce" });
   const page = await context.newPage();
   await page.goto("/blog/jev-vs-a-fast-llm");
-  await expect(page.locator("article figure")).toHaveCount(12);
+  await expect(page.locator("article figure")).toHaveCount(15);
+  await expect(page.locator("#fresh-validation")).toContainText("399/500 correct");
+  await expect(page.locator("#fresh-gates")).toContainText("0/100");
   await expect(page.locator("#acceptance")).toContainText("332 deferred");
   await expect(page.locator("#accuracy")).toContainText("405/500 correct");
   await context.close();

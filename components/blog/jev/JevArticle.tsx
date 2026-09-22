@@ -1,4 +1,5 @@
 import MarkdownArticle from "../MarkdownArticle";
+import { FreshAccuracy, FreshCostLatency, FreshGates } from "./FreshResults";
 import { DataTable, Figure, Legend, MetricChart } from "./Figure";
 import { AcceptanceExplorer, ConfidenceDistribution, LatencyChart, ReliabilityChart } from "./JevInteractive";
 import StudyArchitecture from "./StudyArchitecture";
@@ -101,6 +102,9 @@ function Budget() {
 
 export default function JevArticle({ body }: { body: string }) {
   const figures = {
+    [figureUrl("fresh-validation")]: <FreshAccuracy />,
+    [figureUrl("fresh-cost-latency")]: <FreshCostLatency />,
+    [figureUrl("fresh-gates")]: <FreshGates />,
     [figureUrl("study-architecture")]: <StudyArchitecture />,
     [figureUrl("data-splits")]: <DataSplit />,
     [figureUrl("accuracy")]: <Accuracy />,
