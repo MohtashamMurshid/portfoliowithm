@@ -1,4 +1,4 @@
-import { DURATION, Press } from "./compositor";
+import { DURATION, Press, yieldFrame } from "./compositor";
 import { drawLive, drawStatic, LIVE_REGION } from "./scene";
 
 export type RisoHandle = {
@@ -27,13 +27,19 @@ export class DalEngine {
   constructor(canvas: HTMLCanvasElement) {
     this.press = new Press(canvas);
     this.reduced = window.matchMedia("(prefers-reduced-motion: reduce)");
+  }
+
+  async init(): Promise<void> {
+    await yieldFrame();
+    await this.press.prepare();
     this.press.bakePaper();
+    await yieldFrame();
     drawStatic(this.press);
-    this.press.bakeStatic();
+    await yieldFrame();
+    await this.press.bakeStatic();
     this.ready = true;
     this.expose();
-    const start = this.initialTime();
-    this.seek(start);
+    this.seek(this.initialTime());
     if (!this.reduced.matches) this.play();
   }
 
@@ -46,7 +52,7 @@ export class DalEngine {
   }
 
   seek = (t: number): void => {
-    if (this.disposed) return;
+    if (this.disposed || !this.ready) return;
     const wrapped = ((t % this.duration) + this.duration) % this.duration;
     this.time = wrapped;
     this.press.clearLive();
@@ -57,7 +63,7 @@ export class DalEngine {
   };
 
   play(): void {
-    if (this.disposed || this.playing) return;
+    if (this.disposed || this.playing || !this.ready) return;
     this.playing = true;
     this.origin = performance.now() / 1000 - this.time;
     this.tick();

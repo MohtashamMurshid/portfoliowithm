@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { ArrowUpRight, Pause, Play } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import type { DalEngine } from "@/components/dal/DalEngine";
+import { DalEngine } from "@/components/dal/DalEngine";
 import { DURATION } from "@/components/dal/compositor";
 import styles from "./dal.module.css";
 
@@ -27,24 +27,31 @@ export default function DalExperience() {
     let cancelled = false;
     let instance: DalEngine | undefined;
     let poll: number | undefined;
-    void import("@/components/dal/DalEngine").then(({ DalEngine }) => {
-      if (cancelled || !canvas.current) return;
-      instance = new DalEngine(canvas.current);
-      engine.current = instance;
-      setStatus("ready");
-      setPlaying(instance.isPlaying);
-      setTime(instance.currentTime);
-      const sync = () => {
-        if (!engine.current) return;
-        setPlaying(engine.current.isPlaying);
-        setTime(engine.current.currentTime);
+    void (async () => {
+      try {
+        if (!canvas.current) return;
+        instance = new DalEngine(canvas.current);
+        engine.current = instance;
+        await instance.init();
+        if (cancelled) {
+          instance.dispose();
+          return;
+        }
+        setStatus("ready");
+        setPlaying(instance.isPlaying);
+        setTime(instance.currentTime);
+        const sync = () => {
+          if (!engine.current) return;
+          setPlaying(engine.current.isPlaying);
+          setTime(engine.current.currentTime);
+          poll = requestAnimationFrame(sync);
+        };
         poll = requestAnimationFrame(sync);
-      };
-      poll = requestAnimationFrame(sync);
-    }).catch((error: unknown) => {
-      console.error("The Dal Lake print could not start.", error);
-      if (!cancelled) setStatus("error");
-    });
+      } catch (error: unknown) {
+        console.error("The Dal Lake print could not start.", error);
+        if (!cancelled) setStatus("error");
+      }
+    })();
     return () => {
       cancelled = true;
       if (poll !== undefined) cancelAnimationFrame(poll);

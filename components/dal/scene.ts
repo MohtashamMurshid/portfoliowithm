@@ -1,4 +1,4 @@
-import { catmull, cut, Press, rectPoints, SIZE, type InkId, type Point, type Region } from "./compositor";
+import { catmull, cut, Press, SIZE, type InkId, type Point, type Region } from "./compositor";
 import { clamp, lerp, rngFor, TAU } from "./rng";
 
 export const WINDOW = { x: 176, y: 148, w: 728, h: 604 };
@@ -6,7 +6,7 @@ export const HORIZON = 424;
 export const SILL_TOP = WINDOW.y + WINDOW.h;
 export const LIVE_REGION: Region = { x: 150, y: 118, w: 790, h: 820 };
 
-export const windowOpening = cut(rectPoints(WINDOW.x, WINDOW.y, WINDOW.w, WINDOW.h, 7), rngFor("window-cut"), 3.2);
+let windowOpening: Path2D;
 
 function ridge(yBase: number, amp: number, seed: string, peaks: readonly number[]): Path2D {
   const rng = rngFor(seed);
@@ -28,6 +28,21 @@ function ridge(yBase: number, amp: number, seed: string, peaks: readonly number[
   }
   pts.push({ x: WINDOW.x + WINDOW.w + 8, y: SILL_TOP + 20 });
   return cut(pts, rng, 2.4);
+}
+
+function roundedWindow(x: number, y: number, w: number, h: number, r: number): Path2D {
+  const path = new Path2D();
+  path.moveTo(x + r, y);
+  path.lineTo(x + w - r, y);
+  path.quadraticCurveTo(x + w, y, x + w, y + r);
+  path.lineTo(x + w, y + h - r);
+  path.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+  path.lineTo(x + r, y + h);
+  path.quadraticCurveTo(x, y + h, x, y + h - r);
+  path.lineTo(x, y + r);
+  path.quadraticCurveTo(x, y, x + r, y);
+  path.closePath();
+  return path;
 }
 
 function frameMass(): Path2D {
@@ -139,37 +154,57 @@ function lintel(): Path2D {
   );
 }
 
-const farRidge = ridge(HORIZON + 8, 86, "ridge-far", [0.22, 0.48, 0.71, 0.88]);
-const midRidge = ridge(HORIZON + 14, 118, "ridge-mid", [0.18, 0.41, 0.63, 0.82]);
-const nearRidge = ridge(HORIZON + 22, 64, "ridge-near", [0.12, 0.35, 0.58, 0.79, 0.93]);
-const waterPlane = cut(
-  [
-    { x: WINDOW.x, y: HORIZON - 4 },
-    { x: WINDOW.x + WINDOW.w, y: HORIZON - 2 },
-    { x: WINDOW.x + WINDOW.w, y: SILL_TOP },
-    { x: WINDOW.x, y: SILL_TOP },
-  ],
-  rngFor("water-plane"),
-  2,
-);
-const skyPlane = cut(
-  [
-    { x: WINDOW.x, y: WINDOW.y },
-    { x: WINDOW.x + WINDOW.w, y: WINDOW.y },
-    { x: WINDOW.x + WINDOW.w, y: HORIZON + 8 },
-    { x: WINDOW.x, y: HORIZON + 10 },
-  ],
-  rngFor("sky-plane"),
-  2,
-);
-const wood = frameMass();
-const leftJali = jaliPanel(28, WINDOW.y - 10, WINDOW.x - 36, WINDOW.h + 40, "jali-l");
-const rightJali = jaliPanel(WINDOW.x + WINDOW.w + 8, WINDOW.y - 10, 108, WINDOW.h + 40, "jali-r");
-const willow = willowStrands();
-const bar = mullion();
-const sillPath = sill();
-const lintelPath = lintel();
-const carving = scallops();
+let farRidge: Path2D;
+let midRidge: Path2D;
+let nearRidge: Path2D;
+let waterPlane: Path2D;
+let skyPlane: Path2D;
+let wood: Path2D;
+let leftJali: Path2D;
+let rightJali: Path2D;
+let willow: Path2D;
+let bar: Path2D;
+let sillPath: Path2D;
+let lintelPath: Path2D;
+let carving: Path2D;
+let built = false;
+
+function buildShapes(): void {
+  if (built) return;
+  windowOpening = roundedWindow(WINDOW.x, WINDOW.y, WINDOW.w, WINDOW.h, 18);
+  farRidge = ridge(HORIZON + 8, 86, "ridge-far", [0.22, 0.48, 0.71, 0.88]);
+  midRidge = ridge(HORIZON + 14, 118, "ridge-mid", [0.18, 0.41, 0.63, 0.82]);
+  nearRidge = ridge(HORIZON + 22, 64, "ridge-near", [0.12, 0.35, 0.58, 0.79, 0.93]);
+  waterPlane = cut(
+    [
+      { x: WINDOW.x, y: HORIZON - 4 },
+      { x: WINDOW.x + WINDOW.w, y: HORIZON - 2 },
+      { x: WINDOW.x + WINDOW.w, y: SILL_TOP },
+      { x: WINDOW.x, y: SILL_TOP },
+    ],
+    rngFor("water-plane"),
+    2,
+  );
+  skyPlane = cut(
+    [
+      { x: WINDOW.x, y: WINDOW.y },
+      { x: WINDOW.x + WINDOW.w, y: WINDOW.y },
+      { x: WINDOW.x + WINDOW.w, y: HORIZON + 8 },
+      { x: WINDOW.x, y: HORIZON + 10 },
+    ],
+    rngFor("sky-plane"),
+    2,
+  );
+  wood = frameMass();
+  leftJali = jaliPanel(28, WINDOW.y - 10, WINDOW.x - 36, WINDOW.h + 40, "jali-l");
+  rightJali = jaliPanel(WINDOW.x + WINDOW.w + 8, WINDOW.y - 10, 108, WINDOW.h + 40, "jali-r");
+  willow = willowStrands();
+  bar = mullion();
+  sillPath = sill();
+  lintelPath = lintel();
+  carving = scallops();
+  built = true;
+}
 
 function inkAll(draw: (id: InkId) => void): void {
   draw("yellow");
@@ -179,6 +214,7 @@ function inkAll(draw: (id: InkId) => void): void {
 }
 
 export function drawStatic(press: Press): void {
+  buildShapes();
   press.linearShade("yellow", skyPlane, 0, WINDOW.y, 0, HORIZON, [
     [0, 0.06],
     [0.55, 0.22],
@@ -241,30 +277,55 @@ export function drawStatic(press: Press): void {
     [0, 0.16],
     [1, 0],
   ]);
+  const reflectPts: Point[] = [{ x: WINDOW.x, y: HORIZON + 4 }];
+  const reflectRng = rngFor("ridge-reflect");
+  for (let i = 0; i <= 28; i += 1) {
+    const u = i / 28;
+    let lift = 0;
+    for (const peak of [0.18, 0.41, 0.63, 0.82]) {
+      const d = Math.abs(u - peak);
+      lift += Math.exp(-d * d * 38) * 0.55;
+    }
+    reflectPts.push({
+      x: WINDOW.x + WINDOW.w * u,
+      y: HORIZON + 10 + 48 * (0.3 + lift + reflectRng() * 0.08),
+    });
+  }
+  reflectPts.push({ x: WINDOW.x + WINDOW.w, y: HORIZON + 4 });
+  const reflection = cut(reflectPts, reflectRng, 2);
+  press.print("indigo", reflection, 0.14);
+  press.print("green", reflection, 0.07);
 
-  press.print("indigo", wood, 0.62, false, "evenodd");
-  press.print("orange", wood, 0.38, false, "evenodd");
-  press.print("yellow", wood, 0.06, false, "evenodd");
+  press.print("indigo", wood, 0.94, false, "evenodd");
+  press.print("orange", wood, 0.78, false, "evenodd");
+  press.print("yellow", wood, 0.12, false, "evenodd");
+  const jamb = new Path2D();
+  jamb.addPath(roundedWindow(WINDOW.x - 26, WINDOW.y - 24, WINDOW.w + 52, WINDOW.h + 40, 22));
+  jamb.addPath(windowOpening);
+  press.print("indigo", jamb, 0.4, false, "evenodd");
+  press.print("orange", jamb, 0.28, false, "evenodd");
 
   press.print("indigo", lintelPath, 0.28);
   press.print("orange", lintelPath, 0.2);
   press.stroke("indigo", carving, 1.6, 0.28);
   press.stroke("orange", carving, 1.1, 0.16);
 
-  press.print("indigo", leftJali, 0.42);
-  press.print("orange", leftJali, 0.16);
-  press.print("indigo", rightJali, 0.42);
-  press.print("orange", rightJali, 0.16);
+  press.carve("indigo", leftJali);
+  press.carve("orange", leftJali);
+  press.carve("indigo", rightJali);
+  press.carve("orange", rightJali);
+  press.print("yellow", leftJali, 0.08);
+  press.print("yellow", rightJali, 0.08);
 
-  press.stroke("green", willow, 1.7, 0.38);
-  press.stroke("indigo", willow, 1.15, 0.28);
+  press.stroke("green", willow, 2.6, 0.55);
+  press.stroke("indigo", willow, 1.6, 0.4);
 
   press.plane("indigo", bar, 0.55);
   press.print("orange", bar, 0.22);
 
-  press.plane("indigo", sillPath, 0.48);
-  press.print("orange", sillPath, 0.32);
-  press.print("yellow", sillPath, 0.08);
+  press.plane("indigo", sillPath, 0.7);
+  press.print("orange", sillPath, 0.55);
+  press.print("yellow", sillPath, 0.16);
   const sillLight = cut(
     [
       { x: WINDOW.x + 40, y: SILL_TOP + 8 },
@@ -278,6 +339,19 @@ export function drawStatic(press: Press): void {
   press.carve("indigo", sillLight);
   press.print("yellow", sillLight, 0.12);
   press.print("orange", sillLight, 0.1);
+  const glassSeat = cut(
+    [
+      { x: 328, y: SILL_TOP + 8 },
+      { x: 392, y: SILL_TOP + 6 },
+      { x: 400, y: SILL_TOP + 78 },
+      { x: 322, y: SILL_TOP + 80 },
+    ],
+    rngFor("glass-seat"),
+    1.2,
+  );
+  press.carve("indigo", glassSeat);
+  press.carve("orange", glassSeat);
+  press.carve("yellow", glassSeat);
 
   for (const id of ["indigo", "orange"] as const) {
     const grain = rngFor(`wood-grain-${id}`);
@@ -317,12 +391,12 @@ function shikara(press: Press, t: number): void {
   const y = HORIZON + 58 + Math.sin(t * TAU / 16) * 3;
   const lean = Math.sin(t * TAU / 32) * 0.08;
   const hull: Point[] = [
-    { x: x - 34, y },
-    { x: x - 18, y: y - 5 },
-    { x: x + 16, y: y - 4 },
-    { x: x + 36, y: y + 1 },
-    { x: x + 14, y: y + 6 },
-    { x: x - 16, y: y + 6 },
+    { x: x - 48, y },
+    { x: x - 24, y: y - 7 },
+    { x: x + 22, y: y - 6 },
+    { x: x + 50, y: y + 2 },
+    { x: x + 20, y: y + 8 },
+    { x: x - 22, y: y + 8 },
   ].map((p) => ({
     x: x + (p.x - x) * Math.cos(lean) - (p.y - y) * Math.sin(lean),
     y: y + (p.x - x) * Math.sin(lean) + (p.y - y) * Math.cos(lean),
@@ -371,10 +445,10 @@ function ripples(press: Press, t: number): void {
         first = false;
       } else path.lineTo(x, yy);
     }
-    const fade = clamp(0.16 - i * 0.004);
-    press.stroke("indigo", path, 1.1, fade, true);
-    if (i % 3 === 0) press.stroke("green", path, 0.8, fade * 0.45, true);
-    if (i < 5) press.stroke("orange", path, 0.7, fade * 0.35, true);
+    const fade = clamp(0.28 - i * 0.008);
+    press.stroke("indigo", path, 1.6, fade, true);
+    if (i % 3 === 0) press.stroke("green", path, 1.1, fade * 0.5, true);
+    if (i < 5) press.stroke("orange", path, 1, fade * 0.4, true);
   }
 
   for (let k = 0; k < 7; k += 1) {
@@ -441,47 +515,47 @@ function curtain(press: Press, t: number): void {
       });
     }
     const fold = catmull(pts, false);
-    press.stroke("orange", fold, 7 - i * 0.6, 0.16 + rng() * 0.04, true);
-    press.stroke("indigo", fold, 4.2, 0.12, true);
+    press.stroke("orange", fold, 9 - i * 0.7, 0.28 + rng() * 0.05, true);
+    press.stroke("indigo", fold, 5.5, 0.2, true);
   }
 }
 
 function teaGlass(press: Press, t: number): void {
   const lean = Math.sin(t * TAU / 6.4) * 0.035;
-  const cx = 392;
-  const baseY = SILL_TOP + 54;
+  const cx = 360;
+  const baseY = SILL_TOP + 62;
   const rot = (p: Point): Point => ({
     x: cx + (p.x - cx) * Math.cos(lean) - (p.y - baseY) * Math.sin(lean),
     y: baseY + (p.x - cx) * Math.sin(lean) + (p.y - baseY) * Math.cos(lean),
   });
   const glass = cut(
     [
-      rot({ x: cx - 16, y: baseY }),
-      rot({ x: cx - 13, y: baseY - 22 }),
-      rot({ x: cx - 20, y: baseY - 46 }),
-      rot({ x: cx + 20, y: baseY - 46 }),
-      rot({ x: cx + 13, y: baseY - 22 }),
-      rot({ x: cx + 16, y: baseY }),
+      rot({ x: cx - 22, y: baseY }),
+      rot({ x: cx - 18, y: baseY - 30 }),
+      rot({ x: cx - 28, y: baseY - 62 }),
+      rot({ x: cx + 28, y: baseY - 62 }),
+      rot({ x: cx + 18, y: baseY - 30 }),
+      rot({ x: cx + 22, y: baseY }),
     ],
     rngFor("glass"),
     0.8,
   );
   const tea = cut(
     [
-      rot({ x: cx - 14, y: baseY - 8 }),
-      rot({ x: cx - 12, y: baseY - 28 }),
-      rot({ x: cx + 12, y: baseY - 28 }),
-      rot({ x: cx + 14, y: baseY - 8 }),
+      rot({ x: cx - 18, y: baseY - 10 }),
+      rot({ x: cx - 16, y: baseY - 38 }),
+      rot({ x: cx + 16, y: baseY - 38 }),
+      rot({ x: cx + 18, y: baseY - 10 }),
     ],
     rngFor("tea"),
     0.6,
   );
   const rim = cut(
     [
-      rot({ x: cx - 21, y: baseY - 48 }),
-      rot({ x: cx, y: baseY - 51 }),
-      rot({ x: cx + 21, y: baseY - 48 }),
-      rot({ x: cx, y: baseY - 45 }),
+      rot({ x: cx - 29, y: baseY - 64 }),
+      rot({ x: cx, y: baseY - 68 }),
+      rot({ x: cx + 29, y: baseY - 64 }),
+      rot({ x: cx, y: baseY - 60 }),
     ],
     rngFor("rim"),
     0.5,
@@ -497,13 +571,13 @@ function teaGlass(press: Press, t: number): void {
     1,
   );
   press.print("indigo", shadow, 0.22, true);
-  press.plane("indigo", glass, 0.12, true);
-  press.stroke("indigo", glass, 1.6, 0.45, true);
-  press.stroke("orange", glass, 1.1, 0.2, true);
-  press.plane("yellow", tea, 0.55, true);
-  press.print("orange", tea, 0.28, true);
-  press.print("orange", rim, 0.25, true);
-  press.stroke("indigo", rim, 1.2, 0.35, true);
+  press.plane("indigo", glass, 0.2, true);
+  press.stroke("indigo", glass, 2.2, 0.7, true);
+  press.stroke("orange", glass, 1.4, 0.35, true);
+  press.plane("yellow", tea, 0.72, true);
+  press.print("orange", tea, 0.4, true);
+  press.print("orange", rim, 0.4, true);
+  press.stroke("indigo", rim, 1.8, 0.55, true);
 
   const steam = new Path2D();
   const sx = rot({ x: cx, y: baseY - 50 }).x;
@@ -521,6 +595,7 @@ function teaGlass(press: Press, t: number): void {
 }
 
 export function drawLive(press: Press, t: number): void {
+  buildShapes();
   const time = ((t % 32) + 32) % 32;
   inkAll((id) => {
     press.liveCtx[id].save();
