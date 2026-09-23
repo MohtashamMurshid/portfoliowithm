@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import Link from "next/link";
 import { ArrowUpRight, MoveUpRight, Plus, Minus, RotateCcw, Rotate3D } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import type { HouseEngine, HouseView } from "@/components/house/HouseEngine";
@@ -87,7 +88,7 @@ export default function HouseExperience() {
       </section>
 
       <footer className={styles.notes}>
-        <p id="house-controls-help"><Rotate3D size={15} strokeWidth={1.3} aria-hidden="true" /> Drag to rotate <span>·</span> Scroll or pinch to zoom</p>
+        <p id="house-controls-help"><Rotate3D size={15} strokeWidth={1.3} aria-hidden="true" /> Drag to rotate <span>·</span> Scroll or pinch to zoom <span>·</span> <Link href="/dal">Dal Lake from a houseboat</Link></p>
         <details className={styles.details}>
           <summary>About this model <ArrowUpRight size={13} aria-hidden="true" /></summary>
           <p id="house-description">An exterior study of my house, refined from family photographs. Two matching brick gables frame a curved stone entrance and a continuous balcony. A pointed circular roof rises above a band of small windows between the larger gabled roofs. The plain brick rear walls close into a square corner. Cream window frames, lattice screens, red surrounds, and carved wooden doors follow the visible details. Proportions are approximate; the layout follows the photographs and my corrections.</p>
