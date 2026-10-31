@@ -30,6 +30,22 @@ const featured: WorkItem = {
 
 const work: WorkItem[] = [
   {
+    slug: "hazemonitor",
+    name: "Haze Monitor",
+    category: "Public air-quality site",
+    date: "Nov 1, 2026",
+    href: "/work/hazemonitor",
+    image: "/projects/hazemonitor.png",
+  },
+  {
+    slug: "kelas-ai",
+    name: "Kelas AI",
+    category: "AI learning product",
+    date: "Nov 1, 2026",
+    href: "/work/kelas-ai",
+    image: "/projects/kelas-ai.png",
+  },
+  {
     slug: "markdown-to-docx",
     name: "md-to-docx",
     category: "Developer tool",
@@ -97,7 +113,7 @@ const portfolioEditions = [
 ];
 
 const description =
-  "Selected work by Mohtasham Murshid Madani: Oikina, getdesign, md-to-docx, and other AI products, developer tools, and experiments.";
+  "Selected work by Mohtasham Murshid Madani: Oikina, Haze Monitor, Kelas AI, getdesign, md-to-docx, and other AI products, developer tools, and experiments.";
 const workOgImage = getOgImage("page", "Selected work by Mohtasham Murshid Madani", "work");
 
 export const metadata: Metadata = {

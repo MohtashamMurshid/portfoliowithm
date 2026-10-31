@@ -65,6 +65,28 @@
       }
     ]
   },
+  "/projects/hazemonitor.png": {
+    "width": 1536,
+    "height": 1024,
+    "variants": [
+      {
+        "src": "/projects/thumbnails/hazemonitor-240-21056e0a6c04.webp",
+        "width": 240
+      },
+      {
+        "src": "/projects/thumbnails/hazemonitor-480-1f2e5b8dc420.webp",
+        "width": 480
+      },
+      {
+        "src": "/projects/thumbnails/hazemonitor-768-12163b396a5c.webp",
+        "width": 768
+      },
+      {
+        "src": "/projects/thumbnails/hazemonitor-1024-5a006ec796fb.webp",
+        "width": 1024
+      }
+    ]
+  },
   "/projects/iris-camera.png": {
     "width": 1086,
     "height": 1448,
@@ -83,6 +105,28 @@
       },
       {
         "src": "/projects/thumbnails/iris-camera-1024-b65b512af3b4.webp",
+        "width": 1024
+      }
+    ]
+  },
+  "/projects/kelas-ai.png": {
+    "width": 1536,
+    "height": 1024,
+    "variants": [
+      {
+        "src": "/projects/thumbnails/kelas-ai-240-a3939e167cf1.webp",
+        "width": 240
+      },
+      {
+        "src": "/projects/thumbnails/kelas-ai-480-28fc3f22fb5f.webp",
+        "width": 480
+      },
+      {
+        "src": "/projects/thumbnails/kelas-ai-768-0181840d4e99.webp",
+        "width": 768
+      },
+      {
+        "src": "/projects/thumbnails/kelas-ai-1024-0f0807d5d065.webp",
         "width": 1024
       }
     ]

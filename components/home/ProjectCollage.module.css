@@ -1,6 +1,6 @@
 .section {
   position: relative;
-  height: clamp(2700px, 320svh, 3600px);
+  height: clamp(3150px, 365svh, 4100px);
   overflow: hidden;
   isolation: isolate;
   background:
@@ -111,35 +111,56 @@
 }
 
 .getdesign {
-  top: 14%;
+  top: 12%;
   left: 4%;
   width: min(35vw, 540px);
   transform: rotate(-4deg);
 }
 
 .oikina {
-  top: 19%;
+  top: 16.5%;
   right: 4.5%;
   width: min(32vw, 495px);
   transform: rotate(5deg);
 }
 
-.markdown {
-  top: 34%;
-  right: 10%;
+.haze {
+  top: 29%;
+  left: 7%;
+  width: min(33vw, 510px);
+  transform: rotate(3deg);
+}
+
+.kelas {
+  top: 33%;
+  right: 6%;
   width: min(34vw, 520px);
-  transform: rotate(3.5deg);
+  transform: rotate(-3.5deg);
 }
 
 .eikon {
-  top: 41%;
+  top: 45.5%;
   left: -2%;
   width: min(39vw, 610px);
   transform: rotate(-3deg);
 }
 
+.markdown {
+  top: 49%;
+  right: 10%;
+  width: min(34vw, 520px);
+  transform: rotate(3.5deg);
+}
+
+.understanding {
+  top: 63.5%;
+  left: 5%;
+  width: min(38vw, 600px);
+  transform: rotate(2.5deg);
+}
+
 .iris {
-  top: 57%;
+  top: 66.5%;
   right: 11%;
   width: min(22vw, 335px);
   transform: rotate(5deg);
@@ -149,15 +170,8 @@
   aspect-ratio: 0.75;
 }
 
-.understanding {
-  top: 69%;
-  left: 5%;
-  width: min(38vw, 600px);
-  transform: rotate(2.5deg);
-}
-
 .skills {
-  top: 79%;
+  top: 83%;
   right: 3%;
   width: min(35vw, 550px);
   transform: rotate(-4deg);
@@ -211,6 +225,7 @@
   }
 
   .getdesign,
+  .haze,
   .eikon,
   .understanding {
     width: 88%;
@@ -218,6 +233,7 @@
   }
 
   .oikina,
+  .kelas,
   .markdown,
   .skills {
     width: 84%;
@@ -231,10 +247,12 @@
 
   .getdesign { transform: rotate(-3deg); }
   .oikina { transform: rotate(3deg); }
-  .markdown { transform: rotate(-2deg); }
-  .eikon { transform: rotate(2deg); }
-  .iris { transform: rotate(-4deg); }
-  .understanding { transform: rotate(2deg); }
+  .haze { transform: rotate(-2deg); }
+  .kelas { transform: rotate(3deg); }
+  .eikon { transform: rotate(-2deg); }
+  .markdown { transform: rotate(2deg); }
+  .understanding { transform: rotate(-2deg); }
+  .iris { transform: rotate(4deg); }
   .skills { transform: rotate(-2deg); }
 
   .stitch {

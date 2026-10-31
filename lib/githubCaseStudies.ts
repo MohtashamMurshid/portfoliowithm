@@ -1003,4 +1003,340 @@ const result = await getDesign("https://cursor.com");`,
     programmingLanguage: "TypeScript",
     dateCreated: "2026-04-20",
   },
+  hazemonitor: {
+    name: "Haze Monitor",
+    dateLine: "August 2026 to present · Co-built with Isaac Tan · Search, AI answers and design",
+    description:
+      "A free, ad-free haze site for Malaysia and Singapore. 18K people used it in four weeks, most of them sent by Bing, Google and ChatGPT.",
+    image: {
+      src: "/projects/hazemonitor.png",
+      alt: "A glass dome over a hazy miniature Kuala Lumpur skyline, on a worn blue base with an AQI dial",
+      width: 1536,
+      height: 1024,
+    },
+    introduction: [
+      "I started Haze Monitor at the end of August 2026, just before haze season, and built it with Isaac Tan. It reads DOE Malaysia's live station feed and Singapore's NEA readings, then shows the nearest reading over an illustrated picture of your city. The haze in the picture thickens with the number. It is free and has no ads.",
+      "From October 2 to 29, 18K people used it. Bing sent 5.3K first-time visitors, more than Google's 3.9K, and ChatGPT sent 2.7K. This page is about the search and AI-answer work behind those numbers.",
+    ],
+    metadata: [
+      { title: "My work", items: ["Started the project", "Design and city artwork", "Search and AI answers"] },
+      { title: "Oct 2 to 29, 2026", items: ["18K active users", "155K events", "Visitors from 76 countries"] },
+      { title: "First visits by source", items: ["Bing 5.3K", "Google 3.9K", "ChatGPT 2.7K"] },
+    ],
+    sections: [
+      {
+        title: "Pages that answer in the HTML",
+        paragraphs: [
+          "The first version fetched every reading in the browser. A crawler got a page title, a heading and a dash where the number should be. Isaac fixed that first. He moved the readings to the server so the number arrives in the HTML, then added a short summary under each city in English and Malay. Malaysians search in both languages, with words like 'jerebu', 'IPU' and 'indeks pencemaran udara'.",
+          "He also gave every place its own page. Fourteen city pages had left most of the country with nothing to land on, so he added one for each of the 68 DOE stations and 16 states. The URLs use the names people type, so Penang is /state/penang, not pulau-pinang. The sitemap grew from 17 URLs to 101. It has 272 now.",
+          "My part was matching each page to the words people use. Malaysia's official index is called API, the Air Pollutant Index. Searchers also type AQI. We calculate a US AQI from DOE's PM2.5 readings, show it next to the official API, and put both terms in the titles, as in 'Malaysia AQI & Haze Today (API/IPU)'. The Malaysia and Singapore reports also have Malay and Simplified Chinese versions linked with hreflang. The Chinese Malaysia report is one of the three most-viewed pages on the site.",
+        ],
+      },
+      {
+        title: "Making it easy for AI assistants to quote",
+        paragraphs: [
+          "I wanted ChatGPT to cite Haze Monitor when someone asked it about the haze. I ran the site through is-agentic.com, which scores how well AI agents can read and use a website, and worked through what it flagged.",
+          "Every public page now returns clean Markdown when a client sends Accept: text/markdown, and has a matching .md URL. llms.txt tells an assistant which page answers which question and how to read the numbers. It explains that Malaysia's API is not the US AQI and that every reading has an observation time to check. Missing pages return a real 404 with links back. An OpenAPI 3.1 file describes the six public JSON endpoints. They need no key and return errors with a stable code and a hint for recovering.",
+          "hazemonitor.com scores 97 out of 100 on is-agentic, with all eight essential checks passing. In four weeks ChatGPT sent 2.7K first-time visitors, more than Yahoo and DuckDuckGo combined. Bing surprised me more. The only search tool I used was Google Search Console, to submit the sitemap. Bing found the site on its own and still sent more first visits than Google.",
+        ],
+      },
+      {
+        title: "Numbers people can trust",
+        paragraphs: [
+          "A haze site that shows the wrong number is worse than none. Every reading keeps its station name and observation time. If a station stops reporting, the page keeps its last reading and labels it as old. It never borrows a reading from a station farther away. A D1 archive on Cloudflare fills gaps when the DOE or NEA feed fails, and it keeps the original timestamps.",
+          "The AQI conversion needed the most care. On September 21 I found we were still using DOE's 2021 PM2.5 formula. For Cheras, it turned an official API of 139 into a US AQI of 185. The current formula gives 147, which matches DOE's own 24-hour PM2.5 figure. I checked the corrected table against all 67 stations that report both values, and every one agreed within one index point.",
+          "Weekly reports give people and search engines something new each week. Malaysia, Singapore, Thailand, Indonesia and Vietnam each have one, with archives by ISO week. The Thailand, Indonesia and Vietnam reports use CAMS model estimates. They are labelled as estimates and never enter the archive of measured readings.",
+        ],
+      },
+    ],
+    mediaBlocks: [
+      {
+        afterSection: 0,
+        items: [
+          {
+            type: "image",
+            src: "/projects/case-studies/hazemonitor-kuala-lumpur.jpg",
+            alt: "Haze Monitor's Kuala Lumpur view with a US AQI of 101 over an illustration of the Petronas Towers",
+            width: 1440,
+            height: 900,
+            caption: "The Kuala Lumpur page on November 1. The reading, its station and its age sit over the city artwork, and the haze in the picture follows the number.",
+          },
+        ],
+      },
+      {
+        afterSection: 1,
+        items: [
+          {
+            type: "image",
+            src: "/projects/case-studies/hazemonitor-analytics.png",
+            alt: "Google Analytics for hazemonitor.com from October 2 to 29, 2026, showing 18K active users and Bing as the top first-user source",
+            width: 1600,
+            height: 999,
+            caption: "Google Analytics, October 2 to 29. Bing is the top source of first visits, and chatgpt.com is fourth.",
+          },
+        ],
+      },
+      {
+        afterSection: 2,
+        items: [
+          {
+            type: "image",
+            src: "/projects/case-studies/hazemonitor-weekly-report.png",
+            alt: "The Haze Monitor Malaysia weekly report for October 21 to 27, 2026, with a weekly mean US AQI of 94.1",
+            width: 1440,
+            height: 900,
+            caption: "The Malaysia weekly report for October 21 to 27, built from 11,303 hourly observations.",
+          },
+        ],
+      },
+    ],
+    flowFigure: {
+      title: "How a question reaches a reading",
+      steps: [
+        { title: "Someone asks", detail: "They search 'jerebu KL' or ask ChatGPT about the haze." },
+        { title: "A page matches", detail: "Every station, city and state has its own URL in the sitemap." },
+        { title: "The HTML answers", detail: "The reading, category and time are rendered on the server." },
+        { title: "Assistants get Markdown", detail: "llms.txt and Accept: text/markdown give them a clean copy to quote." },
+        { title: "The page stays fresh", detail: "Pages rebuild every five minutes from DOE and NEA." },
+      ],
+      caption: "Crawlers and assistants get the reading without running any JavaScript.",
+      afterSection: 1,
+    },
+    architectureFigure: {
+      title: "Where the numbers come from",
+      stages: [
+        {
+          label: "Sources",
+          nodes: [
+            { title: "DOE Malaysia", detail: "68 stations, hourly API and PM2.5" },
+            { title: "NEA Singapore", detail: "PSI and PM2.5 for five regions" },
+            { title: "Open-Meteo CAMS", detail: "Model estimates for Thailand, Indonesia and Vietnam" },
+          ],
+        },
+        {
+          label: "Store",
+          nodes: [
+            { title: "Collector Worker", detail: "Saves readings on a schedule" },
+            { title: "D1 archive", detail: "Fills gaps and keeps original timestamps" },
+          ],
+        },
+        {
+          label: "Serve",
+          nodes: [
+            { title: "Cloudflare Worker", detail: "Pages rebuilt every five minutes" },
+            { title: "Public API", detail: "Six read-only JSON endpoints with OpenAPI 3.1" },
+          ],
+        },
+        {
+          label: "Read",
+          nodes: [
+            { title: "People", detail: "Illustrated city pages" },
+            { title: "Search engines", detail: "Server-rendered HTML and a 272-URL sitemap" },
+            { title: "AI assistants", detail: "llms.txt and Markdown versions" },
+          ],
+        },
+      ],
+      caption: "When a feed fails, the archive supplies the last known reading with its original time.",
+      afterSection: 2,
+    },
+    mappingFigure: {
+      sourceLabel: "what people search",
+      targetLabel: "what Haze Monitor answers with",
+      rows: [
+        { source: "jerebu hari ini", target: "A Malay summary on every city page", detail: "With API/IPU facts and DOE health guidance" },
+        { source: "Malaysia AQI", target: "US AQI next to the official API", detail: "Calculated from DOE PM2.5, with the method shown" },
+        { source: "马来西亚 烟霾", target: "A Simplified Chinese country report", detail: "Linked to the English and Malay versions with hreflang" },
+        { source: "air quality Petaling Jaya", target: "A page for every station, city and state", detail: "68 stations and 16 states, named the way people type them" },
+        { source: "Singapore PSI today", target: "A Singapore report with PSI and PM2.5", detail: "Five regions, each with its own observation time" },
+        { source: "haze last week", target: "Weekly reports", detail: "Five countries, with archives by ISO week" },
+      ],
+      caption: "Most of the ranking work was matching pages to the words people already use.",
+      afterSection: 0,
+    },
+    codeFigure: {
+      label: "Read it like an assistant",
+      fileName: "terminal",
+      code: `# The Malaysia report as Markdown
+curl -H 'Accept: text/markdown' https://hazemonitor.com/malaysia
+
+# Which page answers which question
+curl https://hazemonitor.com/llms.txt
+
+# Six read-only JSON endpoints, no key needed
+curl https://hazemonitor.com/openapi.json`,
+      command: "curl -H 'Accept: text/markdown' https://hazemonitor.com/malaysia",
+      caption: "Every public page has a Markdown version, and llms.txt points assistants to the right one.",
+      afterSection: 1,
+    },
+    footer: {
+      statement: "Isaac and I made a haze site people could read at a glance. The traffic came from making it just as easy for search engines and AI assistants to read.",
+      links: [
+        { label: "Open Haze Monitor ↗", href: "https://hazemonitor.com" },
+        { label: "Read llms.txt ↗", href: "https://hazemonitor.com/llms.txt" },
+        { label: "Developer guide ↗", href: "https://hazemonitor.com/developers" },
+        { label: "is-agentic report ↗", href: "https://is-agentic.com/scan/hazemonitor.com" },
+      ],
+    },
+    pageUrl: `${siteUrl}/work/hazemonitor`,
+    programmingLanguage: "TypeScript",
+    dateCreated: "2026-08-30",
+  },
+  "kelas-ai": {
+    name: "Kelas AI",
+    dateLine: "September 2026 to present · Contract engineer, one of two · Voice tutor and onboarding",
+    description:
+      "An app that teaches people who have never built anything to make their first website, with a tutor that talks, points and draws on the screen.",
+    image: {
+      src: "/projects/kelas-ai.png",
+      alt: "A wooden school slate with a chalk website sketch and Spark, Kelas AI's golden star guide",
+      width: 1536,
+      height: 1024,
+    },
+    introduction: [
+      "Kelas Sekejap is a Malaysian learning site for English, money and careers. Kelas AI is its app for people who have never built an app or website. A learner describes an idea in chat, and an AI builder turns it into a website. I worked on it under contract as one of two engineers, starting with the first commit in September.",
+      "Generating a website is the easy part now. The hard part is the learner looking at a screen full of buttons with no idea which one to press. Most of my work went into Spark, the tutor. Spark talks with the learner by voice or text, reads what is on the screen, points at the right control and draws on the page while it explains.",
+    ],
+    metadata: [
+      { title: "My work", items: ["Voice tutor", "On-screen drawing", "Onboarding and Lesson 1"] },
+      { title: "Engagement", items: ["Contract", "One of two engineers", "September 2026 to present"] },
+      { title: "Built with", items: ["Next.js and React", "Gemini and Gemini Live", "Mastra builder agent"] },
+    ],
+    sections: [
+      {
+        title: "A tutor that can see the page",
+        paragraphs: [
+          "The first version I built was a chat that shaped an idea into a brief the learner could copy. Live voice came a few days later. The browser asks our server for a short-lived, single-use Gemini Live token, so the real API key never leaves the server, and then streams 16 kHz microphone audio straight to Gemini. Learners can cut Spark off mid-sentence. Calls end after nine minutes and offer to reconnect.",
+          "Spark never sees a screenshot. When it needs to act, it reads a summary of the page instead: the visible controls with their positions and shapes, the question on screen, the build step, and any errors. It can only point at controls that are on the screen right now. If a control has gone, the tool call fails and Spark has to say so instead of pointing at nothing.",
+        ],
+      },
+      {
+        title: "Drawing on the screen",
+        paragraphs: [
+          "Pointing was not enough for someone who has never heard the word 'composer'. I built a drawing layer the tutor controls. It can draw outlines that match a button's real corner radius, circles, arrows, underlines, labels, and spotlights that dim the rest of the page. A drawing can attach to an element and follow it as the page scrolls. The page stays clickable underneath, and Escape clears everything.",
+          "Spark also reacts to what the learner does. Picking a starter, sending a message, pressing Build or opening the preview each gets a reply in about half a second. A small policy stops it from talking too much. It merges events that land within 0.4 seconds, gives each kind of event a cooldown, and allows six reactions a minute. In a voice call, an urgent reaction can interrupt Spark's own sentence but never the learner's.",
+        ],
+      },
+      {
+        title: "From first visit to first website",
+        paragraphs: [
+          "In October I rebuilt the first few minutes. On a new learner's first visit, Spark fills the screen to say hello, flies to its corner and offers to talk, type or be skipped. After sign-up it asks four questions and fills each answer into the form itself. Then it opens Lesson 1 and walks the learner through what the site is for, who it is for and how it should look. Spark pastes the finished prompt into the main box and leaves Enter to the learner, so the first website is one they started.",
+          "I also set up the Turborepo monorepo and the one-command local stack, streamed chat replies, showed the builder agent's steps live, and added image and document attachments, image generation in chat, an Astro landing page, and the Settings and Lessons pages. My teammate built most of the hosted builder, the browser sandbox and preview hosting.",
+        ],
+      },
+    ],
+    mediaBlocks: [
+      {
+        afterSection: 1,
+        items: [
+          {
+            type: "image",
+            src: "/projects/case-studies/kelas-ai-highlight.png",
+            alt: "The Kelas AI chat screen with the message box outlined by the tutor's drawing layer and voice call controls open above it",
+            width: 1280,
+            height: 1000,
+            caption: "An earlier build, with the robot guide that came before Spark. During a voice call the tutor has outlined the message box. Clear at the top removes its drawings.",
+          },
+        ],
+      },
+      {
+        afterSection: 2,
+        items: [
+          {
+            type: "image",
+            src: "/projects/case-studies/kelas-ai-sign-in.png",
+            alt: "The Kelas AI sign-in page with Spark, a small golden star, pointing at Create an account",
+            width: 1440,
+            height: 900,
+            caption: "Spark on the sign-in page, pointing new learners at Create an account.",
+          },
+        ],
+      },
+    ],
+    flowFigure: {
+      title: "From hello to a first website",
+      steps: [
+        { title: "Meet Spark", detail: "A full-screen hello, then talk, type or skip." },
+        { title: "Four questions", detail: "Spark asks, then fills each answer into the form." },
+        { title: "Lesson 1", detail: "What the site is for, who it serves and how it looks." },
+        { title: "Press Enter", detail: "Spark pastes the prompt. The learner sends it." },
+        { title: "Watch the build", detail: "The builder agent's steps appear as they happen." },
+        { title: "Spark reacts", detail: "It comments on the build and the preview." },
+      ],
+      caption: "Spark fills in forms, but the learner sends the prompt that starts the build.",
+      afterSection: 2,
+    },
+    architectureFigure: {
+      title: "How Spark sees and acts",
+      stages: [
+        {
+          label: "Learner",
+          nodes: [
+            { title: "Voice", detail: "Microphone audio as 16 kHz PCM" },
+            { title: "Actions", detail: "Clicks, messages, builds and previews" },
+          ],
+        },
+        {
+          label: "Browser",
+          nodes: [
+            { title: "Screen summary", detail: "Controls, bounds and shapes. No screenshots" },
+            { title: "Activity policy", detail: "Merging, cooldowns and a rate cap" },
+          ],
+        },
+        {
+          label: "Models",
+          nodes: [
+            { title: "Gemini Live", detail: "Voice, with a single-use token" },
+            { title: "Text Support", detail: "Typed replies with the same tools" },
+          ],
+        },
+        {
+          label: "On screen",
+          nodes: [
+            { title: "Drawing layer", detail: "Outlines, arrows, labels and spotlights" },
+            { title: "UI actions", detail: "Point, fill a field, send, copy" },
+          ],
+        },
+      ],
+      caption: "Voice and typed Support share one set of tools, and the browser checks every call against what is on the screen.",
+      afterSection: 0,
+    },
+    mappingFigure: {
+      sourceLabel: "what the learner says or does",
+      targetLabel: "what Spark does",
+      rows: [
+        { source: "\"What's happening?\"", target: "Explains the current step", detail: "From the stage, layout, question on screen and build step" },
+        { source: "\"Where is my website?\"", target: "Answers from the screen summary", detail: "Build state, preview and version" },
+        { source: "\"What does it do?\"", target: "Explains and outlines the control", detail: "The outline matches the control's shape" },
+        { source: "Presses Build", target: "Comments right away", detail: "About half a second, within the rate cap" },
+      ],
+      caption: "Spark answers about the screen in front of the learner.",
+      afterSection: 1,
+    },
+    codeFigure: {
+      label: "A drawing tool call",
+      fileName: "updateOverlay",
+      code: `// Spark outlines Build, then labels it
+updateOverlay({
+  mode: "replace",
+  objects: [
+    { id: "build", type: "outline", targetId: "build-website-button" },
+    { id: "tip", type: "label", targetId: "build-website-button",
+      text: "Press this when your idea is ready", placement: "above" },
+  ],
+});`,
+      command: "npm run dev:all",
+      caption: "Voice and typed Support send the same tool calls, and the browser rejects a target that is not on screen. Locally, npm run dev:all starts the app, database, builder worker and previews.",
+      afterSection: 1,
+    },
+    footer: {
+      statement: "Kelas AI's builder makes the website. My job was the tutor that gets a first-timer from a blank screen to pressing Enter.",
+      links: [
+        { label: "Open Kelas AI ↗", href: "https://ai.kelassekejap.com" },
+        { label: "Kelas Sekejap ↗", href: "https://kelassekejap.com" },
+      ],
+    },
+    pageUrl: `${siteUrl}/work/kelas-ai`,
+    programmingLanguage: "TypeScript",
+    dateCreated: "2026-09-02",
+  },
 };

@@ -135,6 +135,40 @@ export const projects: Project[] = [
     datePublished: "2026-07-20",
     dateModified: "2026-09-14",
   },
+  {
+    slug: "hazemonitor",
+    name: "Haze Monitor",
+    register: "OI-08 / LIVE",
+    role: "Co-creator",
+    category: "Public air-quality site",
+    url: "https://hazemonitor.com",
+    eyebrow: "Search and AI answers",
+    summary: "A free, ad-free haze site for Malaysia and Singapore. 18K people used it in four weeks, most of them sent by Bing, Google and ChatGPT.",
+    description:
+      "Isaac Tan and I built Haze Monitor for the 2026 haze season. It shows live DOE Malaysia and NEA Singapore readings over illustrated city scenes, with a page for every station, city and state. From October 2 to 29, Bing sent 5.3K first-time visitors, Google 3.9K and ChatGPT 2.7K.",
+    evidence: ["18K users in 4 weeks", "Bing beat Google", "2.7K from ChatGPT", "97/100 on is-agentic"],
+    image: "/projects/hazemonitor.png",
+    imageAlt: "A glass dome over a hazy miniature Kuala Lumpur skyline, on a worn blue base with an AQI dial",
+    datePublished: "2026-11-01",
+    dateModified: "2026-11-01",
+  },
+  {
+    slug: "kelas-ai",
+    name: "Kelas AI",
+    register: "OI-09 / LIVE",
+    role: "Contract engineer",
+    category: "AI learning product",
+    url: "https://ai.kelassekejap.com",
+    eyebrow: "Voice tutor",
+    summary: "An app that teaches people who have never built anything to make their first website, with a tutor that talks, points and draws on the screen.",
+    description:
+      "Kelas AI is Kelas Sekejap's app for first-time builders. Learners describe an idea in chat and an AI builder makes the site. I worked on it under contract as one of two engineers, mostly on Spark, the voice tutor that reads the screen and draws on it while it explains.",
+    evidence: ["Contract, one of two engineers", "Gemini Live voice", "On-screen drawing", "Lesson 1 onboarding"],
+    image: "/projects/kelas-ai.png",
+    imageAlt: "A wooden school slate with a chalk website sketch and Spark, Kelas AI's golden star guide",
+    datePublished: "2026-11-01",
+    dateModified: "2026-11-01",
+  },
 ];
 
 export function getProject(slug: string) {
