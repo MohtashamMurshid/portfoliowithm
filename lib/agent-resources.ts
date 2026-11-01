@@ -85,6 +85,8 @@ Read pages with Accept: text/markdown, or follow the explicit Markdown links bel
 
 - [Events](${siteUrl}/events/index.md): Community events and case studies.
 - [Books](${siteUrl}/books/index.md): Personal reading notes.
+- [Home in Kashmir](${siteUrl}/house/index.md): Interactive exterior of the house.
+- [Dal Lake from a houseboat](${siteUrl}/dal/index.md): A procedural risograph short.
 - [Sitemap](${siteUrl}/sitemap.xml): Canonical indexable page URLs.
 - [RSS](${siteUrl}/rss.xml): Published blog entries.
 `;

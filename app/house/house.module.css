@@ -170,8 +170,9 @@
   line-height: 1.7;
   color: var(--house-muted);
 }
-.notes > p { display: flex; align-items: center; gap: 9px; margin: 0; }
+.notes > p { display: flex; align-items: center; gap: 9px; margin: 0; flex-wrap: wrap; }
 .notes > p > span { color: #aaa494; }
+.notes a { color: inherit; text-decoration: underline; text-underline-offset: 2px; }
 .details { max-width: 370px; text-align: right; }
 .details summary { cursor: pointer; list-style: none; display: flex; justify-content: end; align-items: center; gap: 5px; }
 .details summary::-webkit-details-marker { display: none; }
